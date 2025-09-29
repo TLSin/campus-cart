@@ -7,7 +7,7 @@ export default function Feature() {
                     {/* Item list 1 */}
                     <div id="slide1.0" className="carousel-item relative w-full shadow-lg rounded-lg bg-white grid grid-cols-6 gap-4 justify-items-center">
                         {/* Item Card 1 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -21,7 +21,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 2 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -35,7 +35,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 3 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -49,7 +49,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 4 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -63,7 +63,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 5 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -77,7 +77,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 6 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -98,7 +98,7 @@ export default function Feature() {
                     {/* Item list 2 */}
                     <div id="slide2.0" className="carousel-item relative w-full  shadow-lg rounded-lg bg-white grid grid-cols-6 gap-4 justify-items-center">
                         {/* Item Card 1 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -112,7 +112,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 2 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -126,7 +126,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 3 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -140,7 +140,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 4 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -154,7 +154,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 5 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -168,7 +168,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 6 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -189,7 +189,7 @@ export default function Feature() {
                     {/* Item list 3 */}
                     <div id="slide3.0" className="carousel-item relative w-full  shadow-lg rounded-lg bg-white grid grid-cols-6 gap-4 justify-items-center">
                         {/* Item Card 1 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -203,7 +203,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 2 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -217,7 +217,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 3 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -231,7 +231,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 4 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -245,7 +245,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 5 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -259,7 +259,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 6 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -280,7 +280,7 @@ export default function Feature() {
                     {/* Item list 4 */}
                     <div id="slide4.0" className="carousel-item relative w-full  shadow-lg rounded-lg bg-white grid grid-cols-6 gap-4 justify-items-center">
                         {/* Item Card 1 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -294,7 +294,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 2 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -308,7 +308,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 3 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -322,7 +322,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 4 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -336,7 +336,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 5 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
@@ -350,7 +350,7 @@ export default function Feature() {
                             </div>
                         </div>
                         {/* Item Card 6 */}
-                        <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                        <div className="2xl:w-[20rem] 2xl:h-[23.75rem] xl:w-[16.25rem] xl:h-[20rem] lg:w-[12.50rem] lg:h-[16.25rem] md:w-[15rem] md:h[18.75rem] w-[12.5rem] h-[16.25rem]  bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                             <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">

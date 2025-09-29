@@ -8,7 +8,7 @@ export default function DailyProduct() {
                  {/* Random Products */}
                 <div className="grid grid-cols-6 gap-4 justify-items-center">
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -22,7 +22,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -36,7 +36,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -50,7 +50,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -64,7 +64,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -78,7 +78,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -92,7 +92,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -106,7 +106,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -120,7 +120,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
@@ -134,7 +134,7 @@ export default function DailyProduct() {
                         </div>
                     </div>
                     {/* Item 1 */}
-                    <div className="w-50 h-65 bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
+                    <div className="2xl:w-[18rem] 2xl:h-[21.75rem] xl:w-[14.25rem] xl:h-[18rem] lg:w-[10.50rem] lg:h-[14.25rem] md:w-[13rem] md:h[16.75rem] w-[10.5rem] h-[14.25rem] bg-gray-50 p-3 flex flex-col gap-1 col-span-1">
                         <div className="duration-500 contrast-50 h-48 bg-gradient-to-bl from-black via-orange-900 to-indigo-600  hover:contrast-100"></div>
                         <div className="flex flex-col gap-4">
                             <div className="flex flex-row justify-between">
