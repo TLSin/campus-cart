@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin 'daisyui';
 
 * {
   margin: 0;
@@ -9,6 +8,7 @@
 
 html,
 body {
+  background-color: #E1E5EC;
   height: 100%;
   width: 100%;
 }
