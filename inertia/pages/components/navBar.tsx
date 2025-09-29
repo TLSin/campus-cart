@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { router } from "@inertiajs/react";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 export default function Navigation() {
     const [query, setQuery] = useState("");

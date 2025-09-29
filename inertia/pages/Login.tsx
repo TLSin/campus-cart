@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { Head } from "@inertiajs/react"
-import { Link } from "@inertiajs/react"
+import { Head, Link } from "@inertiajs/react"
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 
@@ -90,7 +89,6 @@ export default function Login() {
                 </div>
                 <Footer />
             </div>
-
 
         </>
     )

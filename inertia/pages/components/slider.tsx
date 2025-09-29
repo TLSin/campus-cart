@@ -28,7 +28,6 @@ export default function Slider() {
                         </div>
                     </div>
 
-
                     {/* picture 2 */}
                     <div id="slide2" className=" flex-none w-full relative h-[70vh] overflow-hidden">
                         {/* picture text */}
