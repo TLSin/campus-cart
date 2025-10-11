@@ -63,5 +63,3 @@ router.
         router.post('/logout', [UserLogoutsController, 'handle'])
     })
 
-
-
