@@ -50,7 +50,6 @@ export default function Slider() {
                             <a href="#slide1" className="btn btn-circle"><img src="/arrow (2).gif" alt="" className="h-[5rem]" /></a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>

@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.text('description').notNullable()
       table.decimal('product_price', 10, 2).notNullable()
       table.integer('stock_quantity').notNullable().defaultTo(0)
-      table.string('image_url').notNullable()
+      table.string('image_id').notNullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

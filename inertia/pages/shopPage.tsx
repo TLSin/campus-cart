@@ -20,7 +20,7 @@ export default function shopPage() {
         <>
             <Head title="Shop Page" />
 
-            <Navigation />
+            <Navigation/>
             {/* 
                 Note: Settings here are for screen size 1280 * 1024
                 TODO: Modify it for screen size 1920 * 1080 
