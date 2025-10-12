@@ -6,11 +6,11 @@ import Footer from "./components/footer"
 export default function Signup() {
     // state for password show/hide
     const [show, setShow] = useState<boolean>(false)
-    const [firstName, setFirstName] = useState<string>()
-    const [lastName, setLastName] = useState<string>()
-    const [email, setEmail] = useState<string>()
-    const [password, setPassword] = useState<string>()
-    const [stNum, setStNum] = useState<string>()
+    const [firstName, setFirstName] = useState<string>('')
+    const [lastName, setLastName] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [stNum, setStNum] = useState<string>('')
     const [campus, setCampus] = useState<string>('')
     const campuses = [
                         {id:1, name:"Angono"},
@@ -23,13 +23,18 @@ export default function Signup() {
                         {id:8, name:"Taytay"},
                     ]
     const [program, setProgram] = useState<string>('')
-    const programs = ["Computer Studies", "Arts & Sciences", "Accounting", "Education", "Engineering", "Tourism", "Health Sciences", "Criminology"]
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (firstName && lastName && email && password && stNum && campus && program){
             router.post('/signUp', {
-                firstName: firstName.toUpperCase().trim()
+                firstName: firstName.toUpperCase().trim(),
+                lastName: lastName.toUpperCase().trim(),
+                email: email.toLowerCase().trim(),
+                password: password,
+                stNum: stNum.toUpperCase().trim(),
+                campus:campus.toUpperCase(),
+                program: program,
             })
         }
     }
@@ -38,10 +43,9 @@ export default function Signup() {
         <>
             <Head title="Signup" />
             {/*Whole screen*/}
-            <div className="bg-[#DEC2CB] h-full w-full justify-center items-center">
-                <Navigation />
+            <div className="bg-[#DEC2CB] h-full w-full justify-center items-center">            
                 {/*Signup-card*/}
-                <div className="grid grid-cols-2 justify-items-center my-[2rem]">
+                <div className="grid grid-cols-2 justify-items-center">
                     <div className="w-[45rem] h-[50rem] rounded-3xl shadow-xl shadow-black/20 overflow-hidden 
                                 left-[10rem] top-[3rem] backdrop-blur-md border border-white/20">
                         <h1 className="text-6xl font-semibold text-[#FFFFFF] font-Poppins text-center mb-6 mt-[4rem]">Sign Up</h1>
@@ -54,6 +58,7 @@ export default function Signup() {
                                     <input
                                         type="text"
                                         placeholder="Enter your first name"
+                                        onChange={e => setFirstName(e.target.value)}
                                         value={firstName}
                                         className="border border-2 h-[3rem] w-full focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
                                 </div>
@@ -63,6 +68,7 @@ export default function Signup() {
                                     <input
                                         type="text"
                                         placeholder="Enter your last name"
+                                        onChange={e => setLastName(e.target.value)}
                                         value={lastName}
                                         className="border border-2 h-[3rem] w-full focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
                                 </div>
@@ -73,6 +79,7 @@ export default function Signup() {
                                 <input
                                     type="text"
                                     placeholder="Enter your email"
+                                    onChange={e => setEmail(e.target.value)}
                                     value={email}
                                     className="border border-2 h-[3rem] w-[41rem] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
                             </div>
@@ -81,7 +88,8 @@ export default function Signup() {
                                 <h1 className="text-[#FFFFFF] text-lg font-poppins ml-[2rem] ">Password</h1>
                                 <div className="flex">
                                     <input
-                                        type={show ? "password" : "text"}
+                                        type={show ? "text" : "password"}
+                                        onChange={e => setPassword(e.target.value)}
                                         value={password}
                                         placeholder="Enter your password"
                                         className="border border-2 h-[3rem] w-[41rem] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 ml-[2rem]" />
@@ -91,7 +99,7 @@ export default function Signup() {
                                         className="-translate-x-10"
                                     >
                                         <img
-                                            src={show ? "/eyeClosed.svg" : "/eyeOpen.svg"}
+                                            src={show ? "/eyeOpen.svg" : "/eyeClosed.svg"}
                                             alt={show ? "Hide" : "Show"}
                                             width={30}
                                         />
@@ -106,6 +114,7 @@ export default function Signup() {
                                     <input
                                         type="text"
                                         placeholder="Enter student number"
+                                        onChange={e => setStNum(e.target.value)}
                                         value={stNum}
                                         className="border border-2 h-[3rem] w-[15rem] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
                                 </div>
@@ -115,7 +124,7 @@ export default function Signup() {
                                     <div>
                                         <select
                                             value={campus}
-                                            onChange={(e) => setCampus(e.target.value)}
+                                            onChange={e => setCampus(e.target.value)}
                                             className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2 bg-[#92A8D1]"
                                         >
                                             {/* Placeholder (disabled so user can’t re-select it after picking) */}
@@ -136,31 +145,22 @@ export default function Signup() {
                                 <div className="w-1/2">
                                     <h1 className="text-[#FFFFFF] text-lg font-poppins ">Program</h1>
                                     <div>
-                                        <select
-                                            value={program}
-                                            onChange={(e) => setProgram(e.target.value)}
+                                        <input
+                                            type="text"
+                                            onChange={e => setProgram(e.target.value)}
+                                            value={program}                                            
                                             className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2 bg-[#92A8D1]"
-                                        >
-                                            {/* Placeholder (disabled so user can’t re-select it after picking) */}
-                                            <option value="" disabled >
-                                                {program ? "Select --" : "Select --"}
-                                            </option>
-
-                                            {programs.map((opt) => (
-                                                <option key={opt} value={opt}>
-                                                    {opt}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        />
                                     </div>
                                 </div>
                             </div>
                             {/*signup button*/}
                             <div className="w-full justify-center items-center flex mt-[2rem]">
                                 <button 
+                                    type="submit"
                                     className=" bg-[#92A8D1] h-[5rem] w-[18rem] rounded-xl text-[#FFFFFF] text-2xl 
                                                 font-bold font-poppins hover:bg-[#A7C7E7] mt-5 shadow-lg shadow-black/30"
-                                    type="submit">
+                                    >
                                     Sign Up
                                 </button>
                             </div>

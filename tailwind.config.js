@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
       },
+      backgroundImage: {
+        'gradient-radial' : 'radial-gradient(var(--tx-gradient-stops))',
+        'gradient-linear' : 'linear-gradient(var(--tw-gradient-stops))',
+      }
     },
   },
   plugins: [require('daisyui'),],

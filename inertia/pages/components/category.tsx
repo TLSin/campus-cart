@@ -31,7 +31,7 @@ export default function Category() {
                         onMouseLeave={() => setHover(null)}
                         onClick={() => categoryClick(cat.name)}
                         className="text-[#44506D] text-[1rem] text-center align-center justify-center p-1
-                                w-full h-full my-[1.6dvh] rounded-none hover:bg-[#44506D] hover:text-white 
+                                w-full h-full my-[1.6dvh] rounded-none hover:bg-[#BFC7E3] hover:text-white 
                                 hover:outline-white border border-[#eceff7]">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="40" height="40"
