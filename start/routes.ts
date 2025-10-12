@@ -55,6 +55,7 @@ router.
 // router.on('/search').renderInertia('searchResults')
 // router.on('/cart').renderInertia('cartPage').use(middleware.auth())
 // router.on('/user').renderInertia('userPage').use(middleware.auth())
+router.on('/checkOut').renderInertia('checkOut')
 
 router.
     group(() => {
