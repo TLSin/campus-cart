@@ -1,8 +1,7 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
-import { useState } from "react";
+import { useState } from "react"
 import { Head, router, usePage } from '@inertiajs/react'
-import CartItem from "#models/cart_item";
 
 interface CartItemData {
     cartItemId: number

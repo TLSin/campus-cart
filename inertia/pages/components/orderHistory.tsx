@@ -1,15 +1,15 @@
 export default function OrderHistory() {
     return (
         <>
-            <div className="w-[98rem] ">
+            <div className="w-[100%] ">
                 <h2 className="text-[#515A70] text-[2rem] font-bold h-[3rem] translate-y-[-0.5rem] translate-x-[0.5rem] left-0 ">My Orders</h2>
 
                 {/* Order List */}
-                <div className="overflow-y-auto  w-[94%] mx-[2rem] my-[1rem]">
-                    <table  className="table-auto w-full border-collapse ]">
+                <div className="overflow-y-auto  w-[100%] mx-[2rem] my-[1rem]">
+                    <table  className="table-auto border-collapse ]">
                         <tbody className="">
                             <tr className="">
-                                <td   className="bg-white rounded-2xl shadow-md p-4">
+                                <td  className="bg-white rounded-2xl shadow-md p-4">
                                     
                                     <div  className="flex justify-between border-b pb-2 mb-2">
                                         <div>

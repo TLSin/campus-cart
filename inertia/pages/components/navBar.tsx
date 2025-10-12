@@ -32,9 +32,9 @@ export default function Navigation() {
                     {/* Links Container */}
                     <div className="flex-1 flex justify-center items-center">
                         <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Home</Link>
-                        <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Shop</Link>
-                        <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">About Us</Link>
-                        <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Contact Us</Link>
+                        <Link href="/shopPage" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Shop</Link>
+                        {/* <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">About Us</Link>
+                        <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Contact Us</Link> */}
                     </div>
                     {/* Users Container */}
                     <div className="flex-1 flex justify-center items-center">

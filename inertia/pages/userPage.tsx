@@ -1,14 +1,15 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 import UserProfile from "./components/userProfile"
-import OrderHistory from "./components/orderHistory";
-import { useState } from "react";
-import { Head } from "@inertiajs/react";
+import OrderHistory from "./components/orderHistory"
+import AccountSettings from "./components/accountSettings"
+import { useState } from "react"
+import { Head } from "@inertiajs/react"
 
 export default function userPage() {
-    const [activeSection, setActiveSection] = useState<"Profile" | "Order">("Profile");
+    const [activeSection, setActiveSection] = useState<"Profile" | "Order" | "Settings">("Profile");
 
-    const handleClick = (section: "Profile" | "Order") => {
+    const handleClick = (section: "Profile" | "Order" | "Settings") => {
         setActiveSection(section)
     }
     return (
@@ -35,6 +36,11 @@ export default function userPage() {
                             onClick={() => handleClick("Order")}>
                             Orders
                         </h4>
+                        <h4 className="text-[#515A70] text-[1rem] font-bold px-[3rem] py-[1rem]
+                                    cursor-pointer hover:bg-white rouded-lg"
+                            onClick={() => handleClick("Settings")}>
+                            Settings
+                        </h4>
                         
                     </div>
                     <div className="place-items-start col-span-2">
@@ -43,6 +49,9 @@ export default function userPage() {
 
                         {/* Order History */}
                         {activeSection === "Order" && <OrderHistory />}
+
+                        {activeSection === "Settings" && <AccountSettings />}
+
                     </div>
                 </div>
             </div>

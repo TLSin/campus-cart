@@ -14,6 +14,7 @@ const UserLoginsController = () => import('#controllers/user_logins_controller')
 const UserLogoutsController = () => import('#controllers/user_logouts_controller')
 const ProductsController = () => import('#controllers/products_controller')
 const CartsController = () => import('#controllers/carts_controller')
+const ShopsController = () => import('#controllers/shops_controller')
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -31,6 +32,7 @@ router.
         router.get('/feature', [ProductsController, 'index'])
         router.get('/topProduct', [ProductsController, 'index'])
         router.get('/product/:id', [ProductsController, 'show'])
+        router.get('/shopPage', [ShopsController, 'index'])
 
         router.post('/cartPage', [CartsController, 'store'])
         router.get('/cartPage', [CartsController, 'index'])
