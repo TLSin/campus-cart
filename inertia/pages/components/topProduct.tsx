@@ -19,6 +19,7 @@ export default function TopProduct({ products }) {
     const totalPages = Math.ceil(products.length / pageSize)
 
     const paginated = products.slice(page * pageSize, (page + 1) * pageSize)
+    
     const handleAddtoCart = (productId: number) => {
         router.post('/cartPage', { productId }, {
             preserveScroll: true,

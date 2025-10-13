@@ -34,7 +34,7 @@ router.
         router.get('/product/:id', [ProductsController, 'show'])
         router.get('/shopPage', [ShopsController, 'index'])
 
-        router.post('/cartPage', [CartsController, 'store'])
+        router.post('/home', [CartsController, 'store'])
         router.get('/cartPage', [CartsController, 'index'])
         router.put('/cartPage/update/:cartItemId', [CartsController, 'update'])
         router.delete('/cartPage/:cartItemId', [CartsController, 'destroy'])

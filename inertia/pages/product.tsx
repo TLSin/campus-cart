@@ -18,7 +18,7 @@ export default function shopPage() {
 
     return (
         <>
-            <Head title="Shop Page" />
+            <Head title="Product Page" />
 
             <Navigation/>
             {/* 

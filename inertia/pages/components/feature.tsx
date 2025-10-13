@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { router } from "@inertiajs/react"
 
 interface Product {
     productId: number
@@ -18,6 +19,19 @@ export default function Feature({ products }) {
     const totalPages = Math.ceil(products.length / pageSize)
 
     const paginated = products.slice(page * pageSize, (page + 1) * pageSize)
+
+    const handleAddtoCart = (productId: number) => {
+        router.post('/cartPage', { productId } ,{
+            preserveScroll: false,
+            onSuccess: () => {
+                console.log(`${productId} added to cart`)
+            },
+            onError: (errors) => {
+                console.error("error", errors)
+                alert("Failed to add to cart")
+            }
+        })
+    }
 
     return (
         <>
@@ -41,7 +55,8 @@ export default function Feature({ products }) {
                                             </div>
                                             <span className="font-bold  text-red-600">{product.productPrice}</span>
                                         </div>
-                                        <button className="hover:bg-sky-700 text-gray-50 bg-sky-800 py-2">Add to cart</button>
+                                        <button className="hover:bg-sky-700 text-gray-50 bg-sky-800 py-2"
+                                                onClick={() => handleAddtoCart(product.productId)}>Add to cart</button>
                                     </div>
                                 </div>
                             ))

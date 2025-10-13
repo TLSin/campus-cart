@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Cart from '#models/cart'
 import CartItem from '#models/cart_item'
-import { queryObjects } from 'v8'
+import ProductImage from '#models/product_image'
 
 export default class CartsController {
     async store({ inertia, auth, request }: HttpContext) {
@@ -58,6 +58,7 @@ export default class CartsController {
                     productName: product.productName,
                     productPrice: product.productPrice,
                     quantity: item.quantity,
+                    // imgUrl:product.images.length > 0 ? product.images[0].imgUrl,
                     itemTotal: itemTotal.toFixed(2)
                 }
             })

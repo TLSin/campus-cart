@@ -1,4 +1,4 @@
-import { Head, usePage, router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 import Slider from "./components/slider"
 import Navigation from './components/navBar'
@@ -16,12 +16,11 @@ interface Product {
 }
 
 export default function Home() {
-  // const { dailyProducts, topProducts, feature } = usePage<PageProps>().props
   const [dailyProducts, setDailyProducts] = useState<Product[] | null>(null)
   const [topProducts, setTopProducts] = useState<Product[] | null>(null)
   const [feature, setFeature] = useState<Product[] | null>(null)
   const [loading, setLoading] = useState(true)
-
+  
   useEffect(() => {
     // Fetch products data dynamically
     router.get('/home', {}, {

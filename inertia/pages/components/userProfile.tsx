@@ -6,14 +6,14 @@ export default function UserProfile() {
                 {/* Input Fields */}
                 <div className="flex grid grid-cols-2 place-items-center">
                     {/* Name Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Full Name</h3>
                         <input type="text"
                             placeholder="e.g. Juan Dela Cruz"
-                            className="bg-[#44506D] rounded-md p-1 w-[38dvw]" />
+                            className="bg-[#44506D] rounded-md p-1 w-[85%]" />
                     </div>
                     {/* Phone Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Phone Number</h3>
                         <div className="dropdown flex items-center">
                             <div tabIndex={0} className="absolute bg-transparent rounded-md
@@ -27,38 +27,38 @@ export default function UserProfile() {
                         </div>
                         <input type="text"
                             placeholder="9123456789"
-                            className="bg-[#44506D] rounded-md p-1 z-1 text-center w-[25dvw]" />
+                            className="bg-[#44506D] rounded-md p-1 z-1 text-center w-[65%]" />
                     </div>
                     {/* Email Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Email</h3>
                         <input type="text"
                             placeholder="e.g. juandelacruz@gmail.com"
-                            className="bg-[#44506D] rounded-md p-1 w-[38dvw]" />
+                            className="bg-[#44506D] rounded-md p-1 w-[85%]" />
                     </div>
                     {/* Program Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Program</h3>
                         <input type="text"
                             placeholder="e.g. Bachelor of Science in Information Technology"
-                            className="bg-[#44506D] rounded-md p-1 w-[25dvw]" />
+                            className="bg-[#44506D] rounded-md p-1 w-[85%]" />
                     </div>
                     {/* Student Number Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Student Number</h3>
                         <input type="text"
                             placeholder="e.g. AU123456789"
-                            className="bg-[#44506D] rounded-md p-1 w-[38dvw]" />
+                            className="bg-[#44506D] rounded-md p-1 w-[85%]" />
                     </div>
                     {/* Campus Section */}
-                    <div className="col-1 align-center col-span-1 mb-[1rem]">
+                    <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Campus</h3>
                         <input type="text"
                             placeholder="e.g. Cainta, Antipolo, Sumulong... "
                             className="bg-[#44506D] rounded-md p-1 w-[25dvw]" />
                     </div>
                     {/* Address Section */}
-                    <div className="col-1 align-center col-span-1">
+                    <div className="col-1 align-center col-span-1 w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Shipping Address</h3>
                         <textarea
                             placeholder="e.g. 256 Real Road, Barangay South Real, Real City, Antipolo, Philippines 1870"

@@ -24,6 +24,7 @@ export default class ProductsController {
         const feature = productsWithImages.slice(12, 16) 
 
         console.log(productsWithImages)
+
         return inertia.render('home', { dailyProducts, topProducts, feature,
             user: user ? {
                 id:user.studentId,
@@ -41,10 +42,13 @@ export default class ProductsController {
         }
 
         const image = await ProductImage.query().where('product_id', product.productId).first()
+
+        console.log("Images are" + image)
+        
         return inertia.render('home', {
             product: {
                 ...product.$attributes,
-                imageUrl: image ? image.imgUrl : null,
+                imgUrl: image ? image.imgUrl : null,
             },
             user: user ? {
                 id:user.studentId,
