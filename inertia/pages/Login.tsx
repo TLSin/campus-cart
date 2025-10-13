@@ -24,19 +24,25 @@ export default function Login() {
             <Head title="Login" />
 
             {/*Login whole screen*/}
-            <div 
-                className="relative h-[100dvh] w-screen overflow-hidden">
-                <div className="grid grid-cols-2 justify-items-right">
-                    <img 
-                        src="/style1.png"
-                        className="absolute h-auto w-[49rem] z-0 bottom-0 right-55 translate-y-[9.3rem]"
-                        />
-                    <div className="col-span-1">
-
+            <div className="relative h-[100dvh] w-screen overflow-hidden">
+                <div className="grid grid-cols-2 justify-items-center">
+                    
+                    <div className="col-span-1 flex ">
+                        {/* Tagline */}
+                        <div className="w-[35rem] h-[15rem] align-items-center ">
+                            <img src="/tagline.png" className="mt-[25dvh] ml-[10rem] z-3" />
+                        </div>
+                        {/* Decor */}
+                        <div className="flex">
+                            <img
+                                src="/style1.png"
+                                className="absolute h-auto w-[49rem] z-0 bottom-0 right-55 translate-y-[9.3rem]"
+                            />
+                        </div>
                     </div>
                     {/*Login-card*/}
                     <div className="
-                                w-[45dvw] h-[50dvw] rounded-xl inset-y-[3rem] right-[10rem]
+                                w-[85%] h-[100%] rounded-2xl 
                                 shadow-lg shadow-black/30 bg-black/10 overflow-hidden
                                 backdrop-blur-sm col-span-1 border-2 border-white/30 my-[7rem]
                                 ">
@@ -51,7 +57,7 @@ export default function Login() {
                                         type="text"
                                         value={studentNo}
                                         onChange={e => SetStudentNo(e.target.value)}
-                                        placeholder="Enter your Studen Number"
+                                        placeholder="Enter your Student Number"
                                         className="
                                                     border border-2 h-[3rem] w-[90%] focus:outline-none rounded-md 
                                                     text-white text-lg placeholder:text-gray-500 px-2"
@@ -117,7 +123,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     )
 }
