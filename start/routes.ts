@@ -15,6 +15,8 @@ const UserLogoutsController = () => import('#controllers/user_logouts_controller
 const ProductsController = () => import('#controllers/products_controller')
 const CartsController = () => import('#controllers/carts_controller')
 const ShopsController = () => import('#controllers/shops_controller')
+const CheckoutsController = () => import('#controllers/check_outs_controller')
+const UserDetailsController = () => import('#controllers/user_details_controller')
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -24,39 +26,30 @@ router.get('/', async ({ auth, response, inertia }) => {
     return inertia.render('login')
 })
 
+// Public routes that can be accessed without authentication
+router.group(() => {
+    router.get('/home', [ProductsController, 'index'])
+    router.get('/products/:productId', [ShopsController, 'show'])
+})
+
+// Private routes that only authenticated users can access
 router.
     group(() => {
-        router.get('/home', [ProductsController, 'index'])
-
         router.get('/dailyProduct', [ProductsController, 'index'])
         router.get('/feature', [ProductsController, 'index'])
         router.get('/topProduct', [ProductsController, 'index'])
-        // router.get('/product/:id', [ProductsController, 'show'])
-        router.get('/products/:productId', [ShopsController, 'show'])
-
+        router.post('/products', [CartsController, 'store'])
         router.post('/home', [CartsController, 'store'])
         router.get('/cartPage', [CartsController, 'index'])
         router.put('/cartPage/update/:cartItemId', [CartsController, 'update'])
         router.delete('/cartPage/:cartItemId', [CartsController, 'destroy'])
 
-        router.get('/userPage', async ({ auth, inertia }) => {
-            const user = auth.user
+        router.get('/userPage', [UserDetailsController, 'show'])
 
-            return inertia.render('userPage', {
-                user: {
-                    id: user?.studentId,
-                    fName: user?.firstName,
-                }
-            })
-        })
+        router.get('/checkOut', [CheckoutsController, 'show'])
     }).use(middleware.auth())
 
-// router.on('/shop').renderInertia('shopPage').use(middleware.auth())
-// router.on('/search').renderInertia('searchResults')
-// router.on('/cart').renderInertia('cartPage').use(middleware.auth())
-// router.on('/user').renderInertia('userPage').use(middleware.auth())
-router.on('/checkOut').renderInertia('checkOut')
-
+// Public routes that redirect if not authenticated
 router.
     group(() => {
         router.on('/signUp').renderInertia('signUp')

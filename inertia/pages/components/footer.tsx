@@ -1,10 +1,13 @@
+import { Link } from "@inertiajs/react"
+
 export default function Footer() {
     return (
         <>
-            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10 ">
+            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10 z-1">
                 <aside>
                     <div className="flex items-center">
-                        <img src="/CClogo.png" alt="" className="h-auto w-[10rem]" />
+
+                        <Link href={'/home'}><img src="/CClogo.png" alt="" className="h-auto w-[10rem]" /></Link>
                         <p className="text-[#FFFFFF] ml-[1rem]">
                             Dormio.
                             <br />

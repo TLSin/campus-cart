@@ -55,7 +55,7 @@ export default function DailyProduct({ products }: DailyProductProps) {
         setVisibleProducts((prev) => prev + 12)
     }
 
-    console.log(products)
+    // console.log(products)
     return (
         <>
             <div className="bg-[#e6f4f1] mx-2 h-auto rounded-lg shadow-lg mb-[2rem] p-3">
@@ -70,13 +70,16 @@ export default function DailyProduct({ products }: DailyProductProps) {
                         // Item Card for the product
                         <div key={product.productId} 
                             className="w-60 h-auto bg-gray-50 p-3 flex flex-col col-span-1 rounded-lg shadow-lg mb-[1rem] hover:cursor-pointer hover:shadow-[#bfd6d9] hover:shadow-2xl"
-                            onClick={() => handleNavigateToProduct(product.productId)}
+                            
                             >
-                            <img src={product.imgUrl || ''} alt={product.productName} className="h-48 object-cover"/>
+                            <img 
+                                src={product.imgUrl || ''} alt={product.productName} className="h-48 object-cover"
+                                onClick={() => handleNavigateToProduct(product.productId)}
+                            />
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-row justify-between">
                                     <div className="flex flex-col">
-                                        <span className="text-[0.7rem] h-[3rem] text-black font-bold">{product.productName}</span>
+                                        <span className="text-[0.8rem] h-[3rem] text-black font-bold">{product.productName}</span>
                                     </div>
                                     <span className="font-bold  text-red-600">{product.productPrice}</span>
                                 </div>
@@ -93,10 +96,10 @@ export default function DailyProduct({ products }: DailyProductProps) {
                     )}
                 </div>
                 {/* Load more button */}
-                <div className="flex align-items-center justify-center w-[100%] mt-[2rem]">
+                {/* <div className="flex align-items-center justify-center w-[100%] mt-[2rem]">
                     <button
                         className="bg-red-500 text-[1rem] text-white p-2 rounded-lg">Load More</button>
-                </div>
+                </div> */}
             </div>
             {
                 toast.visible &&

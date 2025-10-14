@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Head, Link, router } from "@inertiajs/react"
-import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 
 export default function Signup() {
@@ -43,11 +42,11 @@ export default function Signup() {
         <>
             <Head title="Signup" />
             {/*Whole screen*/}
-            <div className=" h-screen w-screen justify-center items-center ">
+            <div className="relative h-[100dvh] w-screen overflow-hidden">
 
-                <div className="grid grid-cols-2 justify-items-center ">
+                <div className="grid grid-cols-2 justify-items-center h-[100%]">
                     {/*Signup-card*/}
-                    <div className="w-[85%] h-[80%] rounded-2xl 
+                    <div className="w-[70%] h-[80%] rounded-2xl 
                                     shadow-lg shadow-black/30 bg-black/10 overflow-hidden
                                     backdrop-blur-sm col-span-1 border-2 border-white/30 my-[7rem]">
                         <h1 className="text-5xl font-semibold text-[#FFFFFF] font-Poppins text-center mt-[4rem]">Sign Up</h1>
@@ -83,7 +82,7 @@ export default function Signup() {
                                     placeholder="Enter your email"
                                     onChange={e => setEmail(e.target.value)}
                                     value={email}
-                                    className="border border-2 h-[3rem] w-[41rem] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
+                                    className="border border-2 h-[3rem] w-[100%] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 " />
                             </div>
                             {/* password */}
                             <div className=" mt-[1.5rem] w-full h-[5rem]">
@@ -94,7 +93,7 @@ export default function Signup() {
                                         onChange={e => setPassword(e.target.value)}
                                         value={password}
                                         placeholder="Enter your password"
-                                        className="border border-2 h-[3rem] w-[41rem] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 ml-[2rem]" />
+                                        className="border border-2 h-[3rem] w-[100%] focus:outline-none rounded-xl px-3 text-[#FFFFFF] text-lg placeholder:text-gray-500 ml-[2rem]" />
                                     <button
                                         type="button"
                                         onClick={() => setShow(!show)}
@@ -127,7 +126,7 @@ export default function Signup() {
                                         <select
                                             value={campus}
                                             onChange={e => setCampus(e.target.value)}
-                                            className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2 bg-[#92A8D1]"
+                                            className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2"
                                         >
                                             {/* Placeholder (disabled so user can’t re-select it after picking) */}
                                             <option value="" disabled >
@@ -151,7 +150,7 @@ export default function Signup() {
                                             type="text"
                                             onChange={e => setProgram(e.target.value)}
                                             value={program}
-                                            className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2 bg-[#92A8D1]"
+                                            className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2"
                                         />
                                     </div>
                                 </div>
@@ -176,18 +175,22 @@ export default function Signup() {
                         </form>
                     </div>
                     {/* Rigth grid */}
-                    <div className="col-span-1 flex ">
+                    <div className="col-span-1 flex overflow-hidden">
                         {/* Tagline */}
-                        <div className="w-[35rem] h-[15rem] align-items-center ">
-                            <img src="/tagline.png" className="mt-[25dvh] ml-[10rem]" />
+                        <div className="w-[100%] h-[15rem] mt-[25dvh] align-items-center z-3">
+                            <img src="/tagline.png" />
                         </div>
-                      
+                        {/* Decor */}
+                        <div className="overflow-y-hidden absolute z-0 bottom-0 right-55 translate-y-[9.3rem]">
+                            <img
+                                src="/style1.png"
+                                className="h-auto w-[49rem]"
+                            />
+                        </div>
                     </div>
-
                 </div>
-
-                <Footer />
             </div>
+            <Footer />
         </>
     )
 }

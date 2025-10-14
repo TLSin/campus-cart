@@ -21,11 +21,21 @@ export default class ShopsController {
         .first()
 
         const groupName = clickedProducts.group.groupName
+        const descriptions = clickedProducts.group.text
+
+        const allVariants = await Product.query()
+        .where('groupId', clickedProducts.groupId)
+        .select('productId', 'productName', 'productPrice', 'imgUrl')
+        .orderBy('productId', 'asc')
+
+        console.log(descriptions)
 
         const productData = {
             ...clickedProducts.$attributes,
             productName: groupName,
             imgUrl: mainProducts ? mainProducts.imgUrl : clickedProducts.imgUrl,
+            description: descriptions,
+            descriptionId: clickedProducts.group.descriptionId,
         }
 
         const subImages = await Product.query()
@@ -43,14 +53,15 @@ export default class ShopsController {
             finalSubImages = finalSubImages.filter((img): img is string => img !== null)
         }
 
-        console.log(productData)
-        console.log(subImages)
+        // console.log(productData)
+        // console.log(subImages)
 
         return inertia.render('products', {
             product: {
                 ...productData,
                 subImages: finalSubImages,
             },
+            productVariants: allVariants.map(v => v.$attributes),
             user: 
                 user ? {
                 id: user?.studentNo,

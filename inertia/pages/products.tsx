@@ -1,8 +1,15 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
-import { useState } from "react";
+import DynamicDescription from "./components/dynamicDescription"
+import { useState, useMemo, Dispatch, SetStateAction } from "react";
 import { Head, usePage, router } from "@inertiajs/react";
 
+interface ProductVariants {
+    productId: number
+    productName: string
+    productPrice: number
+    imgUrl: string | null
+}
 
 interface Product {
     productId: number
@@ -10,39 +17,80 @@ interface Product {
     productPrice: number
     imgUrl: string | null
     description: string
+    descriptionId: number
     subImages: string[]
 }
 
 interface ProductPageProps {
     product: Product
+    productVariants: ProductVariants[]
     [key: string]: any
 }
 
+interface ToastState {
+    visible: boolean
+    message: string
+    type: 'alert-success' | 'alert-error'
+}
+
 export default function ProductPage() {
-    const { product } = usePage<ProductPageProps>().props
+    const { product, productVariants } = usePage<ProductPageProps>().props
     const [mainImage, setMainImage] = useState(product.imgUrl || '')
+    const [toast, setToast] = useState<ToastState>({ visible: false, message: '', type: 'alert-success' })
+    const [quantity, setQuantity] = useState(1)
+    const [selectedProductId, setSelectedProductId] = useState(product.productId)
 
     const handleImageHover = (imageUrl: string) => {
         setMainImage(imageUrl)
     }
 
-    const [count, setCount] = useState(1);
-
-    const addFunction = () => {
-        setCount(count + 1);
+    const showToast = (message: string, type: 'alert-success' | 'alert-error') => {
+        setToast({ visible: true, message, type })
+        setTimeout(() => {
+            setToast((prev) => ({ ...prev, visible: false }))
+        }, 3000)
     }
 
-    const subtractFunction = () => {
-        if (count > 1) {
-            setCount(count - 1);
+    const handleVariantSelect = (productId: number) => {
+        setSelectedProductId(productId)
+        const newVariant = productVariants.find(v => v.productId === productId)
+        if (newVariant && newVariant.imgUrl) {
+            setMainImage(newVariant.imgUrl)
         }
     }
+
+    const handleAddtoCart = () => {
+        if (quantity < 1) {
+            showToast('Quantity must be atleast 1', 'alert-error')
+            return;
+        }
+
+        router.post('/products', {
+            productId: selectedProductId, quantity: quantity
+        },
+            {   
+                preserveScroll: true,
+                onSuccess: () => {
+                    showToast('Added to cart!', 'alert-success')
+                },
+                onError: (errors) => {
+                    console.log(errors)
+                    showToast('Failed to add to cart. Please try again.', 'alert-error')
+                }
+            },
+
+        )
+    }
+
+    const selectedVariantPrice = useMemo(() => {
+        return productVariants.find(v => v.productId === selectedProductId)?.productPrice || product.productPrice
+    }, [selectedProductId, product.productPrice, productVariants])
 
     return (
         <>
             <Head title={product.productName} />
 
-            <Navigation/>
+            <Navigation />
             {/* 
                 Note: Settings here are for screen size 1280 * 1024
                 TODO: Modify it for screen size 1920 * 1080 
@@ -60,13 +108,13 @@ export default function ProductPage() {
                         {/* Sub-Image */}
                         <div className="flex mt-[0.5rem] space=x mt-[1.5rem] overflow-x-scroll pb-[1rem]">
                             {product.subImages.map((image, index) => (
-                                <img 
+                                <img
                                     key={index}
-                                    src={image} 
-                                    className="h-[7rem] w-[7rem] object-cover rounded-lg cursor-pointer shadow-md" 
+                                    src={image}
+                                    className="h-[7rem] w-[7rem] object-cover rounded-lg cursor-pointer shadow-md"
                                     onMouseEnter={() => handleImageHover(image)}
                                     onClick={() => handleImageHover(image)}
-                                    />
+                                />
                             ))}
                         </div>
                     </div>
@@ -96,51 +144,70 @@ export default function ProductPage() {
                                     <h4 className="flex text-[0.8rem] text-black ml-[0.5rem]">Sold</h4>
                                 </div>
                             </div>
-                            <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱{product.productPrice}</h2>
+                            <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱{selectedVariantPrice}</h2>
                             {/* Other Details */}
-                            <div className="flex items-center grid grid-cols-3 ml-[1rem]">
-                                <div className="col-1 align-left col-span-1">
-                                    <h3 className="text-gray-500">Shipping</h3>
-                                </div>
-                                <div className="col-2 align-left items-top col-span-2">
-                                    <br />
-                                    <h3 className="text-black text-[1rem]">Get by 29 Sept <a></a></h3>
-                                    <h3 className="text-black text-[1rem]">Free Shipping</h3>
-                                </div>
-                                <div className="col-1 align-left col-span-1">
-                                    <h3 className="text-gray-500">Type</h3>
-                                </div>
-                                <div className="col-2 align-center justify-between col-span-2 pt-[1rem]">
-                                    <button className="btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border-black outline border rounded-none">Vest</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border-black outline border rounded-none">Skirt</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border-black outline border rounded-none">Pants</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border-black outline border rounded-none">Shirt</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border-black outline border rounded-none">All</button>
-                                </div>
-                                <div className="col-1 align-left col-span-1 pt-[1rem]">
-                                    <h3 className="text-gray-500">Size</h3>
-                                </div>
-                                <div className="col-2 align-left justify-between col-span-2 pt-[1rem]">
-                                    <button className="btn text-black text=[1rem] mr-[0.5rem] px-2 py-2 border-black outline border w-[2rem] h-[2rem] rounded-none">XS</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.5rem] px-2 py-2 border-black outline border w-[2rem] h-[2rem] rounded-none">S</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.5rem] px-2 py-2 border-black outline border w-[2rem] h-[2rem] rounded-none">M</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.5rem] px-2 py-2 border-black outline border w-[2rem] h-[2rem] rounded-none">L</button>
-                                    <button className="btn text-black text=[1rem] mr-[0.5rem] px-2 py-2 border-black outline border w-[2rem] h-[2rem] rounded-none">XL</button>
-                                </div>
-                                <div className="col-1 align-left col-span-1 pt-[1rem]">
-                                    <h3 className="text-gray-500">Quantity</h3>
-                                </div>
-                                <div className="flex col-2 align-left col-span-2 pt-[1rem]                                                           ">
-                                    <button className="text-black rounded-none border-black outline border w-[2rem] h-[2rem]" onClick={subtractFunction}>-</button>
-                                    <input type="number" defaultValue="1" value={count} min="1" className="pl-[0.5rem] bg-white w-[2.5rem] text-black text-center rounded-none border-black border outline" readOnly />
-                                    <button className="text-black rounded-none border-black outline border w-[2rem] h-[2rem]" onClick={addFunction}>+</button>
-                                </div>
-                            </div>
+
+                            <DynamicDescription 
+                                descriptionId={product.descriptionId}
+                                productVariants={productVariants}
+                                selectedProductId={selectedProductId}
+                                onVariantSelect={handleVariantSelect}
+                                quantity={quantity}
+                                onQuantityChange={setQuantity as Dispatch<SetStateAction<number>>}
+                            />
+
                         </div>
                         {/* Action Buttons Container */}
                         <div className="flex justify-end items-bottom mt-[2rem] align-end">
-                            <button className="btn bg-white text-black border-black hover:bg-gray-200 mr-[1rem] px-8 py-3">Add to Cart</button>
+                            <button
+                                className="btn bg-white text-black border-black hover:bg-gray-200 mr-[1rem] px-8 py-3"
+                                onClick={handleAddtoCart}
+                            >
+                                Add to Cart
+                            </button>
                             <button className="btn bg-[#44506D] text-white border-none hover:bg-[#2C3653] mr-[2rem] px-8 py-3">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                {
+                    toast.visible &&
+                    (
+                        <div role="alert" className={`alert ${toast.type} absolute top-0 right-0 w-[30%] p-5 mt-[2rem] mr-[2rem]`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-white" fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-white text-[1rem]">{toast.message}</span>
+                        </div>
+                    )
+                }
+
+                {/* Product Descriptions */}
+                <div className="w-[85dvw] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
+                    <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">Product Description</h1>
+                    <p>
+                        {product.description}
+                    </p>
+                </div>
+
+                {/* User Reviews */}
+                <div className="w-[85dvw] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
+                    <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">User Reviews</h1>
+                    {/* User 1 Review */}
+                    <div className="">
+                        {/* user description */}
+                        <div className="flex space-x-4 ">
+                            <div className="bg-gray w-[3rem] h-[3rem] rounded-full flex justify-center items-center border border-black">
+                                <h1>JD</h1>
+                            </div>
+                            <div className="flex flex-col">
+                                <h1 className="text-black text-[1rem] font-bold">John Doe</h1>
+                                <p>01 Oct 2025 | All Set-M</p>
+                            </div>
+                        </div>
+                        {/* user review */}
+                        <div className="ml-[4rem]">
+                            <p>"The item is good no damage naman sya and mabilis ko syang nareceived."</p>
                         </div>
                     </div>
                 </div>

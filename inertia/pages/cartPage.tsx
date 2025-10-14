@@ -1,7 +1,7 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 import { useState } from "react"
-import { Head, router, usePage } from '@inertiajs/react'
+import { Head, router, usePage, Link } from '@inertiajs/react'
 
 interface CartItemData {
     cartItemId: number
@@ -72,7 +72,7 @@ export default function CartPage() {
                 Note: Settings here are for screen size 1280 * 1024
                 TODO: Modify it for screen size 1920 * 1080 
             */}
-            <div className="h-screen w-full bg-white justify-items-center">
+            <div className="h-[100%] w-full bg-white justify-items-center">
                 <div className="bg-white w-full h-full py-8 flex flex-col">
                     <div className="h-auto w-[75%] bg-white p-8 shadow-lg rounded-2xl mx-auto mb-[3rem] border">
                         <h1 className="flex text-[3rem] font-bold text-[#515A70] ml-[1rem] mb-[2rem]">Shopping Cart</h1>
@@ -167,7 +167,11 @@ export default function CartPage() {
                             </div>
                             {/* Checkout Container */}
                             <div className="flex justify-end w-[50%] align-items-center mb-[2rem] mt-[2rem] flex-1">
-                                <button className="btn bg-[hsl(222,23,35,25%)] text-black border-[#44506D] border rounded-none hover:bg-[#44506D] hover:text-white px-8 py-3 mr-[2rem]">Continue Shopping</button>
+                                <button className="btn bg-[hsl(222,23,35,25%)] text-black border-[#44506D] border rounded-none hover:bg-[#44506D] hover:text-white px-8 py-3 mr-[2rem]">
+                                    <Link href={'/home'}>
+                                        Continue Shopping
+                                    </Link>
+                                </button>
                                 <button className="btn bg-[#44506D] text-white border-none rounded-none hover:bg-[#2C3653] px-8 py-3 mr-[2rem]"
                                     disabled={checkedItems.length === 0}
                                 >

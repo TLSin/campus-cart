@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Product from './product.js'
+import Description from './description.js'
 
 export default class Group extends BaseModel {
   @column({ isPrimary: true })
@@ -12,6 +13,12 @@ export default class Group extends BaseModel {
 
   @column()
   declare productId: number
+
+  @column()
+  declare text: string
+
+  @column()
+  declare descriptionId: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -29,4 +36,8 @@ export default class Group extends BaseModel {
   })
   declare product: BelongsTo<typeof Product>
 
+  @belongsTo(() => Description, {
+    foreignKey: 'descriptionId',
+  })
+  declare description: BelongsTo<typeof Description>
 }

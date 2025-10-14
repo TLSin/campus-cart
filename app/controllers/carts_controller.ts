@@ -1,12 +1,17 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Cart from '#models/cart'
 import CartItem from '#models/cart_item'
-import ProductImage from '#models/product_image'
 
 export default class CartsController {
     async store({ inertia, auth, request, response }: HttpContext) {
         const user = auth.user
-        const { productId } = request.only(['productId'])
+        const { productId, quantity: requestQuantity } = request.only(['productId', 'quantity'])
+
+        const quantityToAdd = Number(requestQuantity) || 1
+
+        if(quantityToAdd < 1) {
+            return response.badRequest({ message: 'Invalid product ID or Quantity' })
+        }
 
         const cart = await Cart.firstOrCreate({ studentId: user?.studentId })
 
@@ -16,14 +21,14 @@ export default class CartsController {
         .first()
 
         if(existingItem) {
-            existingItem.quantity++
+            existingItem.quantity += quantityToAdd
             await existingItem.save()
         }
         else {
             await CartItem.create({
                 cartId: cart.cartId,
                 productId: productId,
-                quantity: 1,
+                quantity: quantityToAdd,
             })
         }
         if(!user) {
@@ -35,7 +40,9 @@ export default class CartsController {
     async index({ auth, inertia }: HttpContext) {
         const user = auth.user!
 
-        const cart = await Cart.query().where('student_id', user.studentId).first()
+        const cart = await Cart.query()
+        .where('student_id', user.studentId)
+        .first()
 
         let cartItems: any[] = []
         let subtotal = 0

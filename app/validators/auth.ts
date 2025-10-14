@@ -24,3 +24,9 @@ export const loginValidator = vine.compile(
         password: vine.string(),
     })
 )
+
+export const updateUserValidator = vine.compile(
+    vine.object({
+        
+    })
+)

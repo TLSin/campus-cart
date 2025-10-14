@@ -27,6 +27,12 @@ export default class User extends BaseModel {
   @column()
   declare programId: number
   
+  @column()
+  declare address: string | null
+
+  @column()
+  declare contactNo: string | null
+
   @column({ serializeAs: null })
   declare password: string
 

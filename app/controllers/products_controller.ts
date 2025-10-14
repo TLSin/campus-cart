@@ -23,7 +23,7 @@ export default class ProductsController {
         const feature = groupProducts.slice(0, 8)
         const topProducts = groupProducts.slice(6, 12)
 
-        console.log(products)
+        // console.log(products)
 
         return inertia.render('home', {
             dailyProducts,
@@ -52,8 +52,7 @@ export default class ProductsController {
 
         return inertia.render('home', {
             product: {
-                ...product.$attributes,
-                // imgUrl: image ? image.imageUrl : null,
+                ...product.$attributes,        
             },
             user: user ? {
                 id: user.studentId,

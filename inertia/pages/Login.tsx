@@ -29,20 +29,20 @@ export default function Login() {
                     
                     <div className="col-span-1 flex ">
                         {/* Tagline */}
-                        <div className="w-[35rem] h-[15rem] align-items-center ">
-                            <img src="/tagline.png" className="mt-[25dvh] ml-[10rem] z-3" />
+                        <div className="w-[100%] h-[15rem] mt-[25dvh] align-items-center z-3">
+                            <img src="/tagline.png"/>
                         </div>
                         {/* Decor */}
                         <div className="flex">
                             <img
                                 src="/style1.png"
-                                className="absolute h-auto w-[49rem] z-0 bottom-0 right-55 translate-y-[9.3rem]"
+                                className="absolute h-auto w-[49rem] z-0 bottom-0 right-60 translate-y-[9.3rem]"
                             />
                         </div>
                     </div>
                     {/*Login-card*/}
                     <div className="
-                                w-[85%] h-[100%] rounded-2xl 
+                                w-[70%] h-[100%] rounded-2xl 
                                 shadow-lg shadow-black/30 bg-black/10 overflow-hidden
                                 backdrop-blur-sm col-span-1 border-2 border-white/30 my-[7rem]
                                 ">

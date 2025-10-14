@@ -54,7 +54,7 @@ export default function Feature({ products }: FeatureoductProps) {
         router.get(`/products/${productId}`)
         console.log(router.get(`/products/${productId}`))
     }
-
+    
     return (
         <>
             <div className="bg-white mx-2 rounded-lg shadow-lg mb-[2rem]">
@@ -68,17 +68,17 @@ export default function Feature({ products }: FeatureoductProps) {
                                 <div 
                                     key={product.productId} 
                                     className="w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem] hover:cursor-pointer"
-                                    onClick={() => handleNavigateToProduct(product.productId)}
                                     >
                                     {product.imgUrl ? (
-                                        <img src={product.imgUrl} className="h-48 object-contain" />
+                                        <img src={product.imgUrl} className="h-48 object-contain" 
+                                        onClick={() => handleNavigateToProduct(product.productId)}/>
                                     ) : (
                                         <div className="h-48 bg-gray-200 animate-pulse" />
                                     )}
                                     <div className="flex flex-col gap-4">
                                         <div className="flex flex-row justify-between h-auto">
                                             <div className="flex flex-col h-[3rem]">
-                                                <span className="text-[1rem] font-bold text-black">{product.productName}</span>
+                                                <span className="text-[0.8rem] font-bold text-black">{product.productName}</span>
                                             </div>
                                             <span className="font-bold  text-red-600">{product.productPrice}</span>
                                         </div>

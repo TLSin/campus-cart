@@ -6,6 +6,8 @@ import AccountSettings from "./components/accountSettings"
 import { useState } from "react"
 import { Head } from "@inertiajs/react"
 
+
+
 export default function userPage() {
     const [activeSection, setActiveSection] = useState<"Profile" | "Order" | "Settings">("Profile");
 
