@@ -32,7 +32,7 @@ router.
         router.get('/feature', [ProductsController, 'index'])
         router.get('/topProduct', [ProductsController, 'index'])
         router.get('/product/:id', [ProductsController, 'show'])
-        router.get('/shopPage', [ShopsController, 'index'])
+        router.get('/products', [ShopsController, 'index'])
 
         router.post('/home', [CartsController, 'store'])
         router.get('/cartPage', [CartsController, 'index'])
