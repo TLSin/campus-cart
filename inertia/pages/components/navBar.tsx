@@ -31,7 +31,7 @@ export default function Navigation() {
             <div className="navbar h-[6.5rem] bg-[#44506D] shadow-sm grid grid-flow-col grid-rows-3">
                 {/* Logo Container */}
                 <div className="flex-1 row-span-3">
-                    <Link href="/" className="flex h-auto m-[2rem] "><img src="/CClogo.png" className="h-[6rem] cursor-pointer" /></Link>
+                    <Link href="/" className="flex h-auto m-[2rem] w-[10rem]"><img src="/CClogo.png" className="h-[6rem] cursor-pointer" /></Link>
                 </div>
                 {/* Links and User Container */}
                 <div className="flex-1 col-span-2 flex row-span-3 justify-items-right align-items-right p-[1rem] mt-[1rem]">
