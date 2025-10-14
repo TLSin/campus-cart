@@ -32,8 +32,9 @@ router.get('/', async ({ auth, response, inertia }) => {
 router.group(() => {
     router.get('/home', [ProductsController, 'index'])
     router.get('/products/:productId', [ShopsController, 'show'])
-    router.get('/resultPage', [ResultsController, 'show'])
+    // router.get('/resultPage', [ResultsController, 'show'])
     router.get('/resultPage/:id', [ResultsController , 'show'])
+    // router.on('/resultPage').renderInertia('resultPage')
 })
 
 // Private routes that only authenticated users can access

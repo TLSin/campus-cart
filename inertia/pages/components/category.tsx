@@ -1,5 +1,18 @@
 import { useState } from "react";
 import {router} from "@inertiajs/react";
+import Product from "#models/product";
+
+interface CategoryProps {
+    user: {
+        id: string
+        fName: string
+    } | null
+    category: {
+        id: number
+        name: string
+        products: Product[]
+    }
+}
 
 export default function Category() {
     const [hover, setHover] = useState<number | null>(null);
@@ -17,7 +30,7 @@ export default function Category() {
     ]
     
     const categoryClick = (id:number) => {
-        router.get(`/results/${id}`)
+        router.get(`/resultPage/${id}`)
         
     }
 

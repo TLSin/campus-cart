@@ -1,18 +1,45 @@
 import Navigation from "./components/navBar";
+import Footer from "./components/footer";
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Link } from "lucide-react";
-import { usePage } from "@inertiajs/react"
+import { usePage, router } from "@inertiajs/react"
 
+interface Product {
+    productId: number
+    productName: string
+    productPrice: number
+    description: string
+    imgUrl: string | null
+}
+
+interface CategoryProps {
+    id: number
+    name: string
+    products: Product[]
+}
+
+interface CategoryResultProps {
+    user: {
+        id: number
+        fName: string
+    } | null
+    category: CategoryProps | null
+    [key: string]: any
+}
 
 export default function ResultPage() {
-    const { category } = usePage().props as any // <-- Add this line
+    const { category } = usePage<CategoryResultProps>().props
 
     const [showMore, setShowMore] = useState(false);
     const [active, setActive] = useState("Relevance");
 
+    const products = category?.products || []
+    const categoryName = category?.name || 'All Results'
+
     const buttons = ["Relevance", "Latest", "Top Sales"];
 
     const categories = [
+        "School Supplies",
         "Book & Modules",
         "Uniforms",
         "Electronics",
@@ -26,12 +53,16 @@ export default function ResultPage() {
 
     const visibleCategories = showMore ? categories : categories.slice(0, 4);
 
+    const categoryClick = (id: number) => {
+        router.get(`/resultPage/${id}`)
+    }
+
     return (
         <>
             <Navigation />
 
 
-            <div className="w-screen h-screen flex overflow-hidden">
+            <div className="w-screen h-full flex">
 
                 {/* search filter */}
                 <div className="h-screen w-[30%] block">
@@ -47,7 +78,10 @@ export default function ResultPage() {
                         <div className="flex justify-center">
                             <ul className=" space-y-2 list-disc">
                                 {visibleCategories.map((category) => (
-                                    <li key={category} className="hover:text-blue-600 hover:underline cursor-pointer text-md text-[#515A70] font-semibold">
+                                    <li
+                                        key={category}
+                                        className="hover:text-blue-600 hover:underline cursor-pointer text-md text-[#515A70] font-semibold"
+                                        onClick={() => categoryClick}>
                                         {category}
                                     </li>
                                 ))}
@@ -75,11 +109,12 @@ export default function ResultPage() {
                     </div>
                 </div>
 
+                {/* Main Result Area */}
                 {/*search result  */}
                 <div className="h-screen w-[50%]">
                     <div className="flex space-x-2 pt-10 pl-4">
                         <img src="idea.svg" alt="" className="w-6" />
-                        <h1>Result for '<span className="text-[#C65E61]">Book & Modules</span>'</h1>
+                        <h1>Result for '<span className="text-[#C65E61]">{categoryName}</span>'</h1>
                     </div>
 
                     {/* sort */}
@@ -108,17 +143,41 @@ export default function ResultPage() {
 
                     </div>
 
+
                     <div>
-                        {category?.products?.length ? (
-                            category.products.map((product: any) => (
-                                <div key={product.productId}>
-                                    <h2>{product.productName}</h2>
-                                    <p>{product.description}</p>
-                                    <span>₱{product.productPrice}</span>
+                        {products.length > 0 ? (
+                            products.map((product) => (
+                                <div className="grid">
+                                    <div key={product.productId} className="bg-bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group">
+                                        <div className="h-auto w-[10dvw] bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                                            <img
+                                                src={product.imgUrl || ""}
+                                                alt={product.productName}
+                                                className="object-contain h-full w-full transition-transform duration-500 group-hover:scale-105"
+
+                                            />
+                                            <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">{categoryName}</div>
+                                        </div>
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h2 className="text-lg font-bold text-[#44506D] truncate group-hover:text-[#C65E61] transition-colors">{product.productName}</h2>
+                                            <p className="text-sm text-gray-500 mb-2 line-clamp-2">{product.description}</p>
+                                            <span className="text-2xl font-black text-[#C65E61]">
+                                                ₱{Number(product.productPrice || 0).toFixed(2)}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             ))
                         ) : (
-                            <p>No products found.</p>
+                            <div className="col-span-full w-full text-center p-16 bg-white rounded-xl border-4 border-dashed border-gray-300 shadow-inner">
+                                <h2 className="text-3xl font-bold text-gray-700 mb-4">
+                                    No Matching Products Found 😔
+                                </h2>
+                                <p className="text-lg text-gray-500">
+                                    The category **"{categoryName}"** currently has no products listed.
+                                    Please check back later or try a different category.
+                                </p>
+                            </div>
                         )}
                     </div>
 
@@ -126,6 +185,7 @@ export default function ResultPage() {
 
             </div>
 
+            <Footer />   
 
 
         </>
