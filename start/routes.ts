@@ -31,8 +31,8 @@ router.
         router.get('/dailyProduct', [ProductsController, 'index'])
         router.get('/feature', [ProductsController, 'index'])
         router.get('/topProduct', [ProductsController, 'index'])
-        router.get('/product/:id', [ProductsController, 'show'])
-        router.get('/shopPage', [ShopsController, 'index'])
+        // router.get('/product/:id', [ProductsController, 'show'])
+        router.get('/products/:productId', [ShopsController, 'show'])
 
         router.post('/home', [CartsController, 'store'])
         router.get('/cartPage', [CartsController, 'index'])

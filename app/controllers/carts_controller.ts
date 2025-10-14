@@ -4,7 +4,7 @@ import CartItem from '#models/cart_item'
 import ProductImage from '#models/product_image'
 
 export default class CartsController {
-    async store({ inertia, auth, request }: HttpContext) {
+    async store({ inertia, auth, request, response }: HttpContext) {
         const user = auth.user
         const { productId } = request.only(['productId'])
 
@@ -29,7 +29,7 @@ export default class CartsController {
         if(!user) {
             return inertia.render('errors/unauthorized')
         }
-        return inertia.render('cartPage', { user })
+        return response.redirect().back()
     }
 
     async index({ auth, inertia }: HttpContext) {
@@ -44,6 +44,7 @@ export default class CartsController {
             const items = await CartItem.query()
                 .where('cart_id', cart.cartId)
                 .preload('product')
+                .orderBy('cart_item_id', 'asc')
                 .exec()
             
             cartItems = items.map(item => {
@@ -58,7 +59,7 @@ export default class CartsController {
                     productName: product.productName,
                     productPrice: product.productPrice,
                     quantity: item.quantity,
-                    // imgUrl:product.images.length > 0 ? product.images[0].imgUrl,
+                    imgUrl:product.imgUrl, 
                     itemTotal: itemTotal.toFixed(2)
                 }
             })

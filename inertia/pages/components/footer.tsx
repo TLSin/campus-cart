@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <>
-            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10">
+            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10 ">
                 <aside>
                     <div className="flex items-center">
                         <img src="/CClogo.png" alt="" className="h-auto w-[10rem]" />

@@ -12,7 +12,7 @@ interface Product {
   productId: number
   productName: string
   productPrice: number
-  imageUrl: string | null
+  imgUrl: string | null
 }
 
 export default function Home() {
@@ -20,7 +20,8 @@ export default function Home() {
   const [topProducts, setTopProducts] = useState<Product[] | null>(null)
   const [feature, setFeature] = useState<Product[] | null>(null)
   const [loading, setLoading] = useState(true)
-  
+
+  // UseEffect for fetching the data into database
   useEffect(() => {
     // Fetch products data dynamically
     router.get('/home', {}, {
@@ -34,6 +35,7 @@ export default function Home() {
       onError: () => setLoading(false),
     })
   }, [])
+
 
   if (loading) {
     return (<p className="text-center text-white mt-10">Loading products...</p>)
@@ -56,10 +58,12 @@ export default function Home() {
         <Slider />
 
         {/* showcase */}
-        <Category />
-        {feature && feature.length > 0 && <Feature products={feature} />}
-        {topProducts && topProducts.length > 0 && <TopProduct products={topProducts} />}
-        {dailyProducts && dailyProducts && <DailyProduct products={dailyProducts} />}
+        <div>
+          <Category />
+          {feature && feature.length > 0 && <Feature products={feature} />}
+          {topProducts && topProducts.length > 0 && <TopProduct products={topProducts} />}
+          {dailyProducts && dailyProducts && <DailyProduct products={dailyProducts} />}
+        </div>
 
         {/* footer */}
         <Footer />

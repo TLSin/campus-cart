@@ -1,9 +1,31 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 import { useState } from "react";
-import { Head } from "@inertiajs/react";
+import { Head, usePage, router } from "@inertiajs/react";
+
+
+interface Product {
+    productId: number
+    productName: string
+    productPrice: number
+    imgUrl: string | null
+    description: string
+    subImages: string[]
+}
+
+interface ProductPageProps {
+    product: Product
+    [key: string]: any
+}
 
 export default function shopPage() {
+    const { product } = usePage<ProductPageProps>().props
+    const [mainImage, setMainImage] = useState(product.imgUrl || '')
+
+    const handleImageHover = (imageUrl: string) => {
+        setMainImage(imageUrl)
+    }
+
     const [count, setCount] = useState(1);
 
     const addFunction = () => {
@@ -18,7 +40,7 @@ export default function shopPage() {
 
     return (
         <>
-            <Head title="Product Page" />
+            <Head title={product.productName} />
 
             <Navigation/>
             {/* 
@@ -30,24 +52,29 @@ export default function shopPage() {
                 {/* Product Container */}
                 <div className="w-[85dvw] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] overflow-hidden flex">
                     {/* Image Container */}
-                    <div className="w-[40dvw] h-[63.8dvh] rounded-t-lg ml-[1.5rem] mt-[1.5rem] overflow-hidden">
+                    <div className="w-[40dvw] h-[73dvh] rounded-t-lg ml-[1.5rem] mt-[1.5rem] overflow-hidden">
                         {/* Main Image */}
                         <div className="flex h-[50dvh] shadow-lg">
-                            <img src="/carousel1.jpg" className="h-[50dvh] w-[40dvw] object-contain rounded-lg aspect-video" alt="Main Image" />
+                            <img src={mainImage} className="h-[50dvh] w-[40dvw] object-contain rounded-lg aspect-video" alt="Main Image" />
                         </div>
                         {/* Sub-Image */}
-                        <div className="flex mt-[0.5rem] space-x-2 mt-[1.5rem]">
-                            <img src="/notebook.jpg" className="h-[9.5dvh] w-[9.5dvw] object-cover rounded-lg cursor-pointer shadow-md" />
-                            <img src="/notebook2.jpg" className="h-[9.5dvh] w-[9.5dvw] object-cover rounded-lg cursor-pointer shadow-md" />
-                            <img src="/notebook3.jpg" className="h-[9.5dvh] w-[9.5dvw] object-cover rounded-lg cursor-pointer shadow-md" />
-                            <img src="/notebook4.jpg" className="h-[9.5dvh] w-[9.5dvw] object-cover rounded-lg cursor-pointer shadow-md" />
+                        <div className="flex mt-[0.5rem] space-x-2 mt-[1.5rem] overflow-x-scroll pb-[1rem]">
+                            {product.subImages.map((image, index) => (
+                                <img 
+                                    key={index}
+                                    src={image} 
+                                    className="h-[7rem] w-[7rem] object-cover rounded-lg cursor-pointer shadow-md" 
+                                    onMouseEnter={() => handleImageHover(image)}
+                                    onClick={() => handleImageHover(image)}
+                                    />
+                            ))}
                         </div>
                     </div>
                     {/* Product Details Container */}
                     <div className="flex w-[40dvw] rounded-t-lg ml-[2rem] mt-[1rem] grid grid-rows-3">
                         {/* Product Details Row 1 */}
                         <div className="h-[60dvh] p-4 row-span-2">
-                            <h1 className="text-[#44506D] text-[1.7rem]">Computer Studies Complete Uniform For Male and Female</h1>
+                            <h1 className="text-[#44506D] text-[1.7rem]">{product.productName}</h1>
                             {/* Rating Details */}
                             <div className="flex grid grid-cols-3 divide-x-3 divide-solid divide-[#44506D] items-center ml-[1rem] pt-[1rem] pb-[2rem]">
                                 <div className="flex items-center border-r border-[#44506D]">
@@ -69,7 +96,7 @@ export default function shopPage() {
                                     <h4 className="flex text-[0.8rem] text-black ml-[0.5rem]">Sold</h4>
                                 </div>
                             </div>
-                            <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱900.00</h2>
+                            <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱{product.productPrice}</h2>
                             {/* Other Details */}
                             <div className="flex items-center grid grid-cols-3 ml-[1rem]">
                                 <div className="col-1 align-left col-span-1">

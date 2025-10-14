@@ -1,60 +1,65 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Product from '#models/product'
-import ProductImage from '#models/product_image'
 
 export default class ProductsController {
-    async index({ inertia, auth }: HttpContext){
+    async index({ inertia, auth }: HttpContext) {
         const user = auth.user
 
-        const products = await Product.all()
+        // Fetch all products from the database
+        const products = await Product.query().preload('group').preload('category')
 
-        const productIds = products.map(p => p.productId)
-        const images = await ProductImage.query().whereIn('product_id', productIds)
+        // Group the products based on what its group_id
+        const groupProducts = Object.values(
+            products.reduce((acc, product) => {
+                if(!acc[product.groupId]) {
+                    acc[product.groupId] = product
+                }
+                return acc
+            }, {} as Record<number, Product>)
+        )
 
-        const productsWithImages = products.map(product => {
-            const image = images.find(img => img.productId === product.productId)
-            return {
-                ...product.$attributes,
-                imgUrl: image ? image.imgUrl : null,
-            }
-        })
+        // Seprate products for different sections
+        const dailyProducts = groupProducts
+        const feature = groupProducts.slice(0, 8)
+        const topProducts = groupProducts.slice(6, 12)
 
-        const dailyProducts = productsWithImages.slice(0, 6)  
-        const topProducts = productsWithImages.slice(6, 12)
-        const feature = productsWithImages.slice(12, 16) 
+        console.log(products)
 
-        console.log(productsWithImages)
-
-        return inertia.render('home', { dailyProducts, topProducts, feature,
+        return inertia.render('home', {
+            dailyProducts,
+            topProducts, 
+            feature,
             user: user ? {
-                id:user.studentId,
+                id: user.studentId,
                 fName: user.firstName,
             }
-            : null
-         })
+                : null
+        })
     }
 
     async show({ params, inertia, auth }: HttpContext) {
         const user = auth.user
-        const product = await Product.find(params.id)
-        if(!product){
+        const product = await Product.query()
+        .where('productId', params.id)
+        .preload('group')
+        .preload('category')
+        .first()
+
+
+        if (!product) {
             return inertia.render('errors/notFound')
         }
 
-        const image = await ProductImage.query().where('product_id', product.productId).first()
-
-        console.log("Images are" + image)
-        
         return inertia.render('home', {
             product: {
                 ...product.$attributes,
-                imgUrl: image ? image.imgUrl : null,
+                // imgUrl: image ? image.imageUrl : null,
             },
             user: user ? {
-                id:user.studentId,
+                id: user.studentId,
                 fName: user.firstName,
             }
-            : null
+                : null
         })
     }
 }

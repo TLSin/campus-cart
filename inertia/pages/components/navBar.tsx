@@ -32,7 +32,7 @@ export default function Navigation() {
                     {/* Links Container */}
                     <div className="flex-1 flex justify-center items-center">
                         <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Home</Link>
-                        <Link href="/shopPage" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Shop</Link>
+                        <Link href="/products" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Shop</Link>
                         {/* <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">About Us</Link>
                         <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1rem]">Contact Us</Link> */}
                     </div>
@@ -85,14 +85,13 @@ export default function Navigation() {
                             </div>
                             <ul
                                 tabIndex={0}
-                                className="menu menu-sm dropdown-content bg-[#44506D] rounded-box z-1 mt-3 w-52 p-2 shadow-sm outline outline-solid outline-white">
+                                className="menu menu-sm dropdown-content bg-[#44506D] rounded-box z-1 mt-[0.2rem] w-52 p-1 shadow-sm outline outline-solid outline-white ">
                                 <li>
-                                    <Link href="/userPage" className="justify-between px-[0.5em] py-[0.3rem]">
-                                        Profile
-                                        <span className="badge">New</span>
+                                    <Link href="/userPage" className="justify-between px-[0.5em] py-[0.3rem] text-[0.8rem] text-white hover:bg-white/10">
+                                        Profile                                        
                                     </Link>
                                 </li>
-                                <li><a className="px-[0.5em] py-[0.3rem]"
+                                <li><a className="px-[0.5em] py-[0.3rem] text-[0.8rem] text-white hover:bg-white/10"
                                         onClick={handleLogout}>Logout</a></li>
                             </ul>
                         </div>
