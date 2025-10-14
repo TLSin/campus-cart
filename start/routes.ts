@@ -17,6 +17,8 @@ const CartsController = () => import('#controllers/carts_controller')
 const ShopsController = () => import('#controllers/shops_controller')
 const CheckoutsController = () => import('#controllers/check_outs_controller')
 const UserDetailsController = () => import('#controllers/user_details_controller')
+const ResultsController = () => import('#controllers/results_controller')
+
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -30,6 +32,8 @@ router.get('/', async ({ auth, response, inertia }) => {
 router.group(() => {
     router.get('/home', [ProductsController, 'index'])
     router.get('/products/:productId', [ShopsController, 'show'])
+    router.get('/resultPage', [ResultsController, 'show'])
+    router.get('/resultPage/:id', [ResultsController , 'show'])
 })
 
 // Private routes that only authenticated users can access
@@ -47,6 +51,7 @@ router.
         router.get('/userPage', [UserDetailsController, 'show'])
 
         router.get('/checkOut', [CheckoutsController, 'show'])
+
     }).use(middleware.auth())
 
 // Public routes that redirect if not authenticated

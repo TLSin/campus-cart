@@ -12,6 +12,7 @@ body {
   background-image: linear-gradient(to bottom, #92A8D1, #F7CAC9);
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 @keyframes slide-down-fade {
   from {
