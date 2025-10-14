@@ -18,7 +18,7 @@ interface ProductPageProps {
     [key: string]: any
 }
 
-export default function shopPage() {
+export default function ProductPage() {
     const { product } = usePage<ProductPageProps>().props
     const [mainImage, setMainImage] = useState(product.imgUrl || '')
 
@@ -58,7 +58,7 @@ export default function shopPage() {
                             <img src={mainImage} className="h-[50dvh] w-[40dvw] object-contain rounded-lg aspect-video" alt="Main Image" />
                         </div>
                         {/* Sub-Image */}
-                        <div className="flex mt-[0.5rem] space-x-2 mt-[1.5rem] overflow-x-scroll pb-[1rem]">
+                        <div className="flex mt-[0.5rem] space=x mt-[1.5rem] overflow-x-scroll pb-[1rem]">
                             {product.subImages.map((image, index) => (
                                 <img 
                                     key={index}
