@@ -63,6 +63,9 @@ export default function CartPage() {
         .reduce((sum, item) => sum + item.productPrice * item.quantity, 0)
         .toFixed(2)
 
+    const checkOut = () => {
+        router.get('/checkOut')
+    }
 
     return (
         <>
@@ -174,6 +177,7 @@ export default function CartPage() {
                                 </button>
                                 <button className="btn bg-[#44506D] text-white border-none rounded-none hover:bg-[#2C3653] px-8 py-3 mr-[2rem]"
                                     disabled={checkedItems.length === 0}
+                                    onClick={checkOut}
                                 >
                                     Proceed to Checkout
                                 </button>
