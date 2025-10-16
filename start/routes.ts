@@ -50,6 +50,8 @@ router.
         router.delete('/cartPage/:cartItemId', [CartsController, 'destroy'])
 
         router.get('/userPage', [UserDetailsController, 'show'])
+        router.put('/userPage/update', [UserDetailsController, 'store'])
+        router.get('/userProfle', [UserDetailsController, 'show'])
 
         router.get('/checkOut', [CheckoutsController, 'show'])
 

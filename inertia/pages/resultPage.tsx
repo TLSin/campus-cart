@@ -185,7 +185,7 @@ export default function ResultPage() {
 
             </div>
 
-            <Footer />   
+            <Footer />
 
 
         </>
