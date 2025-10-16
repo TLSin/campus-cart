@@ -195,8 +195,8 @@ export default function CheckOut() {
                                         id="COD"
                                         name="payment"
                                         value="Mock_COD"
-                                        checked={paymentMethod === 'Mock_COD'}
-                                        onChange={() => setPaymentMethod('Mock_COD')}
+                                        checked={paymentMethod === 'COD'}
+                                        onChange={() => setPaymentMethod('COD')}
                                         className="form-radio text-blue-600 "
                                         required
                                     />
@@ -219,8 +219,8 @@ export default function CheckOut() {
                                         id="gcash"
                                         name="payment"
                                         value="Mock_GCash"
-                                        checked={paymentMethod === 'Mock_GCash'}
-                                        onChange={() => setPaymentMethod('Mock_GCash')}
+                                        checked={paymentMethod === 'GCash'}
+                                        onChange={() => setPaymentMethod('GCash')}
                                         className="form-radio text-blue-600"
                                         required
                                     />
@@ -246,8 +246,8 @@ export default function CheckOut() {
                                         id="maya"
                                         name="payment"
                                         value="Mock_Maya"
-                                        checked={paymentMethod === 'Mock_Maya'}
-                                        onChange={() => setPaymentMethod('Mock_Maya')}
+                                        checked={paymentMethod === 'Maya'}
+                                        onChange={() => setPaymentMethod('Maya')}
                                         className="form-radio text-blue-600"
                                         required
                                     />
