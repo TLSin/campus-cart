@@ -4,6 +4,7 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Campus from './campus.js'
 import Program from './program.js'
+import Otp from './otp.js'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -57,5 +58,9 @@ export default class User extends BaseModel {
   })
   declare users: HasMany<typeof User>
 
+  @hasMany(() => Otp, {
+    foreignKey: 'studentId'
+  })
+  declare otps: HasMany<typeof Otp>
  
 }

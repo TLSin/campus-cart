@@ -22,7 +22,7 @@ interface CartPageProps {
 
 export default function CartPage() {
     const { cartItems, subtotal } = usePage<CartPageProps>().props
-
+    
     const [checkedItems, setCheckedItems] = useState<number[]>([])
 
     const handleCheckAll = () => {

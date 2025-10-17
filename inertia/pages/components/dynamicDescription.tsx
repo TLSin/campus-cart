@@ -51,7 +51,7 @@ export default function DynamicDescription({ descriptionId, productVariants, sel
                             {productVariants.map((variant) => (
                                 <button
                                     key={variant.productId}
-                                    className={`btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border rounded-none ${selectedProductId === variant.productId ? 'bg-[#44506D] text-white' : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'}`}
+                                    className={`btn text-black text=[1rem] mr-[0.2rem] h-[2rem] px-2 py-2 border rounded-none mb-[0.5rem] ${selectedProductId === variant.productId ? 'bg-[#44506D] text-white' : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'}`}
                                     onClick={() => onVariantSelect(variant.productId)}
                                 >
                                     {variant.productName}

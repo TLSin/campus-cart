@@ -37,7 +37,7 @@ export default function AccountSettings({ fName, lName, email, password, program
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if(firstName && lastName && emailValue && currentPassword && newPasswordValue && confirmPassword && addressValue && contactNumber){
+        if(firstName && lastName && emailValue && (currentPassword && newPasswordValue && confirmPassword) && addressValue && contactNumber){
             router.put('/userPage/update', {
                 firstName,
                 lastName,
@@ -49,16 +49,25 @@ export default function AccountSettings({ fName, lName, email, password, program
                 contactNumber,
             })
         }
+        setCurrentPassword('')
+        setNewPasswordValue('')
+        setConfirmPassword('')
         setIsDisabled(!isDisabled)
         setIsVisible(!isVisible)
         setEdit(!edit)
         setSave(!save)
     }
+    
+    const handleCancel = () => {
+        setIsVisible(isVisible)
+        setEdit(edit)
+        setSave(save)
+    }
 
     return (
         <>
-            <div className="w-[68dvw]">
-                <div className="flex translate-y-[-0.5rem] px-1">
+            <div className="ml-[2rem] w-[68dvw]">
+                <div className="flex px-1 mt-[1rem]">
                     <h2 className="text-[#515A70] text-[2rem] font-bold h-[3rem] left-0 mr-2">Account Settings</h2>
 
                     <button
@@ -212,6 +221,13 @@ export default function AccountSettings({ fName, lName, email, password, program
                                     onClick={handleSubmit}
                                 >
                                     Save Changes
+                                </button>
+                                <button
+                                    type="submit"
+                                    className={`w-[10rem] h-[3rem] bg-[#616B85] text-[#D3CCCC] rounded-lg text-[1.2rem] mr-[2rem] ${isVisible ? 'visible'  : 'invisible' } hover:bg-[#44506D] `}
+                                    onClick={handleCancel}
+                                >
+                                    Cacel
                                 </button>
                             </div>
 

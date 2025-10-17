@@ -1,8 +1,7 @@
 import Navigation from "./components/navBar";
 import Footer from "./components/footer";
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Link } from "lucide-react";
-import { usePage, router } from "@inertiajs/react"
+import { usePage, router, Head } from "@inertiajs/react"
 
 interface Product {
     productId: number
@@ -30,13 +29,13 @@ interface CategoryResultProps {
 export default function ResultPage() {
     const { category } = usePage<CategoryResultProps>().props
 
-    const [showMore, setShowMore] = useState(false);
-    const [active, setActive] = useState("Relevance");
+    const [showMore, setShowMore] = useState(false)
+    const [active, setActive] = useState("Relevance")
 
     const products = category?.products || []
     const categoryName = category?.name || 'All Results'
 
-    const buttons = ["Relevance", "Latest", "Top Sales"];
+    const buttons = ["Relevance", "Latest", "Top Sales"]
 
     const categories = [
         "School Supplies",
@@ -49,23 +48,27 @@ export default function ResultPage() {
         "Merchs",
         "Souvenirs",
         "Event Tickets",
-    ];
+    ]
 
-    const visibleCategories = showMore ? categories : categories.slice(0, 4);
+    const handleNavigateToProduct = (productId: number) => {
+        router.get(`/products/${productId}`)
+        console.log(router.get(`/products/${productId}`))
+    }
+
+    const visibleCategories = showMore ? categories : categories.slice(0, 4)
 
     const categoryClick = (id: number) => {
         router.get(`/resultPage/${id}`)
     }
 
     return (
-        <>
+        <>  
+            <Head title={category?.name} />
             <Navigation />
-
-
-            <div className="w-screen h-full flex">
+            <div className="w-screen flex bg-white">
 
                 {/* search filter */}
-                <div className="h-screen w-[30%] block">
+                <div className="h-screen w-[30%] sticky top-0">
 
                     <div className="flex w-full justify-center gap-2 pt-10">
                         <img src="search.svg" alt="" className="w-" />
@@ -80,7 +83,7 @@ export default function ResultPage() {
                                 {visibleCategories.map((category) => (
                                     <li
                                         key={category}
-                                        className="hover:text-blue-600 hover:underline cursor-pointer text-md text-[#515A70] font-semibold"
+                                        className="hover:text-blue-600 hover:underline cursor-pointer text-md text-[#515A70] font-semibold list-none"
                                         onClick={() => categoryClick}>
                                         {category}
                                     </li>
@@ -93,17 +96,6 @@ export default function ResultPage() {
                                 onClick={() => setShowMore(!showMore)}
                                 className="mt-4 flex items-center gap-1 text-blue-600 hover:text-blue-800"
                             >
-                                {showMore ? (
-                                    <>
-                                        <span>Show Less</span>
-                                        <ChevronUp size={16} />
-                                    </>
-                                ) : (
-                                    <>
-                                        <span>See More</span>
-                                        <ChevronDown size={16} />
-                                    </>
-                                )}
                             </button>
                         </div>
                     </div>
@@ -111,8 +103,8 @@ export default function ResultPage() {
 
                 {/* Main Result Area */}
                 {/*search result  */}
-                <div className="h-screen w-[50%]">
-                    <div className="flex space-x-2 pt-10 pl-4">
+                <div className="h-auto w-[60dvw]">
+                    <div className="flex space-x-2 pt-10">
                         <img src="idea.svg" alt="" className="w-6" />
                         <h1>Result for '<span className="text-[#C65E61]">{categoryName}</span>'</h1>
                     </div>
@@ -120,7 +112,7 @@ export default function ResultPage() {
                     {/* sort */}
                     <div className="flex w-full pl-6 mt-2 h-15 items-center gap-4 bg-[#8698BC]">
 
-                        <span >Sort by</span>
+                        <span className="text-white">Sort by</span>
                         {buttons.map((btn) => (
                             <button
                                 key={btn}
@@ -131,10 +123,8 @@ export default function ResultPage() {
 
                         ))}
 
-
-
                         <div className="dropdown dropdown-bottom">
-                            <div tabIndex={0} role="button" className="flex  m-1 bg-[#ABB1CF] hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price <ChevronDown size={20} className="w-10 mt-1" /></div>
+                            <div tabIndex={0} role="button" className="flex  m-1 bg-[#ABB1CF] hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price</div>
                             <ul tabIndex={-1} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 mt-2 shadow-sm bg-[#ABB1CF] gap-2 ">
                                 <li className="hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price: Low to High</li>
                                 <li className="hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price: High to Low</li>
@@ -143,25 +133,28 @@ export default function ResultPage() {
 
                     </div>
 
-
-                    <div>
+                    <div className="grid grid-cols-5 gap-4 align-items-center p-2">
                         {products.length > 0 ? (
                             products.map((product) => (
-                                <div className="grid">
-                                    <div key={product.productId} className="bg-bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group">
-                                        <div className="h-auto w-[10dvw] bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
-                                            <img
-                                                src={product.imgUrl || ""}
-                                                alt={product.productName}
-                                                className="object-contain h-full w-full transition-transform duration-500 group-hover:scale-105"
+                                <div className="w-auto mt-[1rem]
+                                ">
+                                    <div
+                                        key={product.productId}
+                                        onClick={() => handleNavigateToProduct(product.productId)}
+                                        className="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto"
+                                        >
 
-                                            />
-                                            <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">{categoryName}</div>
-                                        </div>
+                                        <img
+                                            src={product.imgUrl || ""}
+                                            alt={product.productName}
+                                            className="object-cover duration-500 group-hover:scale-105"
+
+                                        />
+
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h2 className="text-lg font-bold text-[#44506D] truncate group-hover:text-[#C65E61] transition-colors">{product.productName}</h2>
                                             <p className="text-sm text-gray-500 mb-2 line-clamp-2">{product.description}</p>
-                                            <span className="text-2xl font-black text-[#C65E61]">
+                                            <span className="text-md font-bold text-[#C65E61]">
                                                 ₱{Number(product.productPrice || 0).toFixed(2)}
                                             </span>
                                         </div>
@@ -184,7 +177,6 @@ export default function ResultPage() {
                 </div>
 
             </div>
-
             <Footer />
 
 

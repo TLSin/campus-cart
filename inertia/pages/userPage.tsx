@@ -45,8 +45,8 @@ export default function userPage() {
         <>
             <Head title="User Profile" />
             <Navigation />
-            <div className="grid place-items-center bg-white">
-                <div className="flex w-[70dvw] h-auto bg-[#949EC0] my-[2dvh] rounded-xl shadow-lg grid grid-cols-2 grid-rows-7 justify-items-center">
+            <div className="grid place-items-center bg-white w-screen">
+                <div className="flex w-[70dvw] h-auto bg-[#949EC0] my-[2rem] rounded-xl shadow-lg grid grid-cols-2 grid-aut0-rows justify-items-center">
                     {/* Header */}
                     <div className="p-2 border-b-2 border-white h-[6.5rem] w-[94%] col-span-2">
                         <h1 className="text-[#515A70] text-[3rem] font-bold h-[4rem]">My Account</h1>

@@ -19,8 +19,8 @@ export default function UserProfile({ fName, lName, email, program, campus, stud
 
     return (
         <>
-            <div className="grid ml-[1rem] ml-[2rem]">
-                <h2 className="text-[#515A70] text-[2rem] font-bold row-start-1 end-1 h-[3rem] translate-y-[-1rem]">User Profile</h2>
+            <div className="grid ml-[2rem] mb-[1rem]">
+                <h2 className="text-[#515A70] text-[2rem] font-bold row-start-1 end-1 h-[3rem] mt-[1rem]">User Profile</h2>
                 {/* Input Fields */}
                 <div className="flex grid grid-cols-2 place-items-center">
                     {/* Name Section */}
@@ -101,7 +101,7 @@ export default function UserProfile({ fName, lName, email, program, campus, stud
                             value={address}
                             placeholder="e.g. 256 Real Road, Barangay South Real, Real City, Antipolo, Philippines 1870"
                             className="bg-[#44506D] rounded-md p-1 w-[38dvw] h-[5rem] resize-none text-white" 
-                            disabled/>
+                            readOnly/>
                     </div>
                 </div>
             </div>

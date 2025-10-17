@@ -4,6 +4,7 @@ import Campus from '#models/campus'
 import User from '#models/user'
 import { updateUserValidator } from '#validators/auth'
 import hash from '@adonisjs/core/services/hash'
+import { DateTime } from 'luxon'
 
 export default class UserDetailsController {
 
@@ -72,6 +73,7 @@ export default class UserDetailsController {
             email: emailValue,
             address: addressValue,
             contactNo: contactNumber,
+            updatedAt: DateTime.now()
         })
 
         console.log(user)

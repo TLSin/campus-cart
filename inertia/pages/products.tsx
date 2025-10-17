@@ -96,9 +96,9 @@ export default function ProductPage() {
                 TODO: Modify it for screen size 1920 * 1080 
             */}
             {/* Container */}
-            <div className="flex flex-col items-center justify-center w-full h-full bg-[#E0E4EC]">
+            <div className="flex flex-col items-center justify-center w-screen h-full bg-[#E0E4EC]">
                 {/* Product Container */}
-                <div className="w-[85dvw] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] overflow-hidden flex">
+                <div className="w-[85%] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] flex">
                     {/* Image Container */}
                     <div className="w-[40dvw] h-[73dvh] rounded-t-lg ml-[1.5rem] mt-[1.5rem] overflow-hidden">
                         {/* Main Image */}
@@ -119,7 +119,7 @@ export default function ProductPage() {
                         </div>
                     </div>
                     {/* Product Details Container */}
-                    <div className="flex w-[40dvw] rounded-t-lg ml-[2rem] mt-[1rem] grid grid-rows-3">
+                    <div className="flex w-[40dvw] rounded-t-lg ml-[2rem] mt-[1rem] grid grid-auto-rows">
                         {/* Product Details Row 1 */}
                         <div className="h-[60dvh] p-4 row-span-2">
                             <h1 className="text-[#44506D] text-[1.7rem]">{product.productName}</h1>
@@ -173,7 +173,7 @@ export default function ProductPage() {
                 {
                     toast.visible &&
                     (
-                        <div role="alert" className={`alert ${toast.type} absolute top-0 right-0 w-[30%] p-5 mt-[2rem] mr-[2rem]`}>
+                        <div role="alert" className={`alert ${toast.type} absolute top-0 right-0 w-[30%] p-5 mt-[7rem] mr-[2rem]`}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-white" fill="none" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -191,7 +191,7 @@ export default function ProductPage() {
                 </div>
 
                 {/* User Reviews */}
-                <div className="w-[85dvw] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
+                <div className="w-[85%] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
                     <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">User Reviews</h1>
                     {/* User 1 Review */}
                     <div className="">

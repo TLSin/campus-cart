@@ -18,7 +18,7 @@ const ShopsController = () => import('#controllers/shops_controller')
 const CheckoutsController = () => import('#controllers/check_outs_controller')
 const UserDetailsController = () => import('#controllers/user_details_controller')
 const ResultsController = () => import('#controllers/results_controller')
-
+const OtpsController = () => import('#controllers/otps_controller')
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -60,10 +60,15 @@ router.
 // Public routes that redirect if not authenticated
 router.
     group(() => {
-        router.on('/signUp').renderInertia('signUp')
+        router.get('/signUp', [UsersController, 'show'])
         router.post('/signUp', [UsersController, 'store'])
-        router.on('/login').renderInertia('login')
+
+        router.get('/login', [UserLoginsController, 'show'])
         router.post('/login', [UserLoginsController, 'store'])
+
+        router.get('/verifyOtp', [OtpsController, 'show'])
+        router.post('/verifyOtp', [OtpsController, 'verify'])
+
         router.post('/logout', [UserLogoutsController, 'handle'])
     })
 

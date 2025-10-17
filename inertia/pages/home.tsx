@@ -38,7 +38,17 @@ export default function Home() {
 
 
   if (loading) {
-    return (<p className="text-center text-white mt-10">Loading products...</p>)
+    return (
+      <div className="flex-col gap-4 w-full flex items-center justify-center w-screen h-screen bg-white">
+        <div
+          className="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
+        >
+          <div
+            className="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
+          ></div>
+        </div>
+      </div>
+      )
   }
 
   return (

@@ -39,3 +39,10 @@ export const updateUserValidator = vine.compile(
         contactNumber: vine.string().maxLength(11).optional(),
     })
 )
+
+export const otpValidator = vine.compile(
+    vine.object({
+        studentNo: vine.string().trim().toUpperCase(),
+        otpCode: vine.string().fixedLength(6).regex(/^[0-9]{6}$/)
+    })
+)

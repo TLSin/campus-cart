@@ -28,13 +28,13 @@ export default function Navigation() {
     console.log(cartCount)
     return (
         <>
-            <div className="navbar h-[6.5rem] bg-[#44506D] shadow-sm grid grid-flow-col grid-rows-3">
+            <div className="navbar h-[6.5rem] w-screen bg-[#44506D] shadow-sm grid grid-flow-col grid-rows-3 ">
                 {/* Logo Container */}
                 <div className="flex-1 row-span-3">
                     <Link href="/" className="flex h-auto m-[2rem] w-[10rem]"><img src="/CClogo.png" className="h-[6rem] cursor-pointer" /></Link>
                 </div>
                 {/* Links and User Container */}
-                <div className="flex-1 col-span-2 flex row-span-3 justify-items-right align-items-right p-[1rem] mt-[1rem]">
+                <div className="flex-1 col-span-1 flex row-span-3 justify-items-right align-items-right p-[1rem]">
                     {/* Links Container */}
                     {/* <div className="flex-1 flex justify-center items-center">
                         <Link href="/" className="normal-case text-[1rem] text-white font-poppins m-[1.3rem]">Home</Link>
@@ -44,14 +44,16 @@ export default function Navigation() {
                     </div> */}
                     {/* Users Container */}
                     <div className="flex-1 flex justify-center items-center">
-                        <h4 className="text-white text-[1rem]">Hello! {user?.fName ?? "Guest"}</h4>
+                        
                     </div>
+                    <h4 className="text-white text-[1rem] align-items-center">Hello! {user?.fName ?? "Guest"}</h4>
 
+                    {/* Cart svg file */}
                     {user?.fName && user ? (
                         <div className="flex items-center">
                             <div className="indicator">
                                 {/* Cart Link */}
-                                <Link href="/cartPage" className="mr-[2rem]">
+                                <Link href="/cartPage" className="mx-[2rem]">
                                     {/* Cart Icon */}
                                     <svg width="25" height="25" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="
@@ -87,6 +89,7 @@ export default function Navigation() {
                                 </Link>
                             </div>
                             <div className="dropdown dropdown-end mr-[2rem]">
+                                
                                 {/* User profile */}
                                 <div tabIndex={0} role="button">
                                     <h1 className="text-white">Account</h1>

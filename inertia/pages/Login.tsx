@@ -2,21 +2,38 @@ import React, { useState } from "react"
 import { Head, Link, router, usePage } from "@inertiajs/react"
 import Footer from "./components/footer"
 
+interface LoginProps {
+    errors?: {
+        studentNo?: string
+        password?: string
+        message?: string
+    }
+    status?: string
+    [key: string]: any
+}
+
 export default function Login() {
+    const { errors, status, message: generalMessage } = usePage<LoginProps>().props
 
     const [show, setShow] = useState<boolean>(false)
     const [studentNo, SetStudentNo] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    // const [remeber, setRemember] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (studentNo && password) {
+
+            setIsLoading(true)
+
             router.post('/login', {
                 studentNo: studentNo.toUpperCase().trim(),
                 password: password.trim(),
+            }, {
+                onFinish: () => setIsLoading(false)
             })
         }
+
     }
 
     return (
@@ -26,11 +43,11 @@ export default function Login() {
             {/*Login whole screen*/}
             <div className="relative h-[100dvh] w-screen overflow-hidden">
                 <div className="grid grid-cols-2 justify-items-center">
-                    
+
                     <div className="col-span-1 flex ">
                         {/* Tagline */}
                         <div className="w-[100%] h-[15rem] mt-[25dvh] align-items-center z-3">
-                            <img src="/tagline.png"/>
+                            <img src="/tagline.png" />
                         </div>
                         {/* Decor */}
                         <div className="flex">

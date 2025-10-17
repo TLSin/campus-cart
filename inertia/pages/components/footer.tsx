@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react"
 export default function Footer() {
     return (
         <>
-            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10 z-1">
+            <footer className="footer sm:footer-horizontal bg-[#44506D] text-neutral-content p-10 z-1 bottom-0 w-screen">
                 <aside>
                     <div className="flex items-center">
 

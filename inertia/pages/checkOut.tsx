@@ -35,9 +35,16 @@ export default function CheckOut() {
     const { props } = usePage<PageProps>()
     const { user, cartItems, merchandiseSubtotal, shippingFee, totalAmount } = props
 
+    const [noItem, setNoItem] = useState([])
+    const [firstName, setFirstName] = useState(user.fName)
     const [shippingAddress, setShippingAddress] = useState(user.address)
-    const [paymentMethod, setPaymentMethod] = useState<'COD' | 'GCash' | 'Maya'>('COD')
+    const [paymentMethod, setPaymentMethod] = useState<'COD' | 'GCash'>('COD')
     const [isProcessing, setIsProcessing] = useState(false)
+
+    // const list = {
+    //     no: props.id.length + 1,
+    //     name: `${noItem.length}`,
+    // }
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount)
@@ -52,7 +59,8 @@ export default function CheckOut() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (isProcessing) return
+        if (isProcessing)
+            return
 
         setIsProcessing(true)
 
@@ -110,6 +118,10 @@ export default function CheckOut() {
                         <div className="w-full pb-14 pt-2 grid grid-rows-2 grid-cols-2 border-b-2 border-black">
                             <div className="px-8 py-1 flex row-start-1">
                                 <img src="pin-location.gif" alt="" className="h-8 " />
+                                <input 
+                                    type="text" 
+                                    value={user.fName}
+                                    />
                                 <h1 className="py-1 font-black text-[#515A70]">{user.fName}</h1>
                                 <h1 className="py-1 px-2 text-[#ACC0EB] font-semibold">(+63) {user.contactNo}</h1>
                             </div>
@@ -122,35 +134,50 @@ export default function CheckOut() {
                         </div>
 
                         {/* item ordered */}
-                        <div className="flex items-center space-x-4 pl-8 py-8 border-b-2 border-black">
+                        <div className="items-center align-center justfify-center space-x-4 border-b-2 border-black">
+                            <div className="align-center items-center w-[100%] bg-black justify-center">
+                                <h2 className="text-2xl text-[#515A70] font-bold mb-4 text-blue-700 border-b pb-2">Order Summary</h2>
+                                <table className="table w-[80%] mb-[2rem] bg-white p-6 rounded-xl shadow-lg items-center">
+                                    <thead className="border-b-2 border-[#44506D]">
+                                        <tr>
+                                            <th className="w-[5dvw] text-[#44506D] font-medium text-[1rem] text-center">No.</th>
+                                            <th className="text-[#44506D] font-medium text-[1rem] text-center">Products</th>
+                                            <th className="text-[#44506D] font-medium text-[1rem] text-center">Quantity</th>
+                                            <th className="text-[#44506D] font-medium text-[1rem] text-center">Price</th>
+                                        </tr>
+                                    </thead>
 
-                            <div className="w-30 h-30 flex-shrink-0 bg-gray-600">
-                                <img src={props.imgUrl} alt="Black pleated skirt" className="w-full h-full object-cover" />
-                            </div>
+                                    <tbody className="border-b-2 border-[#44506D] px-2 py-2 w-[100%]">
+                                        {cartItems.map((item: any, index: number) => (
+                                            <tr key={item.id} className="items-center justify-between border-b last:border-b-0 py-2">
+                                                <th className="px-2 py-2 ">
+                                                    <div className="text-center">
+                                                        {index + 1}
+                                                    </div>
+                                                </th>
+                                                <td className="px-2 py-2 align-center items-center">
+                                                    <div className="flex items-center space-x-4 align-center items-center justify-center">
+                                                        <div className="flex w-[10rem]">
+                                                            <img
+                                                                src={item.imgUrl || 'placeholder.jpg'} alt={item.productName}
+                                                                className="w-16 h-16 object-contain rounded-md" />
+                                                            <p className="font-medium text-gray-800 align-center text-center">{item.productName}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-2 py-2 align-center">
+                                                    <p className="text-sm text-gray-500 text-center">Qty: {item.quantity}</p>
+                                                </td>
+                                                <td className="px-2 py-2 align-center">
+                                                    <p className="font-semibold text-gray-800 text-center">
+                                                        {formatCurrency(item.productPrice * item.quantity)}
+                                                    </p>
+                                                </td>
 
-                            <div className="flex-grow">
-                                <div className="flex  items-start">
-                                    <div>
-                                        <p className="text-lg font-semibold text-[#515A70] leading-tight">
-                                            {props.productName}
-                                        </p>
-                                        <p className="text-sm text-[#515A70] mt-1">
-                                            {props.productName}
-                                        </p>
-                                    </div>
-                                    <div className="flex-grow flex justify-end items-center pr-[28.5rem]">
-                                        <div className="text-[#515A70] text-lg mt-2 ">
-                                            {props.quantity} pcs
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className="mt-2">
-                                    <p className="text-xl font-bold text-[#C65E61]">
-                                        {props.propductPrice}
-                                    </p>
-                                </div>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -186,7 +213,7 @@ export default function CheckOut() {
                             </div>
 
                             {/* payment options */}
-                            <div className=" ">
+                            <div className="flex ">
 
                                 {/* cash on delivery */}
                                 <div className="flex items-center px-6 mb-2">
@@ -238,55 +265,8 @@ export default function CheckOut() {
                                         </div>
                                     </label>
                                 </div>
-
-                                {/* paymaya */}
-                                <div className="flex items-center px-6">
-                                    <input
-                                        type="radio"
-                                        id="maya"
-                                        name="payment"
-                                        value="Mock_Maya"
-                                        checked={paymentMethod === 'Maya'}
-                                        onChange={() => setPaymentMethod('Maya')}
-                                        className="form-radio text-blue-600"
-                                        required
-                                    />
-
-                                    <label
-                                        htmlFor="maya"
-                                        className=" inline-flex items-center justify-between p-4 rounded-lg text-[#515A70] cursor-pointer border-0 peer-checked:border
-                                                    peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-300">
-                                        <div className="flex space-x-4 items-center">
-                                            <img src="maya.jpg" alt="" className="w-10 h-8" />
-                                            <div className="block -space-y-1">
-                                                <h1 className="text-lg font-semibold">63-9*****78345</h1>
-                                                <h6 className="text-sm font-thin">Maya e-wallet</h6>
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
                             </div>
-                            {/* Order Items List */}
-                            <div className="bg-white p-6 rounded-xl shadow-lg">
-                                <h2 className="text-2xl font-semibold mb-4 text-blue-700 border-b pb-2">Order Summary</h2>
-                                <div className="space-y-4">
-                                    {cartItems.map(item => (
-                                        <div key={item.id} className="flex items-center justify-between border-b last:border-b-0 py-2">
-                                            <div className="flex items-center space-x-4">
-                                                <img src={item.imgUrl || 'placeholder.jpg'} alt={item.productName} className="w-16 h-16 object-cover rounded-md" />
-                                                <div>
-                                                    <p className="font-medium text-gray-800">{item.productName}</p>
-                                                    <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                                                    <p className="text-sm text-gray-500">Size: {item.size}</p>
-                                                </div>
-                                            </div>
-                                            <p className="font-semibold text-gray-800">
-                                                {formatCurrency(item.productPrice * item.quantity)}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+
 
                         </div>
 
@@ -296,12 +276,12 @@ export default function CheckOut() {
                         <div className=" px-5 pt-3 pb-4 border-b border-black border-t">
                             <h1 className="text-[#515A70] text-2xl font-black">Payment Details</h1>
 
-                            <div className="flex justify-between items-start pt-2 pl-4">
+                            <div className="flex justify-between items-start pt-2 px-4">
                                 <h6 className="text-[#515A70] text-md font-medium">Merchandise Subtotal</h6>
                                 <h6 className="text-[#515A70] text-md font-medium">{formatCurrency(merchandiseSubtotal)}</h6>
                             </div>
 
-                            <div className="flex justify-between items-start pl-4">
+                            <div className="flex justify-between items-start px-4">
                                 <h6 className="text-[#515A70] text-md font-medium">Shipping Subtotal</h6>
                                 <h6 className="text-[#515A70] text-md font-medium">{formatCurrency(shippingFee)}</h6>
                             </div>
@@ -310,17 +290,16 @@ export default function CheckOut() {
 
                         <div className="">
                             {/* total payment */}
-                            <div className="flex justify-between items-start px-5 py-1">
+                            <div className="flex justify-between items-start px-9 py-1 w-full">
                                 <h6 className="text-[#515A70] text-md font-medium">Total payment</h6>
-                                <h6 className="text-[#515A70] text-md font-medium">{props.productPrice}</h6>
+                                <h6 className="text-red text-md font-medium">{formatCurrency(merchandiseSubtotal + shippingFee)}</h6>
                             </div>
                             <div className="flex justify-end space-x-4 right-0 items-center px-9 py-6">
-                                <h1 className="text-[#515A70] text-md font-medium">Total</h1>
-                                <h1 className="text-xl font-bold text-[#C65E61]">{props.productPrice}</h1>
+
                                 <button
                                     type="submit"
                                     disabled={isProcessing || cartItems.length === 0}
-                                    className={`mt-6 w-full py-3 rounded-lg text-white text-xl font-semibold transition duration-200 
+                                    className={`mt-1 w-[12rem] py-3 rounded-lg text-white text-xl font-semibold transition duration-200 
                                     ${isProcessing || cartItems.length === 0
                                             ? 'bg-gray-400 cursor-not-allowed'
                                             : 'bg-blue-600 hover:bg-blue-700'
