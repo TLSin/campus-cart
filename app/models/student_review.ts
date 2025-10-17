@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
-import Product from './product.js'
+import Group from './group.js'
 
 export default class StudentReview extends BaseModel {
   @column({ isPrimary: true })
@@ -12,7 +12,7 @@ export default class StudentReview extends BaseModel {
   declare studentId: number
   
   @column()
-  declare productId: number
+  declare groupId: number
   
   @column()
   declare rate: number
@@ -31,8 +31,8 @@ export default class StudentReview extends BaseModel {
   })
   declare student: BelongsTo<typeof User>
 
-  @belongsTo(() => Product, {
-    foreignKey: 'productId',
+  @belongsTo(() => Group, {
+    foreignKey: 'groupId',
   })
-  declare product: BelongsTo<typeof Product>
+  declare product: BelongsTo<typeof Group>
 }

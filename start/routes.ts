@@ -19,6 +19,7 @@ const CheckoutsController = () => import('#controllers/check_outs_controller')
 const UserDetailsController = () => import('#controllers/user_details_controller')
 const ResultsController = () => import('#controllers/results_controller')
 const OtpsController = () => import('#controllers/otps_controller')
+const UserReviewsController = () => import('#controllers/user_reviews_controller')
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -43,18 +44,27 @@ router.
         router.get('/dailyProduct', [ProductsController, 'index'])
         router.get('/feature', [ProductsController, 'index'])
         router.get('/topProduct', [ProductsController, 'index'])
+
+        router.get('/products', [UserReviewsController, 'show'])
         router.post('/products', [CartsController, 'store'])
+
         router.post('/home', [CartsController, 'store'])
-        router.get('/cartPage', [CartsController, 'index'])
+
+        router.get('/cartPage', [CartsController, 'index']).as('cartPage')
         router.put('/cartPage/update/:cartItemId', [CartsController, 'update'])
         router.delete('/cartPage/:cartItemId', [CartsController, 'destroy'])
 
         router.get('/userPage', [UserDetailsController, 'show'])
         router.put('/userPage/update', [UserDetailsController, 'store'])
-        router.get('/userProfle', [UserDetailsController, 'show'])
+        router.get('/userProfile', [UserDetailsController, 'show'])
 
         router.get('/checkOut', [CheckoutsController, 'show'])
+        router.post('/checkOut', [CheckoutsController, 'store'])
 
+        router.get('/order/success', [CheckoutsController, 'paymentSuccess']).as('paymentSuccess')
+        router.get('/order/failure', [CheckoutsController, 'paymentFailure']).as('paymentFailure')
+
+        router.get('/orderResult', [CheckoutsController, 'renderResult']).as('orderResult')
     }).use(middleware.auth())
 
 // Public routes that redirect if not authenticated

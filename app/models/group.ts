@@ -40,4 +40,5 @@ export default class Group extends BaseModel {
     foreignKey: 'descriptionId',
   })
   declare description: BelongsTo<typeof Description>
+  
 }

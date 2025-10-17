@@ -6,25 +6,45 @@ import AccountSettings from "./components/accountSettings"
 import { useState } from "react"
 import { Head, usePage } from "@inertiajs/react"
 
+interface OrderItem {
+    id: number
+    productName: string
+    price: number
+    quantity: number
+    imgUrl: string | null
+}
+
+interface OrderHistoryRecord {
+    orderHistoryId: number
+    totalAmount: number
+    shippingFee: number
+    status: 'Pending' | 'Awaiting Payment' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Payment Failed'
+    paymentMethod: 'COD' | 'GCash'
+    shippingAddress: string
+    createdAt: string
+    items: OrderItem[]
+}
+
 interface UserProps {
     fName: string
     lName: string
     email: string
     password: string
-    program: string
-    campus: string
+    program?: string
+    campus?: string
     studentNo: string
     address: string
     contactNo: string
 }
 
 interface UserPageProps {
-    user: UserProps[]
+    user: UserProps
+    orderHistories: OrderHistoryRecord[]
     [key: string]: any
 }
 export default function userPage() {
     const [activeSection, setActiveSection] = useState<"Profile" | "Order" | "Settings">("Profile")
-    const { user } = usePage<UserPageProps>().props
+    const { user, orderHistories = [] } = usePage<UserPageProps>().props
     const {
         fName = '',
         lName = '',
@@ -36,11 +56,13 @@ export default function userPage() {
         contactNo = '',
         password = '',
     } = user || {}
+
     const handleClick = (section: "Profile" | "Order" | "Settings") => {
         setActiveSection(section)
     }
 
     console.log(user)
+    console.log(orderHistories)
     return (
         <>
             <Head title="User Profile" />
@@ -87,7 +109,11 @@ export default function userPage() {
                             />}
 
                         {/* Order History */}
-                        {activeSection === "Order" && <OrderHistory />}
+                        {activeSection === "Order" &&
+                            <OrderHistory
+                                orders={orderHistories}
+                            />
+                        }
 
                         {activeSection === "Settings" &&
                             <AccountSettings

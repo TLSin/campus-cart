@@ -1,6 +1,6 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Head, router, usePage, Link } from '@inertiajs/react'
 
 interface CartItemData {
@@ -22,11 +22,19 @@ interface CartPageProps {
 
 export default function CartPage() {
     const { cartItems, subtotal } = usePage<CartPageProps>().props
-    
+
     const [checkedItems, setCheckedItems] = useState<number[]>([])
 
+    const selectedSubtotal = useMemo(() => {
+        const total = cartItems
+            .filter(item => checkedItems.includes(item.cartItemId))
+            .reduce((sum, item) => sum + parseFloat(item.itemTotal), 0)
+        return total.toFixed(2)
+    }, [cartItems, checkedItems])
+
+    const allChecked = cartItems.length > 0 && checkedItems.length === cartItems.length
+
     const handleCheckAll = () => {
-        const allChecked = checkedItems.length === cartItems.length
         if (!allChecked) {
             setCheckedItems(cartItems.map(item => item.cartItemId))
         } else {
@@ -42,9 +50,19 @@ export default function CartPage() {
         )
     }
 
-    const handleQuantityChange = (cartItemId: number, currentQuantity: number, action: 'add' | 'subract') => {
-        let newQuantity = action === 'add' ? currentQuantity + 1 : currentQuantity - 1
-        if (newQuantity < 1) return;
+    const handleQuantityChange = (cartItemId: number, currentQuantity: number, action: 'increment' | 'decrement') => {
+        let newQuantity = currentQuantity
+        if (action === 'increment') {
+            newQuantity += 1
+        } else if (action === 'decrement' && currentQuantity > 1) {
+            newQuantity -= 1
+        } else if (action === 'decrement' && currentQuantity === 1) {
+            if (window.confirm('Are you sure you want to remove this item from your cart?')) {
+                router.delete(`cartPage/${cartItemId}`)
+                return
+            }
+            return
+        }
         router.put(`/cartPage/update/${cartItemId}`, { quantity: newQuantity }, {
             preserveScroll: true,
             preserveState: true
@@ -52,19 +70,27 @@ export default function CartPage() {
     }
 
     const handleRemoveItem = (cartItemId: number) => {
-        if (!confirm('Are you sure you want to remove this item from your cart?')) return
-        router.delete(`/cartPage/${cartItemId}`, {
-            preserveScroll: true
-        })
+        if (window.confirm('Are you sure you want to remove this item from your cart?')) {
+            router.delete(`/cartPage/${cartItemId}`, {
+                preserveScroll: true
+            })
+        }
     }
 
-    const selectedSubtotal = cartItems
-        .filter(item => checkedItems.includes(item.cartItemId))
-        .reduce((sum, item) => sum + item.productPrice * item.quantity, 0)
-        .toFixed(2)
+    // const selectedSubtotal = cartItems
+    //     .filter(item => checkedItems.includes(item.cartItemId))
+    //     .reduce((sum, item) => sum + item.productPrice * item.quantity, 0)
+    //     .toFixed(2)
 
     const checkOut = () => {
-        router.get('/checkOut')
+        if (checkedItems.length === 0) {
+            alert('Please select at least one item to proceed to checkout.')
+            return
+        }
+        router.get('/checkOut', {
+                cartItemIds: checkedItems,
+            }
+        )
     }
 
     return (
@@ -133,9 +159,19 @@ export default function CartPage() {
                                                 <td className="text-[#44506D] text-[1rem] text-center">₱{item.productPrice}</td>
                                                 {/* Quantity */}
                                                 <td className="text-[#44506D] text-[1rem] text-center">
-                                                    <button className="text-[#44506D] rounded-none border-[#44506D] outline border w-[1rem] h-[1.6rem]" onClick={() => handleQuantityChange(item.cartItemId, item.quantity, 'subract')}>-</button>
-                                                    <input type="text" defaultValue="1" value={item.quantity} min="1" className="bg-transparent w-[2rem] h-[1.6rem] text-[#44506D] text-center text-[1rem] rounded-none border-[#44506D] border outline p-[0.1rem]" readOnly />
-                                                    <button className="text-[#44506D] rounded-none border-[#44506D] outline border w-[1rem] h-[1.6rem]" onClick={() => handleQuantityChange(item.cartItemId, item.quantity, 'add')}>+</button>
+                                                    <button
+                                                        className="text-[#44506D] rounded-none border-[#44506D] outline border w-[1rem] h-[1.6rem]"
+                                                        onClick={() => handleQuantityChange(item.cartItemId, item.quantity, 'decrement')}>-</button>
+                                                    <input
+                                                        type="text"
+                                                        defaultValue="1"
+                                                        value={item.quantity}
+                                                        min="1"
+                                                        className="bg-transparent w-[2rem] h-[1.6rem] text-[#44506D] text-center text-[1rem] rounded-none border-[#44506D] border outline p-[0.1rem]"
+                                                        readOnly />
+                                                    <button
+                                                        className="text-[#44506D] rounded-none border-[#44506D] outline border w-[1rem] h-[1.6rem]"
+                                                        onClick={() => handleQuantityChange(item.cartItemId, item.quantity, 'increment')}>+</button>
                                                 </td>
                                                 {/* Remove Button */}
                                                 <td>

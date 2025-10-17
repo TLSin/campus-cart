@@ -9,11 +9,11 @@ export default function Slider() {
                     <div id="slide1" className="flex-none w-full relative overflow-hidden">
                         {/* picture text */}
                         <div className="absolute top-[15rem] left-[5rem] h-[60vh] z-2">
-                            <h1 className="text-[#F1C8C9] text-center text-xl font-bold font-poppins">NEWEST ARRIVAL</h1>
-                            <h1 className="text-center font-black text-4xl text-[#FFFFFF] font-poppins">COMPUTER <br /> STUDIES UNIFORM</h1>
-                            <h1 className="text-[#F1C8C9] text-center text-xl font-medium font-poppins">Starting at Php 400.00</h1>
+                            <h1 className="text-[#F1C8C9] text-center text-xl font-bold font-poppins">Your Campus</h1>
+                            <h1 className="text-center font-black text-4xl text-[#FFFFFF] font-poppins">Your Style.  <br /></h1>
+                            <h1 className="text-[#F1C8C9] text-center text-xl font-medium font-poppins">Shop Smart, Study Hard.</h1>
                             <a href="#" className="flex flex-col items-center">
-                                <button className="bg-[#E1C9CA] w-[7rem] h-[2.5rem] text-[#ffffff] rounded-xl text-xl">Shop now</button>
+                                {/* <button className="bg-[#E1C9CA] w-[7rem] h-[2.5rem] text-[#ffffff] rounded-xl text-xl">Shop now</button> */}
                             </a>
                         </div>
                         <img
@@ -32,11 +32,11 @@ export default function Slider() {
                     <div id="slide2" className=" flex-none w-full relative h-[70vh] overflow-hidden">
                         {/* picture text */}
                         <div className="absolute top-[15rem] left-[5rem] z-2">
-                            <h1 className="text-[#F1C8C9] text-center text-xl font-bold font-poppins">NEWEST ARRIVAL</h1>
-                            <h1 className="text-center font-black text-4xl text-[#FFFFFF] font-poppins">COMPUTER <br /> STUDIES UNIFORM</h1>
-                            <h1 className="text-[#F1C8C9] text-center text-xl font-medium font-poppins">Starting at Php 400.00</h1>
+                            <h1 className="text-[#F1C8C9] text-center text-xl font-bold font-poppins">Your Campus</h1>
+                            <h1 className="text-center font-black text-4xl text-[#FFFFFF] font-poppins">Your Style. <br /></h1>
+                            <h1 className="text-[#F1C8C9] text-center text-xl font-medium font-poppins">Shop Smart, Study Hard.</h1>
                             <a href="#" className="flex flex-col items-center">
-                                <button className="bg-[#E1C9CA] w-[7rem] h-[2.5rem] text-[#ffffff] rounded-xl text-xl">Shop now</button>
+                                {/* <button className="bg-[#E1C9CA] w-[7rem] h-[2.5rem] text-[#ffffff] rounded-xl text-xl">Shop now</button> */}
                             </a>
                         </div>
                         <img

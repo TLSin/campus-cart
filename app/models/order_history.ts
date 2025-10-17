@@ -13,19 +13,25 @@ export default class OrderHistory extends BaseModel {
   declare studentId: number 
 
   @column()
-  declare totalAmount: number
+  declare totalAmount: string
 
   @column()
-  declare shippingFee: number
+  declare shippingFee: string
 
   @column()
-  declare status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' 
+  declare status: 'Pending' | 'Awaiting Payment' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Payment Failed'
 
   @column()
-  declare paymentMethod: 'COD' | 'GCash' | 'Maya'
+  declare paymentMethod: 'COD' | 'GCash'
 
   @column()
   declare shippingAddress: string
+
+  @column()
+  declare xenditTransactionId: string | null
+
+  @column()
+  declare paymentQrCodeUrl: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -39,7 +45,7 @@ export default class OrderHistory extends BaseModel {
   declare user: BelongsTo<typeof User>
 
   @hasMany(() => OrderLineItem, {
-    foreignKey: 'orderHistoryId'
+    foreignKey: 'orderLineId'
   })
   declare items: HasMany<typeof OrderLineItem>
 }

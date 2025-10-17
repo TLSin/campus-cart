@@ -1,6 +1,6 @@
 import Navigation from "./components/navBar";
 import Footer from "./components/footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePage, router, Head } from "@inertiajs/react"
 
 interface Product {
@@ -31,23 +31,27 @@ export default function ResultPage() {
 
     const [showMore, setShowMore] = useState(false)
     const [active, setActive] = useState("Relevance")
-
+    const [reload, setReload] = useState(false)
     const products = category?.products || []
     const categoryName = category?.name || 'All Results'
 
     const buttons = ["Relevance", "Latest", "Top Sales"]
 
+    useEffect(() => {
+        console.log('reloaded')
+    }, [reload])
+
     const categories = [
-        "School Supplies",
-        "Book & Modules",
-        "Uniforms",
-        "Electronics",
-        "Accessories",
-        "Computer Peripherals",
-        "Sports and Fitness",
-        "Merchs",
-        "Souvenirs",
-        "Event Tickets",
+        {id: 1, name:"School Supplies"},
+        {id: 2, name: "Book & Modules"},
+        {id: 3, name: "Uniforms"},
+        {id: 4, name: "Electronics"},
+        {id: 5, name: "Accessories"},
+        {id: 6, name: "Computer Peripherals"},
+        {id: 7, name: "Sports and Fitness"},
+        {id: 8, name: "Merchs"},
+        {id: 9, name: "Souvenirs"},
+        {id: 10, name: "Event Tickets"},
     ]
 
     const handleNavigateToProduct = (productId: number) => {
@@ -55,10 +59,10 @@ export default function ResultPage() {
         console.log(router.get(`/products/${productId}`))
     }
 
-    const visibleCategories = showMore ? categories : categories.slice(0, 4)
-
     const categoryClick = (id: number) => {
+        setReload(true)
         router.get(`/resultPage/${id}`)
+        
     }
 
     return (
@@ -80,12 +84,12 @@ export default function ResultPage() {
 
                         <div className="flex justify-center">
                             <ul className=" space-y-2 list-disc">
-                                {visibleCategories.map((category) => (
+                                {categories.map((category) => (
                                     <li
-                                        key={category}
+                                        key={category.id}
                                         className="hover:text-blue-600 hover:underline cursor-pointer text-md text-[#515A70] font-semibold list-none"
-                                        onClick={() => categoryClick}>
-                                        {category}
+                                        onClick={() => categoryClick(category.id)}>
+                                        {category.name}
                                     </li>
                                 ))}
                             </ul>
@@ -141,13 +145,13 @@ export default function ResultPage() {
                                     <div
                                         key={product.productId}
                                         onClick={() => handleNavigateToProduct(product.productId)}
-                                        className="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto"
+                                        className="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto item-center justify-center"
                                         >
 
                                         <img
                                             src={product.imgUrl || ""}
                                             alt={product.productName}
-                                            className="object-cover duration-500 group-hover:scale-105"
+                                            className="object-contain duration-500 group-hover:scale-105 h-[15rem]"
 
                                         />
 

@@ -5,13 +5,46 @@ import User from '#models/user'
 import { updateUserValidator } from '#validators/auth'
 import hash from '@adonisjs/core/services/hash'
 import { DateTime } from 'luxon'
+import OrderHistory from '#models/order_history'
+import OrderLineItem from '#models/order_line_item'
 
 export default class UserDetailsController {
 
-    async show({ inertia, auth}: HttpContext){
-        const user  = auth.user
+    async show({ inertia, auth }: HttpContext) {
+        const user = auth.user
+        if (!user) {
+            if (!user) {
+                return inertia.render('login')
+            }
+        }
         const program = await Program.find(user?.programId)
         const campus = await Campus.find(user?.campusId)
+
+        const orderHistories = await OrderHistory
+            .query()
+            .where('studentId', user.studentId)
+            .preload('items', (query) => {
+                query.preload('product')
+            })
+            .orderBy('createdAt', 'desc')
+            .exec()
+
+        const ordersData = orderHistories.map(order => ({
+            orderHistoryId: order.orderHistoryId,
+            totalAmount: parseFloat(order.totalAmount),
+            shippingFee: parseFloat(order.shippingFee),
+            status: order.status,
+            paymentMethod: order.paymentMethod,
+            shippingAddress: order.shippingAddress,
+            createdAt: order.createdAt.toFormat('MMM dd, yyyy'),
+            items: order.items.map(item => ({
+                id: item.orderLineId,
+                productName: item.productName,
+                price: parseFloat(item.price),
+                quantity: item.quantity,
+                imgurl: item.product?.imgUrl || null
+            }))
+        }))
 
         console.log(
             user?.studentId,
@@ -23,11 +56,13 @@ export default class UserDetailsController {
             user?.studentNo,
             user?.address,
             user?.contactNo,
-            user?.password
+            user?.password,
+            orderHistories,
+            
         )
 
         return inertia.render('userPage', {
-            user: user ? {
+            user: {
                 id: user?.studentId,
                 fName: user?.firstName,
                 lName: user?.lastName,
@@ -38,26 +73,25 @@ export default class UserDetailsController {
                 studentNo: user?.studentNo,
                 address: user?.address,
                 contactNo: user?.contactNo,
-            } 
-            : 
-            null
+            },
+            orderHistories: ordersData,
         })
     }
 
-    async store({ request, response, auth}: HttpContext){
+    async store({ request, response, auth }: HttpContext) {
         let { firstName, lastName, emailValue, confirmPassword, newPassword, currentPassword, addressValue, contactNumber, } = await request.validateUsing(updateUserValidator)
 
         const user = await User.find(auth.user?.studentId)
         console.log(user)
-        if(!user){
+        if (!user) {
             return response.abort('User not found')
         }
-        
+
         const passwordToVerify = currentPassword || confirmPassword
         const isCurrentPasswordValid = await hash.use('scrypt').verify(user.password, passwordToVerify)
 
-        if(!isCurrentPasswordValid){
-            return response.status(403).send({ message: 'Incorrect Current Password'})
+        if (!isCurrentPasswordValid) {
+            return response.status(403).send({ message: 'Incorrect Current Password' })
         }
 
         firstName = firstName.toUpperCase().trim()
@@ -78,12 +112,12 @@ export default class UserDetailsController {
 
         console.log(user)
 
-        if(newPassword && newPassword.length > 0){
+        if (newPassword && newPassword.length > 0) {
             user.password = await hash.use('scrypt').make(newPassword)
         }
 
         await user.save()
         console.log(user)
-        return response.status(200).send({ message: 'User Updated'})
+        return response.status(200).send({ message: 'User Updated' })
     }
 }

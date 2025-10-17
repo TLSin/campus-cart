@@ -39,6 +39,7 @@ export default class ProductsController {
 
     async show({ params, inertia, auth }: HttpContext) {
         const user = auth.user
+        
         const product = await Product.query()
         .where('productId', params.id)
         .preload('group')

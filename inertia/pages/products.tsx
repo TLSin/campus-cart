@@ -21,9 +21,18 @@ interface Product {
     subImages: string[]
 }
 
+interface StudentReview {
+    reviewId: number
+    reviews: string
+    createdAt: string
+    studentName: string
+    studentNo: string
+}
+
 interface ProductPageProps {
     product: Product
     productVariants: ProductVariants[]
+    studentReviews: StudentReview[]
     [key: string]: any
 }
 
@@ -34,7 +43,8 @@ interface ToastState {
 }
 
 export default function ProductPage() {
-    const { product, productVariants } = usePage<ProductPageProps>().props
+    const { product, productVariants, studentReviews } = usePage<ProductPageProps>().props
+
     const [mainImage, setMainImage] = useState(product.imgUrl || '')
     const [toast, setToast] = useState<ToastState>({ visible: false, message: '', type: 'alert-success' })
     const [quantity, setQuantity] = useState(1)
@@ -68,7 +78,7 @@ export default function ProductPage() {
         router.post('/products', {
             productId: selectedProductId, quantity: quantity
         },
-            {   
+            {
                 preserveScroll: true,
                 onSuccess: () => {
                     showToast('Added to cart!', 'alert-success')
@@ -85,6 +95,18 @@ export default function ProductPage() {
     const selectedVariantPrice = useMemo(() => {
         return productVariants.find(v => v.productId === selectedProductId)?.productPrice || product.productPrice
     }, [selectedProductId, product.productPrice, productVariants])
+
+    const formatDate = (dateString: string) => {
+        try {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            })
+        } catch {
+            return dateString
+        }
+    }
 
     return (
         <>
@@ -147,7 +169,7 @@ export default function ProductPage() {
                             <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱{selectedVariantPrice}</h2>
                             {/* Other Details */}
 
-                            <DynamicDescription 
+                            <DynamicDescription
                                 descriptionId={product.descriptionId}
                                 productVariants={productVariants}
                                 selectedProductId={selectedProductId}
@@ -160,12 +182,12 @@ export default function ProductPage() {
                         {/* Action Buttons Container */}
                         <div className="flex justify-end items-bottom mt-[2rem] align-end">
                             <button
-                                className="btn bg-white text-black border-black hover:bg-gray-200 mr-[1rem] px-8 py-3"
+                                className="btn bg-white text-black border border-black hover:bg-gray-200 mr-[1rem] px-8 py-3"
                                 onClick={handleAddtoCart}
                             >
                                 Add to Cart
                             </button>
-                            <button className="btn bg-[#44506D] text-white border-none hover:bg-[#2C3653] mr-[2rem] px-8 py-3">Buy Now</button>
+                            {/* <button className="btn bg-[#44506D] text-white border-none hover:bg-[#2C3653] mr-[2rem] px-8 py-3">Buy Now</button> */}
                         </div>
                     </div>
                 </div>
@@ -194,22 +216,34 @@ export default function ProductPage() {
                 <div className="w-[85%] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
                     <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">User Reviews</h1>
                     {/* User 1 Review */}
-                    <div className="">
-                        {/* user description */}
-                        <div className="flex space-x-4 ">
-                            <div className="bg-gray w-[3rem] h-[3rem] rounded-full flex justify-center items-center border border-black">
-                                <h1>JD</h1>
-                            </div>
-                            <div className="flex flex-col">
-                                <h1 className="text-black text-[1rem] font-bold">John Doe</h1>
-                                <p>01 Oct 2025 | All Set-M</p>
-                            </div>
+                    {studentReviews.length > 0 ? (
+                        <div className="mb-[2rem]">
+                            {studentReviews.map((review) => (
+                                <>
+                                    {/* user description */}
+                                    <div className="mb-[rem]]">
+                                        <div key={review.reviewId} className="flex space-x-4">
+                                            <div className="bg-gray w-[3rem] h-[3rem] rounded-full flex justify-center items-center border border-black">
+                                                <h1>{review.studentName.split(' ').map(n => n[0]).join('')}</h1>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h1 className="text-black text-[1rem] font-bold">{review.studentName}</h1>
+                                                <p>{formatDate(review.createdAt)}</p>
+                                            </div>
+                                        </div>
+                                        {/* user review */}
+                                        <div className="ml-[4rem] mb-[1rem]">
+                                            <p>{review.reviews}</p>
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
                         </div>
-                        {/* user review */}
-                        <div className="ml-[4rem]">
-                            <p>"The item is good no damage naman sya and mabilis ko syang nareceived."</p>
-                        </div>
-                    </div>
+                    )
+                        :
+                        (
+                            <p className="text-gray-500 italic">No student reviews have been posted for this product yet.</p>
+                        )}
                 </div>
             </div>
             <Footer />

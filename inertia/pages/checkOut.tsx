@@ -5,6 +5,7 @@ import { useState } from "react";
 
 interface CartItemProps {
     id: number
+    productId: number
     quantity: number
     productName: string
     productPrice: number
@@ -24,6 +25,7 @@ interface CheckoutPageProps {
     merchandiseSubtotal: number
     shippingFee: number
     totalAmount: number
+    cartItemIds: number[]
 }
 
 interface PageProps {
@@ -31,24 +33,24 @@ interface PageProps {
     [key: string]: any
 }
 
+const formatCurrency = (amount: number) => {
+    return `₱${amount.toFixed(2)}`
+}
+
 export default function CheckOut() {
     const { props } = usePage<PageProps>()
-    const { user, cartItems, merchandiseSubtotal, shippingFee, totalAmount } = props
+    const { user, cartItems, merchandiseSubtotal, shippingFee, totalAmount, cartItemIds } = props
 
-    const [noItem, setNoItem] = useState([])
     const [firstName, setFirstName] = useState(user.fName)
-    const [shippingAddress, setShippingAddress] = useState(user.address)
+    const [contactNo, setContactNo] = useState(user.contactNo)
+
+    const [shippingAddress, setShippingAddress] = useState(user.address || '')
     const [paymentMethod, setPaymentMethod] = useState<'COD' | 'GCash'>('COD')
     const [isProcessing, setIsProcessing] = useState(false)
+    const [addressError, setAddressError] = useState<string | null>(null)
 
-    // const list = {
-    //     no: props.id.length + 1,
-    //     name: `${noItem.length}`,
-    // }
+    const [isEdit, setIsEdit] = useState(false)
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount)
-    }
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -57,37 +59,39 @@ export default function CheckOut() {
         setTimeout(() => setShowAlert(false), 4000); // Auto-hide after 3 seconds
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (isProcessing)
+
+        if (cartItems.length === 0 || shippingAddress.trim() === '') {
+            alert('Your cart is empty. Please add items to place an order.')
             return
+        }
 
         setIsProcessing(true)
 
-        router.post('/checkout/placeOrder', {
+        const itemIds = cartItemIds.map(Number)
 
+        const data = {
+            cartItemIds: itemIds,
             totalAmount: totalAmount,
-            shippingFee: shippingFee,
             shippingAddress: shippingAddress,
-
             paymentMethod: paymentMethod,
-        }, {
-
-            onSuccess: (page) => {
-                alert('Order placed successfully! Redirecting to order history.')
-
-                router.get('/userPage')
-            },
-            onError: (errors) => {
-
-                const errorMessage = errors.message || 'Failed to place order.'
-                alert(`Order Error: ${errorMessage}. Please check your cart and stock availability.`)
-            },
+        }
+        router.post('/checkOut', data, {
+            preserveScroll: false,
             onFinish: () => {
                 setIsProcessing(false)
             }
+            ,
+            onError: (errors) => {
+                console.error('Checkout Error: ', errors)
+                alert(`Checkout failed. Please check the console or try again.`)
+                setIsProcessing(false)
+            },
         })
     }
+
+    const isFormIncomplete = shippingAddress.trim() === '' || cartItems.length === 0
 
     return (
         <>
@@ -116,28 +120,54 @@ export default function CheckOut() {
 
                         {/* user's info */}
                         <div className="w-full pb-14 pt-2 grid grid-rows-2 grid-cols-2 border-b-2 border-black">
+                            {/* User first name */}
                             <div className="px-8 py-1 flex row-start-1">
                                 <img src="pin-location.gif" alt="" className="h-8 " />
-                                <input 
-                                    type="text" 
-                                    value={user.fName}
-                                    />
-                                <h1 className="py-1 font-black text-[#515A70]">{user.fName}</h1>
-                                <h1 className="py-1 px-2 text-[#ACC0EB] font-semibold">(+63) {user.contactNo}</h1>
+                                <input
+                                    className="py-1 font-black text-[#515A70]"
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    readOnly
+                                />
+                                {/* User contact number */}
+                                <input
+                                    className="py-1 px-2 text-[#ACC0EB] font-semibold"
+                                    type="text"
+                                    value={`(+63) ${contactNo}`}
+                                    onChange={(e) => setContactNo(e.target.value)}
+                                    readOnly
+                                />
+                                {/* <h1 className="py-1 font-black text-[#515A70]">{user.fName}</h1> */}
+                                {/* <h1 className="py-1 px-2 text-[#ACC0EB] font-semibold">(+63) {user.contactNo}</h1> */}
                             </div>
-                            <div className="w-[35rem] px-16 row-start-2 row-end-3 ">
-                                <h1 className="text-[#515A70] font-semibold">{user.address}</h1>
+                            {/* User shipping address */}
+                            <div className="w-[35rem] px-16 row-start-2 row-end-3 w-full">
+                                <textarea
+                                    id="shippingAddress"
+                                    name="shippingAddress"
+                                    rows={3}
+                                    className="text-[#515A70] font-semibold w-full resize-none"
+                                    value={shippingAddress}
+                                    onChange={(e) => setShippingAddress(e.target.value)}
+                                    required
+                                />
+                                {/* <h1 className="text-[#515A70] font-semibold">{user.address}</h1> */}
                             </div>
                             <div className="row-start-2 row-end-3 text-center" >
-                                <button className="text-[#515A70] font-semibold text-lg hover:btn-link ">edit</button>
+                                <button
+                                    onClick={() => setShippingAddress}
+                                    className="text-[#515A70] font-semibold text-lg hover:btn-link ">
+                                    edit
+                                </button>
                             </div>
                         </div>
 
                         {/* item ordered */}
                         <div className="items-center align-center justfify-center space-x-4 border-b-2 border-black">
-                            <div className="align-center items-center w-[100%] bg-black justify-center">
+                            <div className="align-center items-center w-[100%] justify-center p-3">
                                 <h2 className="text-2xl text-[#515A70] font-bold mb-4 text-blue-700 border-b pb-2">Order Summary</h2>
-                                <table className="table w-[80%] mb-[2rem] bg-white p-6 rounded-xl shadow-lg items-center">
+                                <table className="table w-[90%] mb-[2rem] mt-[1rem] bg-white p-6 rounded-xl shadow-lg items-center left-25">
                                     <thead className="border-b-2 border-[#44506D]">
                                         <tr>
                                             <th className="w-[5dvw] text-[#44506D] font-medium text-[1rem] text-center">No.</th>
@@ -157,11 +187,11 @@ export default function CheckOut() {
                                                 </th>
                                                 <td className="px-2 py-2 align-center items-center">
                                                     <div className="flex items-center space-x-4 align-center items-center justify-center">
-                                                        <div className="flex w-[10rem]">
+                                                        <div className="flex w-[16rem]">
                                                             <img
                                                                 src={item.imgUrl || 'placeholder.jpg'} alt={item.productName}
-                                                                className="w-16 h-16 object-contain rounded-md" />
-                                                            <p className="font-medium text-gray-800 align-center text-center">{item.productName}</p>
+                                                                className="w-[8rem] h-[8rem] object-cover rounded-md shadow-lg" />
+                                                            <p className="font-medium text-gray-800 align-center text-center ml-[1rem] mt-[4rem]">{item.productName}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -245,7 +275,7 @@ export default function CheckOut() {
                                         type="radio"
                                         id="gcash"
                                         name="payment"
-                                        value="Mock_GCash"
+                                        value="GCash"
                                         checked={paymentMethod === 'GCash'}
                                         onChange={() => setPaymentMethod('GCash')}
                                         className="form-radio text-blue-600"
@@ -259,7 +289,7 @@ export default function CheckOut() {
                                         <div className="flex space-x-4 items-center">
                                             <img src="gcash.png" alt="" className="w-10" />
                                             <div className="block -space-y-1">
-                                                <h1 className="text-lg font-semibold">63-{user.contactNo}</h1>
+                                                <h1 className="text-lg font-semibold">+63-{user.contactNo}</h1>
                                                 <h6 className="text-sm font-thin">Gcash e-wallet</h6>
                                             </div>
                                         </div>
@@ -273,8 +303,8 @@ export default function CheckOut() {
                     </div>
                     {/* payment details */}
                     <div className="sticky bottom-0 absolute bg-white">
-                        <div className=" px-5 pt-3 pb-4 border-b border-black border-t">
-                            <h1 className="text-[#515A70] text-2xl font-black">Payment Details</h1>
+                        <div className=" px-5 py-2 border-b border-black border-t">
+                            <h1 className="text-[#515A70] text-xl font-black">Payment Details</h1>
 
                             <div className="flex justify-between items-start pt-2 px-4">
                                 <h6 className="text-[#515A70] text-md font-medium">Merchandise Subtotal</h6>
@@ -294,13 +324,13 @@ export default function CheckOut() {
                                 <h6 className="text-[#515A70] text-md font-medium">Total payment</h6>
                                 <h6 className="text-red text-md font-medium">{formatCurrency(merchandiseSubtotal + shippingFee)}</h6>
                             </div>
-                            <div className="flex justify-end space-x-4 right-0 items-center px-9 py-6">
+                            <div className="flex justify-end space-x-4 right-0 items-center px-9 pb-2">
 
                                 <button
                                     type="submit"
-                                    disabled={isProcessing || cartItems.length === 0}
+                                    disabled={isProcessing || cartItems.length === 0 || shippingAddress.trim() === ''}
                                     className={`mt-1 w-[12rem] py-3 rounded-lg text-white text-xl font-semibold transition duration-200 
-                                    ${isProcessing || cartItems.length === 0
+                                    ${isProcessing || cartItems.length === 0 || shippingAddress.trim() === ''
                                             ? 'bg-gray-400 cursor-not-allowed'
                                             : 'bg-blue-600 hover:bg-blue-700'
                                         }`}
