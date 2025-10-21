@@ -35,7 +35,7 @@ router.group(() => {
     router.get('/home', [ProductsController, 'index'])
     router.get('/products/:productId', [ShopsController, 'show'])
     // router.get('/resultPage', [ResultsController, 'show'])
-    router.get('/resultPage/:id', [ResultsController , 'show'])
+    router.get('/resultPage/:id', [ResultsController, 'show'])
     router.post('/webhooks/paymongo', [WebhooksController, 'handle']).as('paymongoWebhook')
     // router.on('/resultPage').renderInertia('resultPage')
 })
@@ -49,6 +49,7 @@ router.
 
         router.get('/products', [UserReviewsController, 'show'])
         router.post('/products', [CartsController, 'store'])
+        router.post('/reviews', [UserReviewsController, 'store'])
 
         router.post('/home', [CartsController, 'store'])
 
@@ -69,7 +70,6 @@ router.
         router.get('/orderResult', [CheckoutsController, 'renderResult']).as('orderResult')
     }).use(middleware.auth())
 
-    router.post('/logout', [UserLogoutsController, 'handle'])
 // Public routes that redirect if not authenticated
 router.
     group(() => {
@@ -84,3 +84,4 @@ router.
 
     }).use(middleware.guest())
 
+router.post('/logout', [UserLogoutsController, 'handle'])

@@ -1,7 +1,7 @@
 import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 import DynamicDescription from "./components/dynamicDescription"
-import { useState, useMemo, Dispatch, SetStateAction } from "react";
+import { useState, useMemo, Dispatch, SetStateAction, useEffect } from "react";
 import { Head, usePage, router, Link } from "@inertiajs/react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"
@@ -21,6 +21,7 @@ interface Product {
     description: string
     descriptionId: number
     subImages: string[]
+    groupId: number
 }
 
 interface StudentReview {
@@ -44,6 +45,20 @@ interface ToastState {
     type: 'alert-success' | 'alert-error'
 }
 
+const markdownClasses = {
+    h1: (props: any) => <h1 className="text-xl font-bold mb-2" {...props} />,
+    p: (props: any) => <p className="mb-2" {...props} />,
+    a: (props: any) => <a className="text-blue-600 underline" {...props} />,
+    ul: (props: any) => <ul className="list-disc list-inside ml-4" {...props} />,
+    ol: (props: any) => <ol className="list-decimal list-inside ml-4" {...props} />,
+    blockquote: (props: any) => <blockquote className="border-l-4 border-gray-400 pl-4 italic text-gray-600 my-2" {...props} />,
+    code: (props: any) => <code className="bg-gray-200 p-1 rounded text-sm" {...props} />,
+    pre: (props: any) => <pre className="bg-gray-800 text-white p-3 rounded-md overflow-x-auto text-sm" {...props} />,
+    table: (props: any) => <table className="table-auto w-full border-collapse border border-gray-400 my-2" {...props} />,
+    th: (props: any) => <th className="border border-gray-400 px-2 py-1 bg-gray-100" {...props} />,
+    td: (props: any) => <td className="border border-gray-400 px-2 py-1" {...props} />,
+}
+
 export default function ProductPage() {
     const { product, productVariants, studentReviews } = usePage<ProductPageProps>().props
 
@@ -51,6 +66,14 @@ export default function ProductPage() {
     const [toast, setToast] = useState<ToastState>({ visible: false, message: '', type: 'alert-success' })
     const [quantity, setQuantity] = useState(1)
     const [selectedProductId, setSelectedProductId] = useState(product.productId)
+    const [comment, setComment] = useState('');
+    const [isEditing, setIsEditing] = useState(true);
+    const [isPosting, setIsPosting] = useState(false)
+    const [reload, setReload] = useState(false)
+
+    useEffect(() => {
+            console.log('reloaded')
+        }, [reload])
 
     const handleImageHover = (imageUrl: string) => {
         setMainImage(imageUrl)
@@ -108,6 +131,29 @@ export default function ProductPage() {
         } catch {
             return dateString
         }
+    }
+
+    const handleReviewSubmit = () => {
+        if (isPosting || !comment.trim) return
+
+        setIsPosting(true)
+        setReload(true)
+
+        router.post('/reviews', {
+            groupId: product.groupId,
+            reviews: comment,
+        }, {
+            onSuccess: () => {
+                setReload(prev => !prev)
+                setComment('')
+            },
+            onStart: () => setIsPosting(true),
+            onFinish: () => {
+                setIsPosting(false)
+                setReload(false)
+            },
+            preserveScroll: true
+        })
     }
 
     return (
@@ -227,11 +273,11 @@ export default function ProductPage() {
                     <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">User Reviews</h1>
                     {/* User 1 Review */}
                     {studentReviews.length > 0 ? (
-                        <div className="mb-[2rem]">
+                        <div className="mb-[2rem] mx-[2rem]">
                             {studentReviews.map((review) => (
                                 <>
                                     {/* user description */}
-                                    <div className="mb-[rem]]">
+                                    <div className="mb-[1rem]  border-b ">
                                         <div key={review.reviewId} className="flex space-x-4">
                                             <div className="bg-gray w-[3rem] h-[3rem] rounded-full flex justify-center items-center border border-black">
                                                 <h1>{review.studentName.split(' ').map(n => n[0]).join('')}</h1>
@@ -254,6 +300,64 @@ export default function ProductPage() {
                         (
                             <p className="text-gray-500 italic">No student reviews have been posted for this product yet.</p>
                         )}
+                </div>
+                <div className="w-[85%] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
+                    <div className="flex gap-2 mb-4">
+                        <button
+                            onClick={() => setIsEditing(true)}
+                            className={`px-4 py-1 text-sm rounded transition-colors ${isEditing ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 text-gray-700'
+                                }`}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => setIsEditing(false)}
+                            className={`px-4 py-1 text-sm rounded transition-colors ${!isEditing ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 text-gray-700'
+                                }`}
+                        >
+                            Preview
+                        </button>
+                    </div>
+
+                    {/* Input / Preview Area */}
+                    <div className='w-full'>
+                        {isEditing ? (
+                            // EDIT MODE (Textarea)
+                            <textarea
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                placeholder="Type your comment here (Markdown supported)..."
+                                rows={6}
+                                disabled={isPosting}
+                                className="markdown-input-field w-full p-3 rounded-lg resize-none focus:outline-none"
+                            />
+                        ) : (
+                            // PREVIEW MODE (Markdown Renderer)
+                            <div className="markdown-preview-container w-full min-h-[150px] p-3 rounded-lg overflow-auto text-sm">
+                                {comment.trim() ? (
+                                    <ReactMarkdown
+                                        remarkPlugins={[remarkGfm]}
+                                        components={markdownClasses} // Use the inline defined classes
+                                    >
+                                        {comment}
+                                    </ReactMarkdown>
+                                ) : (
+                                    <p className="text-gray-500 italic">Nothing to preview. Start typing!</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={handleReviewSubmit}
+                            disabled={!comment.trim() || isPosting}
+                            className="markdown-button px-6 py-2 rounded-lg text-lg font-semibold disabled:opacity-50"
+                        >
+                            {isPosting ? 'Posting...' : 'Post Comment'}
+                        </button>
+                    </div>
                 </div>
             </div>
             <Footer />

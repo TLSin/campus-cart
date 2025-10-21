@@ -11,12 +11,25 @@ export default class UserReviewsController {
         }
 
         const { groupId, reviews } = request.only(['groupId', 'reviews'])
-        await StudentReview.create({
-            studentId: user.studentId,
-            groupId,
-            reviews,
-        })
-        return response.status(201).send({ message: 'Review successfully submitted' })
+        if (!groupId || !reviews || typeof reviews !== 'string' || reviews.trim().length === 0) {
+            return response.badRequest({ message: 'Missing or invalid groupId or review content.' })
+        }
+        
+        try {
+            await StudentReview.create({
+                studentId: user.studentId,
+                groupId,
+                reviews,
+                // 'rate' column is intentionally omitted here as requested by you.
+                // Make sure the 'rate' column in your StudentReview model is now nullable or has a default value.
+            })
+            
+            return response.redirect().back()
+        } catch (error) {
+            // FIX 2: Add robust error handling
+            console.error('Error submitting review:', error)
+            return response.redirect().back()
+        }
     }
 
     async show({ inertia, params }: HttpContext) {
