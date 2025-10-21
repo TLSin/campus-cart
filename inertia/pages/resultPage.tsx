@@ -1,7 +1,7 @@
 import Navigation from "./components/navBar";
 import Footer from "./components/footer";
 import { useState, useEffect } from "react";
-import { usePage, router, Head } from "@inertiajs/react"
+import { usePage, router, Head, Link } from "@inertiajs/react"
 
 interface Product {
     productId: number
@@ -42,16 +42,16 @@ export default function ResultPage() {
     }, [reload])
 
     const categories = [
-        {id: 1, name:"School Supplies"},
-        {id: 2, name: "Book & Modules"},
-        {id: 3, name: "Uniforms"},
-        {id: 4, name: "Electronics"},
-        {id: 5, name: "Accessories"},
-        {id: 6, name: "Computer Peripherals"},
-        {id: 7, name: "Sports and Fitness"},
-        {id: 8, name: "Merchs"},
-        {id: 9, name: "Souvenirs"},
-        {id: 10, name: "Event Tickets"},
+        { id: 1, name: "School Supplies" },
+        { id: 2, name: "Book & Modules" },
+        { id: 3, name: "Uniforms" },
+        { id: 4, name: "Electronics" },
+        { id: 5, name: "Accessories" },
+        { id: 6, name: "Computer Peripherals" },
+        { id: 7, name: "Sports and Fitness" },
+        { id: 8, name: "Merchs" },
+        { id: 9, name: "Souvenirs" },
+        { id: 10, name: "Event Tickets" },
     ]
 
     const handleNavigateToProduct = (productId: number) => {
@@ -62,18 +62,25 @@ export default function ResultPage() {
     const categoryClick = (id: number) => {
         setReload(true)
         router.get(`/resultPage/${id}`)
-        
+
     }
 
     return (
-        <>  
+        <>
             <Head title={category?.name} />
             <Navigation />
             <div className="w-screen flex bg-white">
 
                 {/* search filter */}
                 <div className="h-screen w-[30%] sticky top-0">
-
+                    <button className="w-[7rem] ml-[6rem] mt-[1rem]">
+                        <Link href='/' className="flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                                <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                            </svg>
+                            <h5>Go Back</h5>
+                        </Link>
+                    </button>
                     <div className="flex w-full justify-center gap-2 pt-10">
                         <img src="search.svg" alt="" className="w-" />
                         <h1 className="text-xl font-bold text-[#515A70]">Search Filter</h1>
@@ -137,7 +144,7 @@ export default function ResultPage() {
 
                     </div>
 
-                    <div className="grid grid-cols-5 gap-4 align-items-center p-2">
+                    <div className="grid grid-cols-5 gap-4 align-items-center">
                         {products.length > 0 ? (
                             products.map((product) => (
                                 <div className="w-auto mt-[1rem]
@@ -145,16 +152,16 @@ export default function ResultPage() {
                                     <div
                                         key={product.productId}
                                         onClick={() => handleNavigateToProduct(product.productId)}
-                                        className="bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto item-center justify-center"
-                                        >
+                                        className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto item-center justify-center overflow-hidden"
+                                    >
+                                        <div className="h-60 overflow-hidden">
+                                            <img
+                                                src={product.imgUrl || ""}
+                                                alt={product.productName}
+                                                className="object-cover duration-500 group-hover:scale-105 w-[100%] h-[100%]"
 
-                                        <img
-                                            src={product.imgUrl || ""}
-                                            alt={product.productName}
-                                            className="object-contain duration-500 group-hover:scale-105 h-[15rem]"
-
-                                        />
-
+                                            />
+                                        </div>
                                         <div className="p-4 flex flex-col flex-grow">
                                             <h2 className="text-lg font-bold text-[#44506D] truncate group-hover:text-[#C65E61] transition-colors">{product.productName}</h2>
                                             <p className="text-sm text-gray-500 mb-2 line-clamp-2">{product.description}</p>

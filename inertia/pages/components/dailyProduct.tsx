@@ -58,12 +58,12 @@ export default function DailyProduct({ products }: DailyProductProps) {
     // console.log(products)
     return (
         <>
-            <div className="bg-[#e6f4f1] mx-2 h-auto rounded-lg shadow-lg mb-[2rem] p-3">
-                <div className="flex col-span-1">
-                    <h1 className="text-3xl align-items-start ml-[1rem] mb-[1rem] font-bold">Daily Product</h1>
+            <div className="bg-[#e6f4f1] mx-2 h-auto rounded-xl shadow-lg mb-[2rem] overflow-hidden">
+                <div className="bg-blue-400 mt-6 p-2">
+                    <h1 className="text-3xl text-white align-items-start ml-[1rem] font-bold">Daily Product</h1>
                 </div>
                 {/* Items Container that is random selected*/}
-                <div className="grid grid-cols-6 gap-1 px-[5rem] justify-items-center w-full h-auto overflow-hidden">
+                <div className="grid grid-cols-6 gap-1 px-[5rem] justify-items-center w-full h-auto mt-4 overflow-hidden">
                     {/* Items that going to be rendered dynamically */}
                     {products && products.length > 0 ? (
                         products.map(product => (

@@ -3,7 +3,7 @@ import Footer from "./components/footer"
 import UserProfile from "./components/userProfile"
 import OrderHistory from "./components/orderHistory"
 import AccountSettings from "./components/accountSettings"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Head, usePage } from "@inertiajs/react"
 
 interface OrderItem {
@@ -40,11 +40,15 @@ interface UserProps {
 interface UserPageProps {
     user: UserProps
     orderHistories: OrderHistoryRecord[]
+    message?: string
+    error?: boolean
+    success?: boolean
+    type?: string
     [key: string]: any
 }
 export default function userPage() {
     const [activeSection, setActiveSection] = useState<"Profile" | "Order" | "Settings">("Profile")
-    const { user, orderHistories = [] } = usePage<UserPageProps>().props
+    const { user, orderHistories = [], message, error, success, type } = usePage<UserPageProps>().props
     const {
         fName = '',
         lName = '',
@@ -57,6 +61,32 @@ export default function userPage() {
         password = '',
     } = user || {}
 
+    const [notification, setNotification] = useState<{
+        show: Boolean
+        message: string
+        type: 'error' | 'success'
+    }>({
+        show: false,
+        message: '',
+        type: 'success'
+    })
+
+    useEffect(() => {
+        if (message) {
+            setNotification({
+                show: true,
+                message: message,
+                type: error ? 'error' : 'success'
+            })
+
+            const timer = setTimeout(() => {
+                setNotification(prev => ({ ...prev, show: false }))
+            }, 3000)
+
+            return () => clearTimeout(timer)
+        }
+    }, [message, error, success])
+
     const handleClick = (section: "Profile" | "Order" | "Settings") => {
         setActiveSection(section)
     }
@@ -67,6 +97,13 @@ export default function userPage() {
         <>
             <Head title="User Profile" />
             <Navigation />
+            {/* Notification Component */}
+            {notification.show && (
+                <div className={`fixed top-4 right-4 p-4 rounded-md shadow-lg ${notification.type === 'error' ? 'bg-red-500' : 'bg-green-500'
+                    } text-white`}>
+                    {notification.message}
+                </div>
+            )}
             <div className="grid place-items-center bg-white w-screen">
                 <div className="flex w-[70dvw] h-auto bg-[#949EC0] my-[2rem] rounded-xl shadow-lg grid grid-cols-2 grid-aut0-rows justify-items-center">
                     {/* Header */}

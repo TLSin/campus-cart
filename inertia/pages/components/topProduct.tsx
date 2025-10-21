@@ -57,8 +57,10 @@ export default function TopProduct({ products }: TopProductProps) {
     }
     return (
         <>
-            <div className="bg-white mx-2 rounded-lg shadow-lg mb-[2rem]">
-                <h2 className="text-black text-[2rem] font-bold ml-[1rem] mt-[1rem]">Top Product</h2>
+            <div className="bg-white mx-2 rounded-lg shadow-lg mb-[2rem] overflow-hidden">
+                <div className="bg-green-200">
+                    <h2 className="text-black text-[2rem] font-bold ml-[1rem] mt-[1rem]">Top Product</h2>
+                </div>
                 <div className="carousel w-full flex">
                     {/* Item list of products*/}
                     <div className="carousel-item relative w-full shadow-lg rounded-lg bg-white grid grid-cols-7 gap-3 justify-items-center overflox-x-hidden">

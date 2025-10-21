@@ -73,14 +73,14 @@ export default function VerifyOtp() {
             <Head title="Verify OTP" />
 
             <div className="relative min-h-[100dvh] w-screen overflow-hidden flex flex-col">
-                 <div className="flex-grow flex justify-center items-center w-full min-h-[100dvh] lg:min-h-0 p-4 bg-[#92A8D1]">
+                 <div className="flex-grow flex justify-center items-center w-full min-h-[100dvh] lg:min-h-0 p-4">
                     <form
                         onSubmit={handleSubmit}
-                        className="w-full max-w-md bg-white p-8 sm:p-12 rounded-2xl shadow-2xl space-y-6"
+                        className="w-full max-w-md p-8 sm:p-12 rounded-2xl shadow-2xl space-y-6 border-2 border-white/30"
                     >
-                        <h2 className="text-3xl font-bold text-[#4A69A8] text-center mb-4">Verify Your Account</h2>
+                        <h2 className="text-3xl font-bold text-[#FFFFFF] text-center mb-4">Verify Your Account</h2>
                         <p className="text-center text-gray-600 mb-6">
-                            A 6-digit verification code has been sent to your registered email for student ID <strong className="text-[#4A69A8]">{studentNo}</strong>.
+                            A 6-digit verification code has been sent to your registered email for student ID <strong className="text-[#FFFFFF]">{studentNo}</strong>.
                         </p>
 
                         {/* Message Display (e.g., from server flash) */}
@@ -91,7 +91,7 @@ export default function VerifyOtp() {
                         )}
 
                         {/* OTP Input Fields */}
-                        <div className="flex justify-center space-x-2 sm:space-x-3 mb-6" onPaste={handlePaste}>
+                        <div className="flex justify-center space-x-2 sm:space-x-3 mb-6 text-white" onPaste={handlePaste}>
                             {otpDigits.map((digit, index) => (
                                 <input
                                     key={index}
@@ -117,7 +117,7 @@ export default function VerifyOtp() {
                             >
                                 {isLoading ? (
                                     <>
-                                        <span className="loading loading-spinner loading-md mr-2"></span>
+                                        <span className="loading loading-spinner loading-md mr-2 text-[#4A69A8]"></span>
                                         Verifying...
                                     </>
                                 ) : (
@@ -129,7 +129,7 @@ export default function VerifyOtp() {
                         {/* Resend/Back to Login link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-600 text-sm">
-                                Didn't receive the code? <Link href="/login" className="text-[#4A69A8] hover:underline font-bold">Resend or Go back to Login</Link>
+                                Didn't receive the code? <Link href="/login" className="text-[#FFFFFF] hover:underline font-bold">Resend or Go back to Login</Link>
                             </p>
                         </div>
                     </form>

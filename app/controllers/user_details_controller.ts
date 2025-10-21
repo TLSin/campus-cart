@@ -42,22 +42,22 @@ export default class UserDetailsController {
                 productName: item.productName,
                 price: parseFloat(item.price),
                 quantity: item.quantity,
-                imgurl: item.product?.imgUrl || null
+                imgurl: item.product?.imgUrl || null,
             }))
         }))
 
         console.log(
-            user?.studentId,
-            user?.firstName,
-            user?.lastName,
-            user?.email,
-            program?.program,
-            campus?.campus,
-            user?.studentNo,
-            user?.address,
-            user?.contactNo,
-            user?.password,
-            orderHistories,
+            // user?.studentId,
+            // user?.firstName,
+            // user?.lastName,
+            // user?.email,
+            // program?.program,
+            // campus?.campus,
+            // user?.studentNo,
+            // user?.address,
+            // user?.contactNo,
+            // user?.password,
+            ordersData,
             
         )
 
@@ -77,47 +77,81 @@ export default class UserDetailsController {
             orderHistories: ordersData,
         })
     }
+    
+    async store({ request, response, auth, inertia }: HttpContext) {
+        try{
+            let { firstName, lastName, emailValue, confirmPassword, newPassword, currentPassword, addressValue, contactNumber, } = await request.validateUsing(updateUserValidator)
+        
+            const user = await User.find(auth.user?.studentId)
+            // console.log(user)
+            if (!user) {
+                return response.abort('User not found')
+            }
+        
+            const passwordToVerify = currentPassword || confirmPassword
+            const isCurrentPasswordValid = await hash.use('scrypt').verify(user.password, passwordToVerify)
+        
+            if (!isCurrentPasswordValid) {
+                const currentPassError = 'Incorrect Current Password.'
+                return inertia.render('/userPage', {
+                    error: true, 
+                    message: currentPassError,
+                    type: 'password',
+                })
+            }
+        
+            if(newPassword !== confirmPassword ){
+                const passwordError = 'Confirm Password does not match the newPassword'
+                // console.log(passwordError)
+                return inertia.render('/userPage', {
+                    error: true,                
+                    message: passwordError,
+                    type: 'password'
+                })
+            }
+        
+            firstName = firstName.toUpperCase().trim()
+            lastName = lastName.toUpperCase().trim()
+            emailValue = emailValue.toLowerCase().trim()
+            newPassword = newPassword?.trim()
+            addressValue = addressValue?.toUpperCase().trim()
+            contactNumber = contactNumber?.trim()
+        
+        
+            user.merge({
+                firstName: firstName,
+                lastName: lastName,
+                email: emailValue,
+                address: addressValue,
+                contactNo: contactNumber,
+                updatedAt: DateTime.now()
+            })
+        
+            // console.log(user)
+        
+            if (newPassword && newPassword.length > 0) {
+                user.password = await hash.use('scrypt').make(newPassword)
+            }
+        
+            await user.save()
+            // console.log(user)
 
-    async store({ request, response, auth }: HttpContext) {
-        let { firstName, lastName, emailValue, confirmPassword, newPassword, currentPassword, addressValue, contactNumber, } = await request.validateUsing(updateUserValidator)
+            return inertia.render('/userPage', { 
+                message: 'User details updated successfully.',
+                user:{
+                    fName: user.firstName,
+                    lName: user.lastName,
+                    email: user.email,
+                    address: user.address,
+                    contactNo: user.contactNo
+                }
+            })
 
-        const user = await User.find(auth.user?.studentId)
-        console.log(user)
-        if (!user) {
-            return response.abort('User not found')
+        } catch (error) {
+            return inertia.render('/userPage', {
+                error: true,
+                message: 'An error occured while updating user details.'
+            })
         }
-
-        const passwordToVerify = currentPassword || confirmPassword
-        const isCurrentPasswordValid = await hash.use('scrypt').verify(user.password, passwordToVerify)
-
-        if (!isCurrentPasswordValid) {
-            return response.status(403).send({ message: 'Incorrect Current Password' })
-        }
-
-        firstName = firstName.toUpperCase().trim()
-        lastName = lastName.toUpperCase().trim()
-        emailValue = emailValue.toLowerCase().trim()
-        newPassword = newPassword?.trim()
-        addressValue = addressValue?.toUpperCase().trim()
-        contactNumber = contactNumber?.trim()
-
-        user.merge({
-            firstName: firstName,
-            lastName: lastName,
-            email: emailValue,
-            address: addressValue,
-            contactNo: contactNumber,
-            updatedAt: DateTime.now()
-        })
-
-        console.log(user)
-
-        if (newPassword && newPassword.length > 0) {
-            user.password = await hash.use('scrypt').make(newPassword)
-        }
-
-        await user.save()
-        console.log(user)
-        return response.status(200).send({ message: 'User Updated' })
     }
 }

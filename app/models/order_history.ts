@@ -28,7 +28,7 @@ export default class OrderHistory extends BaseModel {
   declare shippingAddress: string
 
   @column()
-  declare xenditTransactionId: string | null
+  declare xenditExternalId: string | null
 
   @column()
   declare paymentQrCodeUrl: string | null
@@ -45,7 +45,7 @@ export default class OrderHistory extends BaseModel {
   declare user: BelongsTo<typeof User>
 
   @hasMany(() => OrderLineItem, {
-    foreignKey: 'orderLineId'
+    foreignKey: 'orderHistoryId'
   })
   declare items: HasMany<typeof OrderLineItem>
 }

@@ -15,17 +15,20 @@ export default class UserLoginsController {
   async store({ request, response, inertia, session }: HttpContext) {
     let { studentNo, password } = await request.validateUsing(loginValidator)
 
-    const genericError = 'Invalid Student Number or Password'
+    const studentNoError = 'Incorrect Student Number'
+    const passwordError = 'Incorrect Password'
 
     const user = await User.findBy('student_no', studentNo)
     if (!user) {
-      return inertia.render('login', { message: genericError })
+      console.log(studentNoError)
+      return inertia.render('login', { studentNo, message: studentNoError })
 
     }
 
     const pass = await hash.use('scrypt').verify(user.password, password)
     if (!pass) {
-      return inertia.render('login', { message: genericError })
+      console.log(passwordError)
+      return inertia.render('login', { password, message: passwordError })
     }
 
     // OTP implementation logic

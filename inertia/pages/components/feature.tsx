@@ -54,24 +54,26 @@ export default function Feature({ products }: FeatureoductProps) {
         router.get(`/products/${productId}`)
         console.log(router.get(`/products/${productId}`))
     }
-    
+
     return (
         <>
-            <div className="bg-white mx-2 rounded-lg shadow-lg mb-[2rem]">
-                <h2 className="text-black text-[2rem] font-bold ml-[1rem] mt-[1rem]">Feature Product</h2>
+            <div className="bg-white mx-2 rounded-xl shadow-lg my-[2rem] overflow-hidden">
+                <div className="bg-red-300">
+                    <h2 className="text-white text-[2rem] font-bold ml-[1rem] mt-[1rem]">Feature Product</h2>
+                </div>
                 <div className="carousel w-full flex">
                     {/* Item list of products*/}
                     <div className="carousel-item relative w-full shadow-lg rounded-lg bg-white grid grid-cols-7 gap-3 justify-items-center overflox-x-hidden">
                         {paginated.length > 0 ? (
                             paginated.map(product => (
                                 // Product Card
-                                <div 
-                                    key={product.productId} 
+                                <div
+                                    key={product.productId}
                                     className="w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem] hover:cursor-pointer"
-                                    >
+                                >
                                     {product.imgUrl ? (
-                                        <img src={product.imgUrl} className="h-48 object-contain" 
-                                        onClick={() => handleNavigateToProduct(product.productId)}/>
+                                        <img src={product.imgUrl} className="h-48 object-contain"
+                                            onClick={() => handleNavigateToProduct(product.productId)} />
                                     ) : (
                                         <div className="h-48 bg-gray-200 animate-pulse" />
                                     )}

@@ -4,7 +4,7 @@ import OrderHistory from '#models/order_history'
 import OrderLineItem from '#models/order_line_item'
 import db from '@adonisjs/lucid/services/db'
 import CartItem from '#models/cart_item'
-import { createGCashCharge } from '#services/xendit_services'
+import { createGCashSource } from '#services/paymongo_services'
 
 export default class CheckOutsController {
     async show({ inertia, auth, request, response }: HttpContext) {
@@ -84,7 +84,9 @@ export default class CheckOutsController {
     async store({ request, response, auth }: HttpContext) {
         const user = auth.user!
 
-        const { shippingAddress, paymentMethod } = request.only(['cartItemIds', 'shippingAddress', 'paymentMethod'])
+        const { cartItemsId, shippingAddress, paymentMethod } = request.only(['cartItemsId', 'shippingAddress', 'paymentMethod'])
+
+        console.log('Payment method', paymentMethod, typeof (paymentMethod))
 
         const rawCartItemIds = request.input('cartItemIds')
 
@@ -119,7 +121,6 @@ export default class CheckOutsController {
         }
 
         selectedItemIds = selectedItemIds.filter(id => !isNaN(id) && id > 0)
-        // const selectedItemIds: number[] = cartItemIds.map(Number)
 
         if (selectedItemIds.length === 0) {
             return response.badRequest({ message: 'No Items selected for checkout' })
@@ -131,20 +132,9 @@ export default class CheckOutsController {
                 itemQuery
                     .whereIn('cart_item_id', selectedItemIds)
                     .preload('product')
-            }).first()
-
-        console.log(cart)
+            }).firstOrFail()
 
         const cartItems = cart?.items.filter(item => item.product) || []
-
-        console.log(cartItems)
-        // const cartItems = await CartItem.query()
-        //     .whereIn('cart_item_id', selectedItemIds)
-        //     .andWhereHas('cart', (cartQuery) => {
-        //         cartQuery.where('student_id', user.studentId)
-        //     })
-        //     .preload('product')
-        //     .exec()
 
         if (cartItems.length === 0 || cartItems.length !== selectedItemIds.length) {
             return response.badRequest({ message: 'Selected cart items not found or do not belong to user.' })
@@ -160,6 +150,11 @@ export default class CheckOutsController {
 
         let order: OrderHistory | null = null
 
+        const externalId = `ORDER_${user.studentId}_${Date.now()}`
+        const orderStatus = (paymentMethod === 'COD' ? 'Pending' : 'Awaiting Payment')
+
+        let paymongoSource: { sourceId: string, checkoutUrl: string } | null = null
+
         await db.transaction(async (trx) => {
             order = await OrderHistory.create({
 
@@ -169,6 +164,7 @@ export default class CheckOutsController {
                 status: (paymentMethod === 'COD' ? 'Pending' : 'Awaiting Payment'),
                 paymentMethod: paymentMethod,
                 shippingAddress: shippingAddress,
+                xenditExternalId: paymentMethod === 'GCash' ? externalId : null,
             }, { client: trx })
 
             const lineItemsData = cartItems.map(item => {
@@ -190,25 +186,60 @@ export default class CheckOutsController {
                     .delete()
             }
 
+            // if (paymentMethod === 'GCash') {
+            //     const fullName = `${user.firstName || ''} ${user.lastName || ''}`
+
+            //     const userBilling = {
+            //         name: fullName || 'Guest Customer',
+            //         email: user.email,
+            //         phone: user.contactNo || null,
+            //         address: shippingAddress,
+            //     }
+            //     try {
+            //         paymongoSource = await createGCashSource(externalId, totalAmount, userBilling)
+            //     } catch (error) {
+            //         console.error('PayMongo API Error:', error)
+            //         return response.redirect().toRoute('paymentFailure', {
+            //             orderId: externalId,
+            //             message: 'Failed to initiate payment with PayMongo. Please try again.',
+            //         })
+            //     }
+            // }
+
+
         })
 
+        if (!order) {
+            return response.internalServerError({ message: 'Failed to create order.' })
+        }
+
         if (paymentMethod === 'COD') {
-            await CartItem.query()
-                .whereIn('cart_item_id', selectedItemIds)
-                .delete()
+            if (order!.status === 'Pending') {
+                await CartItem.query()
+                    .whereIn('cart_item_id', selectedItemIds)
+                    .delete()
+            }
 
             return response.redirect().toRoute('orderResult', {
                 orderId: order!.orderHistoryId,
                 paymentType: 'COD'
             })
         } else if (paymentMethod === 'GCash') {
-            const externalId = `ORDER${order!.orderHistoryId}-${Date.now()}`
+            const fullName = `${user.firstName || ''} ${user.lastName || ''}`
 
+            const userBilling = {
+                name: fullName || 'Guest Customer',
+                email: user.email,
+                phone: user.contactNo || null,
+                address: shippingAddress,
+            }
             try {
-                const chargeResult = await createGCashCharge(externalId, totalAmount)
-                order!.xenditTransactionId = externalId
+                const chargeResult = await createGCashSource(externalId, totalAmount, userBilling)
+                // order!.xenditExternalId = chargeResult.sourceId
+                order!.status = 'Awaiting Payment'
                 await order!.save()
 
+                console.log(chargeResult.checkoutUrl)
                 return response.redirect(chargeResult.checkoutUrl)
             } catch (error) {
                 order!.status = 'Payment Failed'
@@ -221,15 +252,20 @@ export default class CheckOutsController {
         }
 
         return response.badRequest('Invalid payment method selected.')
-        // return response.redirect().toRoute('resultPage', { success: true })
     }
 
-    async paymentSuccess({ request, inertia, response }: HttpContext) {
+    async paymentSuccess({ request, inertia, response, auth }: HttpContext) {
+        const user = auth.user
+
+        if (!user) {
+            return response.redirect().toRoute('login')
+        }
+
         const queryParams = request.qs()
-        const externalId = queryParams.external_id || queryParams.orderId
+        const externalId = queryParams.order_id
 
         if (!externalId) {
-            return inertia.render('ResultPage', {
+            return inertia.render('orderResult', {
                 success: false,
                 message: 'Payment verification failed: Missing transaction ID.',
                 details: queryParams
@@ -238,67 +274,106 @@ export default class CheckOutsController {
         try {
             const order = await OrderHistory.query()
                 .where('xenditExternalId', externalId)
-                .orWhere('orderHistoryId', externalId)
                 .firstOrFail()
 
-            order.status = 'Processing'
-            await order.save()
+            console.log(order)
 
-            const lineItems = await OrderLineItem.query().where('orderHistoryId', order.orderHistoryId)
-            const productIds = lineItems.map(item => item.productId)
+            if (order.status === 'Awaiting Payment') {
+                order.status = 'Processing'
+                await order.save()
 
-            const cart = await Cart.findBy('studentId', order.studentId)
-            if (cart) {
-                await CartItem.query()
-                    .where('cartId', cart.cartId)
-                    .whereIn('productId', productIds)
-                    .delete()
+                const cart = await Cart.findBy('studentId', order.studentId)
+                if (cart) {
+                    const lineItems = await OrderLineItem.query()
+                        .where('orderHistoryId', order.orderHistoryId)
+
+                    const lineItemProductIds = lineItems.map(item => item.productId)
+
+                    // Delete the cart items that correspond to the ordered products
+                    await CartItem.query()
+                        .where('cartId', cart.cartId)
+                        .whereIn('productId', lineItemProductIds)
+                        .delete()
+                }
             }
 
-            return inertia.render('ResultPage', {
+            // const lineItems = await OrderLineItem.query()
+            //     .where('orderHistoryId', order.orderHistoryId)
+            // const productIds = lineItems.map(item => item.productId)
+
+
+            return inertia.render('orderResult', {
                 success: true,
                 message: 'Payment was successful! Your order has been placed and is being processed.',
                 details: queryParams
+            }, {
+                user: user ? {
+                    id: user.studentId,
+                    fName: user.firstName,
+                } : null
             })
         } catch (error) {
             console.error('Payment Success Handler Error:', error)
-            return inertia.render('ResultPage', {
+            return inertia.render('orderResult', {
                 success: false,
                 message: 'Payment was successful, but the order could not be finalized. Please contact support with the transaction details.',
                 details: queryParams
+            }, {
+                user: user ? {
+                    id: user.studentId,
+                    fName: user.firstName,
+                } : null
             })
         }
     }
 
-    async paymentFailure({ request, inertia }: HttpContext) {
-        const queryParams = request.qs()
-        const externalId = queryParams.external_id || queryParams.orderId
+    async paymentFailure({ request, inertia, auth }: HttpContext) {
+        const user = auth.user
 
-        if (externalId) {
-            try {
-                // Find the order and update its status
-                const order = await OrderHistory.query()
-                    .where('xenditExternalId', externalId)
-                    .first()
-
-                if (order) {
-                    order.status = 'Cancelled'
-                    await order.save()
-                }
-
-            } catch (error) {
-                console.warn('Could not locate or update failed order:', externalId)
-            }
+        if (!user) {
+            return inertia.render('login')
         }
 
-        return inertia.render('ResultPage', {
+        const queryParams = request.qs()
+        // const externalId = queryParams.external_id
+
+        // if (externalId) {
+        //     try {
+
+        //         const order = await OrderHistory.query()
+        //             .where('xenditExternalId', externalId)
+        //             .first()
+
+        //         console.log(order)
+        //         if (order) {
+        //             order.status = 'Cancelled'
+        //             await order.save()
+        //         }
+
+        //     } catch (error) {
+        //         console.warn('Could not locate or update failed order:', externalId)
+        //     }
+        // }
+
+        return inertia.render('orderResult', {
             success: false,
             message: 'Payment failed or was cancelled. Please check your details and try again.',
             details: queryParams
+        }, {
+            user: user ? {
+                id: user.studentId,
+                fName: user.firstName,
+            } : null
         })
     }
 
-    async renderResult({ inertia, request, response }: HttpContext) {
+    async renderResult({ inertia, request, response, auth }: HttpContext) {
+        const user = auth.user
+
+        if (!user) {
+            return inertia.render('login')
+        }
+
         const queryParams = request.qs()
         const orderId = queryParams.orderId
         const paymentType = queryParams.paymentType
@@ -308,7 +383,10 @@ export default class CheckOutsController {
         }
 
         try {
-            const order = await OrderHistory.find(orderId)
+            const order = await OrderHistory.query()
+                .where('orderHistoryId', orderId)
+                .preload('items')
+                .firstOrFail()
 
             if (!order) {
                 return inertia.render('orderResult', {
@@ -320,15 +398,28 @@ export default class CheckOutsController {
             return inertia.render('orderResult', {
                 success: true,
                 message: 'Your Cash on Delivery (COD) order has been successfully placed and is pending confirmation.',
-                orderId: order.orderHistoryId,
+                orderId: order.serialize(),
                 paymentType: paymentType,
+            }, {
+                user: user ? {
+                    id: user.studentId,
+                    fName: user.firstName,
+                } : null
             })
         } catch (error) {
             console.error('Render Result Error:', error)
+            if (error.code === 'E_ROW_NOT_FOUND') {
+                return response.notFound('Order not found.')
+            }
             return inertia.render('orderResult', {
                 success: false,
                 message: 'An unexpected error occurred while finalizing your order.',
                 details: queryParams
+            }, {
+                user: user ? {
+                    id: user.studentId,
+                    fName: user.firstName,
+                } : null
             })
         }
     }

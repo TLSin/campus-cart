@@ -3,7 +3,7 @@ interface OrderItem {
     productName: string
     price: number
     quantity: number
-    imgUrl: string | null
+    imgurl: string | null
 }
 
 interface OrderHistoryRecord {
@@ -57,7 +57,7 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
                                             <td className="bg-white rounded-2xl shadow-md p-4">
                                                 <div className="flex justify-between border-b pb-2 mb-2">
                                                     <div>
-                                                        <div className="font-medium">Status: **{order.status}**</div>
+                                                        <div className="font-medium">Status: <strong className="text-red">{order.status}</strong></div>
                                                         <div className="text-xs text-gray-500">Order Placed: {order.createdAt}</div>
                                                     </div>
                                                     <div className="text-sm font-semibold">Order# **{order.orderHistoryId}**</div>
@@ -65,10 +65,10 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
 
                                                 {order.items.map((item) => (
                                                     <>
-                                                        <div className="flex justify-between items-start">
+                                                        <div className="flex justify-between items-start mb-[1rem]">
                                                             <div className="flex gap-4">
-                                                                {item.imgUrl ? (
-                                                                    <img src={item.imgUrl} alt="" className="w-16 h-16 object-cover rounded-md shrink-0" />
+                                                                {item.imgurl ? (
+                                                                    <img src={item.imgurl} alt="" className="w-16 h-16 object-cover rounded-md shrink-0" />
                                                                 ) : (
                                                                     <div className="w-16 h-16 bg-gray-400 rounded-md"></div>
                                                                 )

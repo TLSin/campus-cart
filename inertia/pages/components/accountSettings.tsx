@@ -71,7 +71,7 @@ export default function AccountSettings({ fName, lName, email, password, program
                     <h2 className="text-[#515A70] text-[2rem] font-bold h-[3rem] left-0 mr-2">Account Settings</h2>
 
                     <button
-                        className={`w-[5rem] h-[3rem] bg-[#616B85] rounded-lg text-[1.2rem] ${isVisible ? 'invisible' : 'visible'} hover:bg-[#6C7B9F]`}
+                        className={`w-[5rem] h-[3rem] bg-[#616B85] rounded-lg text-[1.2rem] text-white ${isVisible ? 'invisible' : 'visible'} hover:bg-[#6C7B9F]`}
                         onClick={handleEdit}
                     >
                         Edit
@@ -217,17 +217,17 @@ export default function AccountSettings({ fName, lName, email, password, program
                             <div>
                                 <button
                                     type="submit"
-                                    className={`w-[10rem] h-[3rem] bg-[#616B85] text-[#D3CCCC] rounded-lg text-[1.2rem] mr-[2rem] ${isVisible ? 'visible'  : 'invisible' } hover:bg-[#44506D] `}
+                                    className={`w-[10rem] h-[3rem] bg-[#616B85] text-[#FFFFFF] rounded-lg text-[1.2rem] mr-[2rem] ${isVisible ? 'visible'  : 'invisible' } hover:bg-[#44506D] `}
                                     onClick={handleSubmit}
                                 >
                                     Save Changes
                                 </button>
                                 <button
                                     type="submit"
-                                    className={`w-[10rem] h-[3rem] bg-[#616B85] text-[#D3CCCC] rounded-lg text-[1.2rem] mr-[2rem] ${isVisible ? 'visible'  : 'invisible' } hover:bg-[#44506D] `}
+                                    className={`w-[10rem] h-[3rem] bg-[#616B85] text-[#FFFFFF] rounded-lg text-[1.2rem] mr-[2rem] ${isVisible ? 'visible'  : 'invisible' } hover:bg-[#44506D] `}
                                     onClick={handleCancel}
                                 >
-                                    Cacel
+                                    Cancel
                                 </button>
                             </div>
 

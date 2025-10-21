@@ -11,25 +11,31 @@ export default class UsersController {
         return inertia.render('signUp')
     }
 
-    async store( {response, request, auth }: HttpContext) {    
+    async store( {response, request, inertia }: HttpContext) {    
         const payload = await request.validateUsing(signUpValidator)
 
         payload.firstName = payload.firstName.toUpperCase().trim()
         payload.lastName = payload.lastName.toUpperCase().trim()
         payload.email = payload.email.toLowerCase().trim()
         payload.stNum = payload.stNum.toUpperCase().trim()
-
+        
         const campusRecord = await Campus.query().where('campus', payload.campus).first()
         if(!campusRecord){
-            return response.badRequest({ campus:'Invalid Campus Selected' })
+            return inertia.render('signUp', { campusRecord, message: 'Invalid Campus' })
         }
 
         const programRecord = await Program.firstOrCreate(
             { program: payload.program },
             { program: payload.program},
         )
+        if(!programRecord){
+            return inertia.render('signUp', { programRecord, message: 'Invalid Program' })
+        }
 
         const hashPassword = await hash.use('scrypt').make(payload.password)
+        if(!hashPassword){
+            return inertia.render('signUp', { message: 'Invalid password' })
+        }
 
         console.log(payload)
 

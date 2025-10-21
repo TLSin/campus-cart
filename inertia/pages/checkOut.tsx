@@ -68,7 +68,7 @@ export default function CheckOut() {
         }
 
         setIsProcessing(true)
-
+        
         const itemIds = cartItemIds.map(Number)
 
         const data = {
@@ -251,7 +251,7 @@ export default function CheckOut() {
                                         type="radio"
                                         id="COD"
                                         name="payment"
-                                        value="Mock_COD"
+                                        value="COD"
                                         checked={paymentMethod === 'COD'}
                                         onChange={() => setPaymentMethod('COD')}
                                         className="form-radio text-blue-600 "

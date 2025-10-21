@@ -2,7 +2,9 @@ import Navigation from "./components/navBar"
 import Footer from "./components/footer"
 import DynamicDescription from "./components/dynamicDescription"
 import { useState, useMemo, Dispatch, SetStateAction } from "react";
-import { Head, usePage, router } from "@inertiajs/react";
+import { Head, usePage, router, Link } from "@inertiajs/react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm"
 
 interface ProductVariants {
     productId: number
@@ -119,8 +121,16 @@ export default function ProductPage() {
             */}
             {/* Container */}
             <div className="flex flex-col items-center justify-center w-screen h-full bg-[#E0E4EC]">
+                <button className="w-[7rem] translate-x-[-23dvw] mt-[1rem]">
+                    <Link href='/' className="flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                        </svg>
+                        <h5>Go Back</h5>
+                    </Link>
+                </button>
                 {/* Product Container */}
-                <div className="w-[85%] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] flex">
+                <div className="w-[85%] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] my-[2rem] flex">
                     {/* Image Container */}
                     <div className="w-[40dvw] h-[73dvh] rounded-t-lg ml-[1.5rem] mt-[1.5rem] overflow-hidden">
                         {/* Main Image */}
@@ -147,7 +157,7 @@ export default function ProductPage() {
                             <h1 className="text-[#44506D] text-[1.7rem]">{product.productName}</h1>
                             {/* Rating Details */}
                             <div className="flex grid grid-cols-3 divide-x-3 divide-solid divide-[#44506D] items-center ml-[1rem] pt-[1rem] pb-[2rem]">
-                                <div className="flex items-center border-r border-[#44506D]">
+                                {/* <div className="flex items-center border-r border-[#44506D]">
                                     <h3 className="text-black text-[1.1rem] bg-none mr-[0.5rem]">4.8</h3>
                                     <div className="rating w-[5rem] items-center">
                                         <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" aria-label="1 star" />
@@ -164,7 +174,7 @@ export default function ProductPage() {
                                 <div className="flex items-center align-center ml-[2rem]">
                                     <h3 className="flex text-black text-[1rem]"> 1K+</h3>
                                     <h4 className="flex text-[0.8rem] text-black ml-[0.5rem]">Sold</h4>
-                                </div>
+                                </div> */}
                             </div>
                             <h2 className="text-red-600 text-[1.5rem] font-bold ml-[1rem] ">₱{selectedVariantPrice}</h2>
                             {/* Other Details */}
@@ -207,9 +217,9 @@ export default function ProductPage() {
                 {/* Product Descriptions */}
                 <div className="w-[85dvw] h-auto bg-white rounded-lg shadow-lg mb-[1.5rem] p-4">
                     <h1 className="text-[#44506D] text-[1.5rem] font-bold mb-[1rem]">Product Description</h1>
-                    <p>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {product.description}
-                    </p>
+                    </ReactMarkdown>
                 </div>
 
                 {/* User Reviews */}

@@ -26,7 +26,6 @@ export default function ResultPage() {
     return (
         <>
             <Head title={title} />
-            <Navigation />
             
             <div className="min-h-screen pt-20 bg-gray-50 flex justify-center items-center">
                 <div className="max-w-md w-full bg-white p-8 shadow-2xl rounded-xl text-center">
@@ -35,12 +34,12 @@ export default function ResultPage() {
                     <p className="text-xl text-gray-600 mb-8">{message}</p>
 
                     {/* Optional: Display Xendit details for debugging in development */}
-                    {import.meta.env.DEV && details && (
+                    {/* {import.meta.env.DEV && details && (
                         <div className="mt-6 p-4 bg-gray-100 rounded-lg text-left text-sm text-gray-700 break-words overflow-x-auto">
                             <h4 className="font-semibold mb-2">Details (Dev Only):</h4>
                             <pre className="whitespace-pre-wrap">{JSON.stringify(details, null, 2)}</pre>
                         </div>
-                    )}
+                    )} */}
 
                     <Link 
                         href={buttonLink}

@@ -126,7 +126,8 @@ export default function Signup() {
                                         <select
                                             value={campus}
                                             onChange={e => setCampus(e.target.value)}
-                                            className=" text-[#FFFFFF] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2"
+                                            className=" text-[#4A69A8] text-lg font-poppins h-[3rem] w-full focus:outline-none rounded-xl px-3 border border-2"
+                                            required
                                         >
                                             {/* Placeholder (disabled so user can’t re-select it after picking) */}
                                             <option value="" disabled >
@@ -134,7 +135,7 @@ export default function Signup() {
                                             </option>
 
                                             {campuses.map((opt) => (
-                                                <option key={opt.id} value={opt.name}>
+                                                <option key={opt.id} value={opt.name} className="rounded-lg">
                                                     {opt.name}
                                                 </option>
                                             ))}

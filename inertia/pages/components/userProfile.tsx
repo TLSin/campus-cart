@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 
 interface UserProps {
     fName: string
@@ -8,18 +9,40 @@ interface UserProps {
     studentNo: string
     address: string
     contactNo: string
+    message?: string
+    error?: boolean
+    success?: boolean
+    type?: string
 }
 
 
-export default function UserProfile({ fName, lName, email, program, campus, studentNo, address, contactNo } : UserProps) {
+export default function UserProfile({ fName, lName, email, program, campus, studentNo, address, contactNo, message, error, success, type }: UserProps) {
     const user = [{ fName, lName, email, program, campus, address, contactNo }]
     const fullName = `${fName} ${lName}`
-    
+
+    const [notification, setNotification] = useState<string | null>(message || null)
+
+    useEffect(() => {
+        if (notification) {
+            const timer = setTimeout(() => {
+                setNotification(null)
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [notification])
+
     console.log(user)
 
     return (
         <>
             <div className="grid ml-[2rem] mb-[1rem]">
+                {/* Notification display */}
+                {notification && (
+                    <div className={`mb-4 p-3 rounded-md ${error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                        }`}>
+                        {notification}
+                    </div>
+                )}
                 <h2 className="text-[#515A70] text-[2rem] font-bold row-start-1 end-1 h-[3rem] mt-[1rem]">User Profile</h2>
                 {/* Input Fields */}
                 <div className="flex grid grid-cols-2 place-items-center">
@@ -29,9 +52,9 @@ export default function UserProfile({ fName, lName, email, program, campus, stud
                         <input type="text"
                             placeholder="e.g. Juan Dela Cruz"
                             value={`${fullName}`}
-                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white" 
+                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white"
                             disabled
-                            />
+                        />
                     </div>
                     {/* Phone Section */}
                     <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
@@ -46,53 +69,53 @@ export default function UserProfile({ fName, lName, email, program, campus, stud
                                 <li>+63</li>
                             </ul> */}
                         </div>
-                        <input 
+                        <input
                             type="text"
                             value={`${contactNo}`}
                             placeholder="9123456789"
-                            className="bg-[#44506D] rounded-md p-1 z-1 text-center w-[85%] text-white" 
-                            disabled/>
+                            className="bg-[#44506D] rounded-md p-1 z-1 text-center w-[85%] text-white"
+                            disabled />
                     </div>
                     {/* Email Section */}
                     <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Email</h3>
-                        <input 
+                        <input
                             type="text"
                             value={email}
                             placeholder="e.g. juandelacruz@gmail.com"
-                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white" 
+                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white"
                             disabled
-                            />
+                        />
                     </div>
                     {/* Program Section */}
                     <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Program</h3>
-                        <input 
+                        <input
                             type="text"
                             value={program}
                             placeholder="e.g. Bachelor of Science in Information Technology"
-                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white" 
-                            disabled/>
+                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white"
+                            disabled />
                     </div>
                     {/* Student Number Section */}
                     <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Student Number</h3>
-                        <input 
+                        <input
                             type="text"
                             value={studentNo}
                             placeholder="e.g. AU123456789"
-                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white" 
-                            disabled/>
+                            className="bg-[#44506D] rounded-md p-1 w-[85%] text-white"
+                            disabled />
                     </div>
                     {/* Campus Section */}
                     <div className="col-1 align-center col-span-1 mb-[1rem] w-full">
                         <h3 className="text-[#515A70] text-[1rem] font-medium">Campus</h3>
-                        <input 
+                        <input
                             type="text"
                             value={campus}
                             placeholder="e.g. Cainta, Antipolo, Sumulong... "
-                            className="bg-[#44506D] rounded-md p-1 w-[25dvw] text-white" 
-                            disabled/>
+                            className="bg-[#44506D] rounded-md p-1 w-[25dvw] text-white"
+                            disabled />
                     </div>
                     {/* Address Section */}
                     <div className="col-1 align-center col-span-1 w-full">
@@ -100,8 +123,8 @@ export default function UserProfile({ fName, lName, email, program, campus, stud
                         <textarea
                             value={address}
                             placeholder="e.g. 256 Real Road, Barangay South Real, Real City, Antipolo, Philippines 1870"
-                            className="bg-[#44506D] rounded-md p-1 w-[38dvw] h-[5rem] resize-none text-white" 
-                            readOnly/>
+                            className="bg-[#44506D] rounded-md p-1 w-[38dvw] h-[5rem] resize-none text-white"
+                            readOnly />
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ const UserDetailsController = () => import('#controllers/user_details_controller
 const ResultsController = () => import('#controllers/results_controller')
 const OtpsController = () => import('#controllers/otps_controller')
 const UserReviewsController = () => import('#controllers/user_reviews_controller')
+const WebhooksController = () => import('#controllers/webhooks_controller')
 
 // router.on('/').renderInertia('home').use(middleware.auth())
 router.get('/', async ({ auth, response, inertia }) => {
@@ -35,6 +36,7 @@ router.group(() => {
     router.get('/products/:productId', [ShopsController, 'show'])
     // router.get('/resultPage', [ResultsController, 'show'])
     router.get('/resultPage/:id', [ResultsController , 'show'])
+    router.post('/webhooks/paymongo', [WebhooksController, 'handle']).as('paymongoWebhook')
     // router.on('/resultPage').renderInertia('resultPage')
 })
 
@@ -67,6 +69,7 @@ router.
         router.get('/orderResult', [CheckoutsController, 'renderResult']).as('orderResult')
     }).use(middleware.auth())
 
+    router.post('/logout', [UserLogoutsController, 'handle'])
 // Public routes that redirect if not authenticated
 router.
     group(() => {
@@ -79,6 +82,5 @@ router.
         router.get('/verifyOtp', [OtpsController, 'show'])
         router.post('/verifyOtp', [OtpsController, 'verify'])
 
-        router.post('/logout', [UserLogoutsController, 'handle'])
-    })
+    }).use(middleware.guest())
 

@@ -3,35 +3,34 @@ import { Head, Link, router, usePage } from "@inertiajs/react"
 import Footer from "./components/footer"
 
 interface LoginProps {
-    errors?: {
-        studentNo?: string
-        password?: string
-        message?: string
-    }
+    studentNo?: string
+    password?: string
+    message?: string
     status?: string
     [key: string]: any
 }
 
 export default function Login() {
-    const { errors, status, message: generalMessage } = usePage<LoginProps>().props
+    const { message } = usePage<LoginProps>().props
 
     const [show, setShow] = useState<boolean>(false)
     const [studentNo, SetStudentNo] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isError, setIsError] = useState<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (studentNo && password) {
-
             setIsLoading(true)
+            setIsError(false)
 
             router.post('/login', {
                 studentNo: studentNo.toUpperCase().trim(),
                 password: password.trim(),
-            }, {
-                onFinish: () => setIsLoading(false)
             })
+        } else {
+            setIsError(true)
         }
 
     }
@@ -61,9 +60,10 @@ export default function Login() {
                     <div className="
                                 w-[70%] h-[100%] rounded-2xl 
                                 shadow-lg shadow-black/30 bg-black/10 overflow-hidden
-                                backdrop-blur-sm col-span-1 border-2 border-white/30 my-[7rem]
+                                backdrop-blur-sm col-span-1 border-2 border-white/30 my-[5rem] p-5
                                 ">
                         <h1 className="text-5xl font-semibold text-[#FFFFFF] font-Poppins text-center mt-[4rem]">Login</h1>
+
                         {/*Log-input*/}
                         <form onSubmit={handleSubmit}>
                             <div>
@@ -73,16 +73,26 @@ export default function Login() {
                                     <input
                                         type="text"
                                         value={studentNo}
-                                        onChange={e => SetStudentNo(e.target.value)}
+                                        onChange={e => {
+                                            SetStudentNo(e.target.value)
+                                            message === 'Incorrect Student Number'
+                                        }}
                                         placeholder="Enter your Student Number"
-                                        className="
+                                        className={`
                                                     border border-2 h-[3rem] w-[90%] focus:outline-none rounded-md 
-                                                    text-white text-lg placeholder:text-gray-500 px-2"
+                                                    text-white text-lg placeholder:text-gray-500 px-2 shadow-none
+                                                    ${message === 'Incorrect Student Number' ? 'text-red-400 border-red-400 shadow-sm shadow-red-400' : 'text-green-400 border-green-400' }
+                                                    ${!message ? 'text-white border-white shadow-none' : ''}`}
                                     />
+                                    {message === 'Incorrect Student Number' && (
+                                        <div className="relative text-sm text-red-500 text-left">                                            
+                                            {message}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* password */}
-                                <div className="mt-[1rem] w-full h-[5rem]  ml-[2rem]">
+                                <div className={`mt-[0.5rem] w-full h-[5rem]  ml-[2rem] ${message === 'Incorrect Student Number' ? 'mt-[1rem]' : 'mt-[0.5rem]'}`}>
                                     <h1 className="text-[#FFFFFF] text-lg font-poppins">Password</h1>
                                     <div className="flex">
                                         <input
@@ -90,9 +100,11 @@ export default function Login() {
                                             value={password}
                                             onChange={e => setPassword(e.target.value)}
                                             placeholder="Enter your password"
-                                            className="
+                                            className={`
                                                         border border-2 h-[3rem] w-[90%] focus:outline-none rounded-md 
-                                                        text-[#FFFFFF] text-lg placeholder:text-gray-500 px-2"
+                                                        text-[#FFFFFF] text-lg placeholder:text-gray-500 px-2                                                        
+                                                        ${message === 'Incorrect Password' || 'Incorrect Student Number' ? 'text-red-400 border-red-400 shadow-sm shadow-red-400' : 'text-green-400 border-green-400'}
+                                                        ${!message ? 'text-white border-white shadow-none' : ''}`}
                                         />
                                         {/* Toggle Show/Hide Password */}
                                         <button
@@ -106,10 +118,15 @@ export default function Login() {
                                             />
                                         </button>
                                     </div>
+                                    {message === 'Incorrect Password' && (
+                                        <div className="relative text-sm text-red-500 text-left">
+                                            { message}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/*rememberMe & forgotPassword*/}
-                                <div className="flex justify-between w-[100%] ml-[2rem]">
+                                <div className={`flex justify-between w-[100%] ml-[2rem] ${message === 'Incorrect Password' ? 'mt-[1rem]' : ''}`}>
                                     {/*remember me*/}
                                     <div className="flex">
                                         <input
