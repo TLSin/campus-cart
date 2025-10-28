@@ -25,7 +25,7 @@ export default function Navigation() {
         router.post('/logout')
     }
 
-    console.log(cartCount)
+    // console.log('DEBUG: ',cartCount)
     return (
         <>
             <div className="navbar h-[6.5rem] w-screen bg-[#44506D] shadow-sm grid grid-flow-col grid-rows-3 ">

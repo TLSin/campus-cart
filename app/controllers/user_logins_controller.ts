@@ -67,10 +67,10 @@ export default class UserLoginsController {
 
     await session.flash('otp_student_no', user.studentNo)
 
-    console.log(studentNo)
-    console.log(password)
-    console.log(otpCode)
-    console.log(user)
+    // console.log(studentNo)
+    // console.log(password)
+    // console.log(otpCode)
+    // console.log(user)
 
 
     return response.redirect().toPath('/verifyOtp')

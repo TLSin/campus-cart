@@ -101,7 +101,7 @@ export default function CartPage() {
                 Note: Settings here are for screen size 1280 * 1024
                 TODO: Modify it for screen size 1920 * 1080 
             */}
-            <div className="h-[100%] w-full bg-white justify-items-center">
+            <div className="min-h-[67.6dvh] w-full bg-white justify-items-center">
                 <div className="bg-white w-full h-full py-8 flex flex-col">
                     <div className="h-auto w-[75%] bg-white p-8 shadow-lg rounded-2xl mx-auto mb-[3rem] border">
                         <h1 className="flex text-[3rem] font-bold text-[#515A70] ml-[1rem] mb-[2rem]">Shopping Cart</h1>

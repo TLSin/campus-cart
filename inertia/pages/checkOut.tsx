@@ -26,6 +26,7 @@ interface CheckoutPageProps {
     shippingFee: number
     totalAmount: number
     cartItemIds: number[]
+    checkOutUrl?: string
 }
 
 interface PageProps {
@@ -39,7 +40,7 @@ const formatCurrency = (amount: number) => {
 
 export default function CheckOut() {
     const { props } = usePage<PageProps>()
-    const { user, cartItems, merchandiseSubtotal, shippingFee, totalAmount, cartItemIds } = props
+    const { user, cartItems, merchandiseSubtotal, shippingFee, totalAmount, cartItemIds, checkOutUrl } = props
 
     const [firstName, setFirstName] = useState(user.fName)
     const [contactNo, setContactNo] = useState(user.contactNo)
@@ -77,12 +78,20 @@ export default function CheckOut() {
             shippingAddress: shippingAddress,
             paymentMethod: paymentMethod,
         }
+        
         router.post('/checkOut', data, {
             preserveScroll: false,
             onFinish: () => {
                 setIsProcessing(false)
-            }
-            ,
+            },
+            onSuccess: (page) => {
+                const { checkOutUrl } = (page.props as { checkOutUrl?: string })
+                console.log('DEBUG', checkOutUrl)
+
+                if(paymentMethod === 'GCash' && checkOutUrl){
+                    window.location.href = checkOutUrl
+                }
+            },
             onError: (errors) => {
                 console.error('Checkout Error: ', errors)
                 alert(`Checkout failed. Please check the console or try again.`)
@@ -93,6 +102,7 @@ export default function CheckOut() {
 
     const isFormIncomplete = shippingAddress.trim() === '' || cartItems.length === 0
 
+    // console.log('DEBUG: ', checkOutUrl)
     return (
         <>
             <Head title="Checkout" />

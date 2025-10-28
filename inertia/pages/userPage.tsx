@@ -104,8 +104,8 @@ export default function userPage() {
                     {notification.message}
                 </div>
             )}
-            <div className="grid place-items-center bg-white w-screen">
-                <div className="flex w-[70dvw] h-auto bg-[#949EC0] my-[2rem] rounded-xl shadow-lg grid grid-cols-2 grid-aut0-rows justify-items-center">
+            <div className="grid place-items-center bg-white w-screen min-h-[75dvh]">
+                <div className="flex w-[70dvw] bg-[#949EC0] my-[2rem] rounded-xl shadow-lg grid grid-cols-2 grid-auto-rows justify-items-center">
                     {/* Header */}
                     <div className="p-2 border-b-2 border-white h-[6.5rem] w-[94%] col-span-2">
                         <h1 className="text-[#515A70] text-[3rem] font-bold h-[4rem]">My Account</h1>

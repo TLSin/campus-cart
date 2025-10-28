@@ -4,7 +4,7 @@ import OrderHistory from '#models/order_history'
 import OrderLineItem from '#models/order_line_item'
 import db from '@adonisjs/lucid/services/db'
 import CartItem from '#models/cart_item'
-import { createGCashSource } from '#services/paymongo_services'
+import { createGCashPaymentIntent, PaymentIntentResult } from '#services/paymongo_service'
 
 export default class CheckOutsController {
     async show({ inertia, auth, request, response }: HttpContext) {
@@ -81,12 +81,12 @@ export default class CheckOutsController {
         })
     }
 
-    async store({ request, response, auth }: HttpContext) {
+    async store({ request, response, auth, inertia }: HttpContext) {
         const user = auth.user!
 
-        const { cartItemsId, shippingAddress, paymentMethod } = request.only(['cartItemsId', 'shippingAddress', 'paymentMethod'])
+        const { shippingAddress, paymentMethod } = request.only(['shippingAddress', 'paymentMethod'])
 
-        console.log('Payment method', paymentMethod, typeof (paymentMethod))
+        // console.log('Payment method', paymentMethod, typeof (paymentMethod))
 
         const rawCartItemIds = request.input('cartItemIds')
 
@@ -151,13 +151,11 @@ export default class CheckOutsController {
         let order: OrderHistory | null = null
 
         const externalId = `ORDER_${user.studentId}_${Date.now()}`
-        const orderStatus = (paymentMethod === 'COD' ? 'Pending' : 'Awaiting Payment')
 
-        let paymongoSource: { sourceId: string, checkoutUrl: string } | null = null
+        // let paymentIntentResult: PaymentIntentResult | null = null
 
         await db.transaction(async (trx) => {
             order = await OrderHistory.create({
-
                 studentId: user.studentId,
                 totalAmount: totalAmount,
                 shippingFee: shippingFee,
@@ -186,27 +184,6 @@ export default class CheckOutsController {
                     .delete()
             }
 
-            // if (paymentMethod === 'GCash') {
-            //     const fullName = `${user.firstName || ''} ${user.lastName || ''}`
-
-            //     const userBilling = {
-            //         name: fullName || 'Guest Customer',
-            //         email: user.email,
-            //         phone: user.contactNo || null,
-            //         address: shippingAddress,
-            //     }
-            //     try {
-            //         paymongoSource = await createGCashSource(externalId, totalAmount, userBilling)
-            //     } catch (error) {
-            //         console.error('PayMongo API Error:', error)
-            //         return response.redirect().toRoute('paymentFailure', {
-            //             orderId: externalId,
-            //             message: 'Failed to initiate payment with PayMongo. Please try again.',
-            //         })
-            //     }
-            // }
-
-
         })
 
         if (!order) {
@@ -234,15 +211,25 @@ export default class CheckOutsController {
                 address: shippingAddress,
             }
             try {
-                const chargeResult = await createGCashSource(externalId, totalAmount, userBilling)
-                // order!.xenditExternalId = chargeResult.sourceId
+                const paymentIntentResult = await createGCashPaymentIntent(externalId, totalAmount, userBilling)
+                // order!.xenditExternalId = paymentIntentResult.paymentIntentId
+                // console.log('DEBUG: Payment Intent Result: ', paymentIntentResult)
                 order!.status = 'Awaiting Payment'
                 await order!.save()
 
-                console.log(chargeResult.checkoutUrl)
-                return response.redirect(chargeResult.checkoutUrl)
+                // console.log(paymentIntentResult.checkoutUrl)
+                return inertia.render('checkOut', {checkOutUrl: paymentIntentResult.checkoutUrl})
+                // return response.ok({
+                //     checkoutUrl: paymentIntentResult.checkoutUrl
+                // })
+
+                // if(request.header('X-Inertia')){
+                //     // return response.redirect(paymentIntentResult.checkoutUrl)
+                // }
             } catch (error) {
                 order!.status = 'Payment Failed'
+                console.error('PayMongo Payment Intent Failed:', error)
+                
                 await order!.save()
                 return response.redirect().toRoute('paymentFailure', {
                     orderId: order!.orderHistoryId,
@@ -276,7 +263,7 @@ export default class CheckOutsController {
                 .where('xenditExternalId', externalId)
                 .firstOrFail()
 
-            console.log(order)
+            // console.log(order)
 
             if (order.status === 'Awaiting Payment') {
                 order.status = 'Processing'

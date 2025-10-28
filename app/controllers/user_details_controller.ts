@@ -46,20 +46,20 @@ export default class UserDetailsController {
             }))
         }))
 
-        console.log(
-            // user?.studentId,
-            // user?.firstName,
-            // user?.lastName,
-            // user?.email,
-            // program?.program,
-            // campus?.campus,
-            // user?.studentNo,
-            // user?.address,
-            // user?.contactNo,
-            // user?.password,
-            ordersData,
+        // console.log(
+        //     // user?.studentId,
+        //     // user?.firstName,
+        //     // user?.lastName,
+        //     // user?.email,
+        //     // program?.program,
+        //     // campus?.campus,
+        //     // user?.studentNo,
+        //     // user?.address,
+        //     // user?.contactNo,
+        //     // user?.password,
+        //     ordersData,
             
-        )
+        // )
 
         return inertia.render('userPage', {
             user: {

@@ -24,7 +24,7 @@ interface OrderHistoryProps {
 export default function OrderHistory({ orders }: OrderHistoryProps) {
     if (orders.length === 0) {
         return (
-            <div className="relative w-[68dvw] h-auto p-8 flex flex-col items-center justify-center bg-white rounded-xl shadow-lg mt-4">
+            <div className="relative w-[68dvw] h-auto p-8 flex flex-col items-center justify-center bg-white rounded-xl shadow-lg mt-4 mb-[2rem]">
                 <h2 className="text-[#515A70] text-2xl font-bold mb-4">My Orders</h2>
                 <div className="text-center p-8 border-2 border-dashed border-gray-300 rounded-lg w-full">
                     <p className="text-gray-600 text-lg mb-2">Looks like your order history is empty! 🛒</p>
@@ -43,7 +43,7 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
                     <table className="table-auto border-spacing-x-2 border-spacing-y-5 border-separate w-full ">
                         <tbody className="">
                             {orders.length === 0 ? (
-                                <tr>
+                                <tr className="mb-[2rem]">
                                     <td className="bg-white rounded-2xl shadow-xl p-8 text-center text-gray-600 border-2 border-dashed border-gray-300">
                                         <p className="text-lg font-medium mb-2">Looks like your order history is empty! 🛒</p>
                                         <p className="text-sm text-gray-500">Time to find something you like and place your first order.</p>
@@ -54,7 +54,7 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
                                     <>
                                         {/* List of orders*/}
                                         <tr key={order.orderHistoryId} className="">
-                                            <td className="bg-white rounded-2xl shadow-md p-4">
+                                            <td className="bg-white rounded-md shadow-md p-4">
                                                 <div className="flex justify-between border-b pb-2 mb-2">
                                                     <div>
                                                         <div className="font-medium">Status: <strong className="text-red">{order.status}</strong></div>
