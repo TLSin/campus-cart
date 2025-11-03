@@ -66,7 +66,7 @@ export default function TopProduct({ products }: TopProductProps) {
                     <div className="carousel-item relative w-full shadow-lg rounded-lg bg-white grid grid-cols-7 gap-3 justify-items-center overflox-x-hidden">
                         {paginated.length > 0 ? (
                             paginated.map(product => (
-                                <div key={product.productId} className="w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem]">
+                                <div key={product.productId} className="w-60 md:w-44 2xl:w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem]">
                                     {product.imgUrl ? (
                                         <img
                                             src={product.imgUrl} className="h-48 object-cover hover:cursor-pointer"

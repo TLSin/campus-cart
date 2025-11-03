@@ -124,12 +124,12 @@ export default function CheckOut() {
                     <div className="w-full max-w-full overflow-x-hidden">
 
                         {/* checkout text */}
-                        <div className="w-full h-auto border-b-2 border-black h-[8rem]">
-                            <h1 className="text-5xl font-black px-10 py-8 text-[#515A70]">Checkout</h1>
+                        <div className="w-full h-auto border-b-2 border-black md:h-[5rem] 2xl:h-[8rem]">
+                            <h1 className="md:text-3xl 2xl:text-5xl font-black md:px-5 md:py-4 2xl:px-10 2xl:py-8 text-[#515A70]">Checkout</h1>
                         </div>
 
                         {/* user's info */}
-                        <div className="w-full pb-14 pt-2 grid grid-rows-2 grid-cols-2 border-b-2 border-black">
+                        <div className="w-full md:pb-4 2xl:pb-14 2xl:pt-2 grid grid-rows-2 grid-cols-2 border-b-2 border-black">
                             {/* User first name */}
                             <div className="px-8 py-1 flex row-start-1">
                                 <img src="pin-location.gif" alt="" className="h-8 " />
@@ -313,17 +313,17 @@ export default function CheckOut() {
                     </div>
                     {/* payment details */}
                     <div className="sticky bottom-0 absolute bg-white">
-                        <div className=" px-5 py-2 border-b border-black border-t">
-                            <h1 className="text-[#515A70] text-xl font-black">Payment Details</h1>
+                        <div className="px-5 py-2 border-b border-black border-t">
+                            <h1 className="text-[#515A70] md:text-lg 2xl:text-xl font-black">Payment Details</h1>
 
                             <div className="flex justify-between items-start pt-2 px-4">
-                                <h6 className="text-[#515A70] text-md font-medium">Merchandise Subtotal</h6>
-                                <h6 className="text-[#515A70] text-md font-medium">{formatCurrency(merchandiseSubtotal)}</h6>
+                                <h6 className="text-[#515A70] md:text-sm 2xl:text-md font-medium">Merchandise Subtotal</h6>
+                                <h6 className="text-[#515A70] md:text-sm 2xl:text-md font-medium">{formatCurrency(merchandiseSubtotal)}</h6>
                             </div>
 
                             <div className="flex justify-between items-start px-4">
-                                <h6 className="text-[#515A70] text-md font-medium">Shipping Subtotal</h6>
-                                <h6 className="text-[#515A70] text-md font-medium">{formatCurrency(shippingFee)}</h6>
+                                <h6 className="text-[#515A70] md:text-sm 2xl:text-md font-medium">Shipping Subtotal</h6>
+                                <h6 className="text-[#515A70] md:text-sm 2xl:text-md font-medium">{formatCurrency(shippingFee)}</h6>
                             </div>
 
                         </div>
@@ -331,15 +331,15 @@ export default function CheckOut() {
                         <div className="">
                             {/* total payment */}
                             <div className="flex justify-between items-start px-9 py-1 w-full">
-                                <h6 className="text-[#515A70] text-md font-medium">Total payment</h6>
-                                <h6 className="text-red text-md font-medium">{formatCurrency(merchandiseSubtotal + shippingFee)}</h6>
+                                <h6 className="text-[#515A70] md:text-sm 2xl:text-md font-medium">Total payment</h6>
+                                <h6 className="text-red md:text-sm 2xl:text-md font-medium">{formatCurrency(merchandiseSubtotal + shippingFee)}</h6>
                             </div>
                             <div className="flex justify-end space-x-4 right-0 items-center px-9 pb-2">
 
                                 <button
                                     type="submit"
                                     disabled={isProcessing || cartItems.length === 0 || shippingAddress.trim() === ''}
-                                    className={`mt-1 w-[12rem] py-3 rounded-lg text-white text-xl font-semibold transition duration-200 
+                                    className={`mt-1 md:w-[8rem] 2xl:w-[12rem] py-3 rounded-lg text-white md:text-md 2xl:text-xl font-semibold transition duration-200 
                                     ${isProcessing || cartItems.length === 0 || shippingAddress.trim() === ''
                                             ? 'bg-gray-400 cursor-not-allowed'
                                             : 'bg-blue-600 hover:bg-blue-700'

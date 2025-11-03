@@ -69,7 +69,7 @@ export default function Feature({ products }: FeatureoductProps) {
                                 // Product Card
                                 <div
                                     key={product.productId}
-                                    className="w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem] hover:cursor-pointer"
+                                    className="w-60 md:w-44 2xl:w-60 bg-gray-50 p-3 flex flex-col col-span-1 shadow-lg rounded-lg mb-[1rem] hover:cursor-pointer"
                                 >
                                     {product.imgUrl ? (
                                         <img src={product.imgUrl} className="h-48 object-contain"

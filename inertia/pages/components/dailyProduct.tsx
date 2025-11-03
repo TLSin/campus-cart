@@ -69,7 +69,7 @@ export default function DailyProduct({ products }: DailyProductProps) {
                         products.map(product => (
                         // Item Card for the product
                         <div key={product.productId} 
-                            className="w-60 h-auto bg-gray-50 p-3 flex flex-col col-span-1 rounded-lg shadow-lg mb-[1rem] hover:cursor-pointer hover:shadow-[#bfd6d9] hover:shadow-2xl"
+                            className="w-60 md:w-44 2xl:w-60 h-auto bg-gray-50 p-3 flex flex-col col-span-1 rounded-lg shadow-lg mb-[1rem] hover:cursor-pointer hover:shadow-[#bfd6d9] hover:shadow-2xl"
                             
                             >
                             <img 

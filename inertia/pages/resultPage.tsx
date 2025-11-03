@@ -114,17 +114,17 @@ export default function ResultPage() {
 
                 {/* Main Result Area */}
                 {/*search result  */}
-                <div className="h-auto w-[60dvw]">
-                    <div className="flex space-x-2 pt-10">
+                <div className="h-auto w-[60dvw] md:w-[65dvw] 2xl:w-[60dvw]">
+                    {/* <div className="flex space-x-2 pt-10">
                         <img src="idea.svg" alt="" className="w-6" />
                         <h1>Result for '<span className="text-[#C65E61]">{categoryName}</span>'</h1>
-                    </div>
+                    </div> */}
 
                     {/* sort */}
                     <div className="flex w-full pl-6 mt-2 h-15 items-center gap-4 bg-[#8698BC]">
 
-                        <span className="text-white">Sort by</span>
-                        {buttons.map((btn) => (
+                        <h1 className="text-white">Result for '<span className="text-[#C65E61]">{categoryName}</span>'</h1>
+                        {/* {buttons.map((btn) => (
                             <button
                                 key={btn}
                                 onClick={() => setActive(btn)}
@@ -140,7 +140,7 @@ export default function ResultPage() {
                                 <li className="hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price: Low to High</li>
                                 <li className="hover:bg-[#44506D] hover:text-[#ffffff] p-2">Price: High to Low</li>
                             </ul>
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -152,9 +152,9 @@ export default function ResultPage() {
                                     <div
                                         key={product.productId}
                                         onClick={() => handleNavigateToProduct(product.productId)}
-                                        className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] w-auto item-center justify-center overflow-hidden"
+                                        className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer group h-[22rem] md:h-[15rem] w-auto item-center justify-center overflow-hidden"
                                     >
-                                        <div className="h-60 overflow-hidden">
+                                        <div className="h-60 md:h-[10rem] 2xl:h-60 overflow-hidden">
                                             <img
                                                 src={product.imgUrl || ""}
                                                 alt={product.productName}

@@ -176,7 +176,7 @@ export default function ProductPage() {
                     </Link>
                 </button>
                 {/* Product Container */}
-                <div className="w-[85%] h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] my-[2rem] flex">
+                <div className="w-[85%] h-[80dvh] md:h-[110dvh] 2xl:h-[80dvh] bg-white rounded-lg shadow-lg m-[1.5rem] my-[2rem] flex">
                     {/* Image Container */}
                     <div className="w-[40dvw] h-[73dvh] rounded-t-lg ml-[1.5rem] mt-[1.5rem] overflow-hidden">
                         {/* Main Image */}
